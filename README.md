@@ -1,6 +1,6 @@
 # dyf
 
-## Deal your fun
+## Deal your fun 🚎
 
 Dashboard on development provided by DyF
 
