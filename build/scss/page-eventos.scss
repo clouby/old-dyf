@@ -1,0 +1,149 @@
+/* Eventos Home */
+body.eventos-home{
+	.hero{
+		background-image: url(../images/carrito.jpg?v=2);
+	}
+}	
+
+
+
+
+
+
+/* Eventos */
+
+.eventos{
+	img{
+		@include box;
+	}
+	
+	.evento-link{
+
+		img{
+			border-radius: var(--border-radius);
+		}
+		
+		&:before{
+			@include opacitybefore(.15);
+			border-radius: var(--border-radius);
+			z-index: 1;
+		}
+
+		.event-date{
+			margin: 0;
+		}
+		.btn{
+			margin-top: 15px;
+			span.arrow{
+				opacity: 0;
+			}
+		}
+
+		&:hover{
+			.btn{
+				background-color: var(--color-rojo-oscuro);
+			}
+			.btn span.arrow{
+				opacity: 1;
+				transform: translateX(5px);
+			}
+		}
+
+		span.box{
+			float: none;
+			position: absolute;
+			bottom: 20px;
+			left: 20px;
+			right: 20px;
+			z-index: 10;
+			color: white;
+			width: calc(100% - 40px);
+		}
+	}
+
+	.container{
+
+		.evento-large,
+		.evento.evento-top{
+			margin-bottom: 20px;
+		}
+
+		@media (min-width: 768px){
+			.evento-large{
+				margin-bottom: 0;
+			}
+			.col-12.col-md-7.evento-short{
+				.evento.evento-top{
+					margin-bottom: 12px;
+				}
+
+			}
+		}
+
+		@media (min-width: 992px){
+			.col-12.col-md-7.evento-short{
+				.evento.evento-top{
+					margin-bottom: 20px;
+				}
+
+			}
+		}
+
+		@media (min-width: 1200px){
+			max-width: 1110px;
+			.col-12.col-md-5.evento-large{
+				max-width: 446px;
+				flex: 0 0 446px;
+			}
+			.col-12.col-md-7.evento-short{
+				max-width: 636px;
+				flex: 0 0 636px;
+
+				.evento.evento-top{
+					margin-bottom: 15px;
+				}
+			}
+		}
+	}
+}
+
+
+/* Página eventos */
+body.eventos-main{
+	.hero{
+		background-image: url(../images/pages/eventos/festival-ctg.jpg);
+	}
+}
+
+
+body.eventos-main.evento-single{
+	.hero{
+		background-image: url(../images/carrito.jpg);
+	}
+}
+
+
+/* Eventos Single */
+body.evento-wef{
+	.hero{
+		background-image: url(../images/pages/eventos/Fly-Cartagena-15.1.jpg);
+	}
+}
+body.cinco-comidas{
+	.hero{
+		background-image: url(../images/pages/eventos/cinco-comidas-hero.jpg);
+	}
+}
+body.playa-blanca{
+	.hero{
+		background-image: url(../images/pages/eventos/playa-blanca-hero.jpg?v=2);
+	}
+}
+
+
+
+
+
+
+
+

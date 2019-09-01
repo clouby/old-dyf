@@ -1,0 +1,334 @@
+.hero{
+	
+	background-image: url(../images/hero-background.jpg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 100%;
+
+
+
+	width: 100%;
+	height: 0;
+	padding-bottom: 56.25%;
+	position: relative;
+
+	/* Pruebas */
+	mix-blend-mode: multiply;
+
+	.btn-back-main.btn{
+		background-color: rgba(255,255,255,.25);
+		color: white;
+	}
+
+
+
+	@media (min-width: 992px){
+		background-position: center top;
+	}
+	
+	.hero-container{
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		max-width: 100%;
+		width: 100%;
+		height: 100%;
+
+		display: flex;
+		align-items: center;
+
+		.container{
+			@media (min-width: 1200px){
+				transform: translateY(-40px);
+				margin-bottom: -40px;
+			}
+		}
+	}
+	.hero-content{
+		.hero-title{
+			@media (min-width: 1200px){
+				@include font-size(64px);
+			}
+		}
+		.hero-subtitle{
+			@media (min-width: 1200px){
+				@include font-size(30px);
+				color: #333;
+			}
+			a{
+				color: white;
+				&:hover{
+					text-decoration: none;
+				}
+			}
+		}
+	}
+	.hero-content-search{
+		
+		border-radius: 50px;
+		background-color: rgba(25, 98, 113, 0.6);
+		padding: 10px;
+
+
+		input{
+			border-radius: 50px;
+			border: 0;
+			float: left;
+			outline: none;
+		}
+		input[type=text]{
+			padding: 10px;
+			width: calc(100% - 54px);
+		}
+		input[type=submit]{
+
+			cursor: pointer;
+			
+			background-color: var(--color-rojo);
+			color: white;
+
+			display: inline-block;
+			font: normal normal normal 14px/1 FontAwesome;
+			font-size: inherit;
+			text-rendering: auto;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+
+			height: 44px;
+			width: 44px;
+
+			margin: 0 5px;
+
+
+		}
+	}
+	.hero-information{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+	.hero-information-viewport{
+		@include box;
+		height: 100%;
+		
+		align-items: center;
+		display: flex;
+
+	}
+}
+
+.is-mobile{
+	@media (min-width: 768px){
+		display: none;
+	}
+}
+
+/* Row titulos */
+.row-title{
+	margin-top: 50px;
+	margin-bottom: 50px;
+	h4{
+		color: var(--color-rojo);
+
+	}
+}
+.page-section{
+	padding: 50px 0;
+}
+
+body{
+	background-image: url(../images/background-waves.jpg?v=2);
+	background-position: center top;
+	background-size: cover;
+
+}
+
+body.reduced-hero{
+	.hero{
+		height: 500px;
+		padding: 0;
+		background-position: center bottom;
+		background-size: cover;
+
+		@media (min-width: 1200px){
+			height: 600px;
+		}
+		@media (min-width: 1600px){
+			height: 700px;
+		}
+	}
+}
+
+body.listado-categoria{
+	.hero-title,
+	.hero-subtitle{
+		color: white;
+	}
+	.hero-information-viewport,
+	.hero .hero-content .hero-subtitle{
+		color: white;
+	}
+}
+
+
+.btn-back-main.btn{
+	background-color: #fafafa;
+	color: #666;
+	box-shadow: none;
+}
+.info-operador-descripcion-nav{
+	display: flex;
+	justify-content: space-between;
+	border-bottom: 1px solid #ccc;
+
+	li{
+		a{
+			color: #ED1846;
+			padding: 5px 0;
+			@include box;
+			&:hover{
+				font-weight: bolder;
+			}
+			span.fa{
+				display: none;
+			}
+		}
+	}
+}
+
+body.page{
+	.hero{
+		color: white;
+		.hero-sup-title{
+			@include box;
+			display: inline;
+			color: white;
+			@include font-size(24px);
+			font-weight: bolder;
+			margin-bottom: 10px;
+		}
+	}
+}
+
+.tooltip{
+	z-index: 9999;
+}
+
+.page-terminos-content{
+	ul{
+		@include box;
+		li{
+			@include box;
+			margin-bottom: 20px;
+		}
+	}
+}
+.copy-text{
+	color: white;
+	margin-top: 30px;
+	margin-bottom: 0;
+}
+
+
+/* Login */
+body.login{
+	.login-card{
+		label{
+			color: var(--color-morado);
+		}
+	}
+	.hero{
+		background-image: url(../images/carrito.jpg);
+		.login-title{
+			margin-top: 100px;
+			@media (min-width: 768px){
+				margin-top: 0;
+			}
+		}
+	}
+}
+
+
+/* Términos */
+body.terminos.page{
+	.hero{
+		background-image: url(../images/pages/terminos.jpg);
+	}
+}
+body.politicas.page{
+	.hero{
+		background-image: url(../images/pages/politicas_new.jpg);
+	}
+}
+body.faqs.page{
+	.hero{
+		background-image: url(../images/pages/faq.jpg);
+	}
+}
+body.page-contacto{
+	.hero{
+		background-image: url(../images/pages/contacto.jpg);
+	}
+}
+body.about-dyf {
+	.hero{
+		background-image: url(../images/pages/dyf.jpg);
+	}
+}
+body.carrito {
+	.hero#hero{
+		background-image: url(../images/pages/carrito.jpg);
+	}
+}
+/* Log */
+.lg-backdrop,
+.lg-outer{
+	z-index: 99990 !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

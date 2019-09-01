@@ -1,0 +1,266 @@
+/* Experiencias standard */
+body.home{
+	.hero{
+		height: 80vh;
+		background-position: center bottom;
+		background-size: cover;
+
+
+		padding: 0;
+
+
+		@media (min-width: 768px){
+
+		}
+		@media (min-width: 1200px){
+			height: 600px;
+		}
+		@media (min-width: 1300px){
+			height: 700px;
+		}
+		@media (min-width: 1600px){
+			height: 800px;
+		}
+	}
+}
+
+
+
+.experiencias{
+	a.btn{
+		padding: 9px 35px 7px;
+		position: absolute;
+		bottom: 15px;
+		left: 15px;
+		right: 15px;
+		z-index: 1;
+		width: 100%;
+		max-width: 200px;
+		display: inline-block;
+		margin: auto;
+	}
+	.experiencias-contenido{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all .285s cubic-bezier(0.6, 0.2, 0.1, 1);
+
+		.btn{
+			span.arrow{
+				transition: all .285s cubic-bezier(0.6, 0.2, 0.1, 1);
+				opacity: 0;
+			}
+		}
+
+		&:hover{
+
+			
+			transform: translateY(-10px);
+			box-shadow: 0 30px 35px -15px rgba(0, 0, 0, 0.4);
+
+
+			.btn{
+				background-color: var(--color-rojo-oscuro);
+			}
+			.btn span.arrow{
+				opacity: 1;
+				transform: translateX(5px);
+			}
+		}
+
+
+
+		&:hover{
+			.experiencias-titulo{
+				
+			}
+		}
+	}
+	.experiencias-titulo{
+		position: absolute;
+		bottom: 90px;
+		color: white;
+		margin: 0;
+		transition: all .25s ease;
+
+	}
+	.experiencias-col{
+		margin-bottom: 30px;
+	}
+}
+
+
+.experiencias-home{
+	img{
+		border-radius: 5px;
+		width: 100%;
+		height: auto;
+	}
+
+	.experiencias-info{
+		border-radius: 5px;
+		box-shadow: var(--box-shadow);
+	}
+
+	.experiencias-info-container{
+		position: absolute;
+		bottom: 0;
+		height: 100%;
+		left: 0;
+		right: 0;
+		width: 100%;
+		padding: 25px 15px 15px 15px;
+		color: white;
+		background-color: rgba(25, 98, 113, 0.6);
+		border-radius: 4px;
+
+		display: flex;
+		align-items: center;
+
+		&:hover{
+			.btn{
+				background-color: var(--color-rojo-oscuro);
+			}
+			.btn span.arrow{
+				opacity: 1;
+				transform: translateX(5px);
+			}
+		}
+	}
+	.experiencias-info-container-title{
+		@include box;
+		max-width: 300px;
+
+		h3{
+			@include font-size(31px);
+			text-transform: capitalize;
+		}
+	}
+	.experiencias-info-container-datos{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-top: 20px;
+		p{
+			margin: 0;
+			@include font-size(24px);
+			span{
+				position: absolute;
+				left: 0;
+				display: block;
+				top: -14px;
+				@include font-size(14px);
+			}
+		}
+		.btn{
+			padding: 9px 35px 7px;
+			span.arrow{
+				transition: all .285s cubic-bezier(0.6, 0.2, 0.1, 1);
+				opacity: 0;
+			}
+		}
+
+	}
+	@media (min-width: 992px){
+		.experiencias-right{
+			.experiencias-info-container{
+				display: flex;
+				align-items: center;
+			}
+		}
+	}
+	@media (min-width: 1200px){
+		.experiencias-left,
+		.experiencias-right{
+			width: 100%;
+			max-width: calc(50% - 15px);
+			float: left;
+		}
+		.experiencias-right{
+			float: right;
+			.experiencias-info-container{
+				/* lol +*/
+				top: 0;
+				width: 50%;
+				background-color: rgba(187, 158, 11, 0.5);
+
+
+				
+
+
+				.experiencias-info-container-datos{
+					flex-direction: column;
+					align-items: flex-start;
+				}
+			}
+		}
+		.experiencias-left{
+
+		}
+		.experiencias-right{
+			display: flex;
+			//justify-content: space-between;
+			flex-direction: column;
+		}
+		.experiencias-right-bottom{
+			margin-top: 30px;
+		}
+	}
+}
+
+.eventos-home{
+	img{
+		border-radius: var(--border-radius);
+		transition: all .285s cubic-bezier(0.6, 0.2, 0.1, 1);
+
+		&:hover{
+			transform: translateY(-10px);
+			box-shadow: 0 30px 35px -15px rgba(0, 0, 0, 0.4);
+		}
+	}
+	.eventos-blog-home-content{
+		.info{
+			position: absolute;
+			
+			top: 50%;
+			transform: translateY(-50%);
+			left: 0;
+			right: 0;
+			text-align: center;
+			padding: 0 15px;
+
+
+			z-index: 100;
+
+
+			h3{
+				margin: 0;
+				color: white;
+			}
+			a{
+				margin-top: 15px;
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

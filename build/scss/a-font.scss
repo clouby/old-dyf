@@ -1,0 +1,31 @@
+@import url('fonts.css?v=2');
+
+
+html{
+	font-size: 15px;
+	background: white;
+	width: 100%;
+	height: 100%;
+	@media (min-width: 992px){
+		font-size: 16px;
+	}
+}
+body{
+	font-family: 'Gilroy';
+	color: var(--color-morado);
+	@include font-size(16px);
+	@include box;	
+}
+@mixin titulos{	
+	line-height: 1;
+	font-weight: bolder;
+}
+strong{
+	
+}
+h1,h2,h3,h4,h5,h6{
+	@include titulos;
+}
+h5,h6{
+	letter-spacing: 0;
+}

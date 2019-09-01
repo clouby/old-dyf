@@ -1,0 +1,11 @@
+#modal-login-no-cart{
+	.modal-dialog{
+		margin-top: 70px;
+		box-shadow: var(--box-shadow);
+		max-width: 600px;
+	}
+	.btn-modal-dismiss{
+		background-color: #eee;
+		color: #555;
+	}
+}

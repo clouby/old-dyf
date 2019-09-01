@@ -1,0 +1,38 @@
+footer#footer-page{
+	background-color: var(--color-morado-oscuro);
+	padding: 100px 0 50px;
+	margin-top: 50px;
+}
+.footer-links{
+	h5,a{
+		color: #C4C4C4;
+	}
+}
+
+.footer-logo {
+	display: none;
+	@media (min-width: 768px){
+		display: block;
+	}
+}
+
+.footer-col{
+	margin-bottom: 30px;
+	@media (min-width: 768px){
+		margin-bottom: 0;
+	}
+}
+.footer-socialmedia{
+	.list-unstyled{
+		li{
+			display: inline-block;
+			margin: 0 5px;
+			&:first-child{
+				margin-left: 0;
+			}
+			.fa{
+				@include font-size(30px);
+			}
+		}
+	}
+}

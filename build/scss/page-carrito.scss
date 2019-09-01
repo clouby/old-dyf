@@ -1,0 +1,66 @@
+body.carrito{
+	#hero{
+		background-image: url(../images/carrito.jpg?v=1);
+		color: white;
+		.hero-sup-title{
+			@include box;
+			display: inline;
+			color: white;
+			@include font-size(21px);
+			font-weight: bolder;
+			margin-bottom: 20px;
+		}
+	}
+}
+.contenidos-carrito-title{
+	margin-bottom: 50px;
+}
+.btn-end-carrito{
+	background-color: #AE2048;
+}
+.contenidos-carrito{
+	table.table{
+
+		td.service-name{
+			text-transform: capitalize;
+		}
+
+		thead{
+			th{
+				border: 0;
+			}
+		}
+		tbody{
+			tr{
+				td{
+					padding-top: 15px;
+					padding-bottom: 15px;
+					@media (min-width: 1200px){
+						padding-top: 30px;
+						padding-bottom: 30px;
+					}
+				}
+			}
+		}
+
+		
+
+
+
+		.close{
+			position: relative;
+			background-color: var(--color-rojo);
+			color: white;
+			display: block;
+			width: 32px;
+			height: 32px;
+			text-align: center;
+			line-height: 38px;
+			border-radius: 50%;
+			font-size: 25px;
+			opacity: 1;
+			font-weight: normal;
+			text-shadow: none;
+		}
+	}
+}

@@ -1,0 +1,274 @@
+/* Dashboard */
+body.is-dashboard{
+	
+	font-family: var(--font-family-sans-serif);
+	
+	input,
+	button,
+	textarea{
+		outline: none;
+	}
+
+	$anchosidebar: 270px;
+
+	&.is-admin{
+		padding-top: 55px;
+	}
+
+	.cancelar-option{
+		margin-bottom: 30px;
+		display: inline-block;
+	}
+
+
+	/* Datatables */
+	.dataTables_wrapper .dataTables_filter input{
+		border: 1px solid #ddd;
+		border-radius: var(--border-radius);
+	}
+	.dataTables_wrapper {
+		@include box;
+		margin: 20px 0;
+	}
+	table.dataTable.no-footer{
+		border: 0;
+	}
+	
+
+	#hero{
+		background-image: url(../images/carrito.jpg);
+	}
+	#main-sidebar{
+		width: 100%;
+		max-width: $anchosidebar;
+
+		background-color: var(--color-morado);
+		color: #ccc;
+		
+
+		height: 100%;
+		min-height: 600px;
+
+		position: absolute;
+		top: 0;
+		left: 0;
+
+		z-index: 10;
+
+		.main-sidebar-options{
+			margin: 0;
+			padding: 50px 10% 0;
+			position: absolute;
+			width: 100%;
+			float: none;
+			top: 50px;
+			left: 0;
+			right: 0;
+			z-index: 10;
+
+
+			li{
+				@include box;
+				text-align: left;
+				margin-bottom: 20px;
+
+				a{
+					color: #ccc;
+					@include font-size(15px);
+					font-weight: bolder;
+				}
+			}
+		}
+
+	}
+	#main-content{
+		width: calc(100% - #{$anchosidebar});
+		margin-left: $anchosidebar;
+	}
+	#footer-page{
+		margin-top: 0;
+	}
+
+
+	/* Comentarios */
+	.comentario{
+		margin-bottom: 30px;
+		.comentario-imagen{
+			@include box;
+			height: auto;
+		}
+		.listado-puntuaciones{
+			display: flex;
+			justify-content: space-between;
+			color: #C4C4C4;
+
+			li{
+				font-weight: bolder;
+			}
+		}
+	}
+
+
+	&.is-operador{
+		.informacion-valoracion{
+			.list-unstyled{
+				margin: 0;
+				padding: 0;
+
+			}
+			li{
+				@include box;
+				margin-bottom: 15px;
+				display: flex;
+				justify-content: space-between;
+				&:last-child{
+					margin-bottom: 0;
+				}
+			}
+		}
+		.listado-servicios{
+			li{
+				h6{
+					margin: 0;
+				}
+				.btn-rojo-oscuro{
+
+				}
+				border-bottom: 1px solid #ddd;
+				@include box;
+				padding: 5px 0;
+				align-items: center;
+				margin-bottom: 15px;
+				display: flex;
+				justify-content: space-between;
+			}
+		}
+	}
+	&.is-admin{
+		
+		.btn{
+			padding: 8px 30px 6px;
+			border-radius: 3px;
+			box-shadow: none;
+		}
+		.create-category-options {
+			display: flex;
+			justify-content: flex-end;
+			padding: 15px 0;
+		}
+
+		table{
+			
+			@include box;
+			background-color: white;
+			padding: 15px;
+			border-radius: var(--border-radius);
+			box-shadow: var(--box-shadow);
+
+
+			thead,
+			tbody{
+
+			}
+		}
+
+		#header-admin{
+			background-color: var(--color-morado);
+			color: white;
+			padding: 20px 15px;
+		}
+		#main-content{
+			background-color: #f8f8fb;
+			padding-top: 60px;
+		}
+		#main-content-content-info{
+			padding: 0 15px 15px;
+		}
+		#main-content-content{
+			min-height: 600px;
+		}
+
+		&.is-category{
+			.is-editing-category{
+				form{
+					@include box;
+					background-color: white;
+					padding: 15px;
+					border-radius: var(--border-radius);
+					box-shadow: var(--box-shadow);
+					
+					label{
+						margin-bottom: 5px;
+						@include box;
+					}
+
+				}
+			}
+		}
+		&.is-services{
+			.titulo-importante-seccion{
+				margin-top: 30px;
+				margin-bottom: 15px;
+			}
+			.titulo-importante-seccion-primero{
+
+			}
+			.service-name{
+				
+			}
+			.is-editing-service{
+				form{
+					@include box;
+					background-color: white;
+					padding: 15px;
+					border-radius: var(--border-radius);
+					box-shadow: var(--box-shadow);
+					
+					label{
+						margin-bottom: 5px;
+						@include box;
+					}
+
+				}
+			}
+		}
+		&.is-operator-admin{
+			.operator-acciones{
+				.btn{
+					width: 100%;
+					margin-bottom: 5px;
+				}
+			}
+			.operator-name{
+				margin-bottom: 20px;
+			}
+			.is-editing-operator{
+				form{
+					@include box;
+					background-color: white;
+					padding: 15px;
+					border-radius: var(--border-radius);
+					box-shadow: var(--box-shadow);
+					
+					label{
+						margin-bottom: 5px;
+						@include box;
+					}
+
+				}
+			}
+		}
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+}

@@ -1,0 +1,183 @@
+body.is-servicio-single{
+	&.reduced-hero{
+		.hero{
+			@media (min-width: 1200px){
+				height: 600px;
+			}
+			@media (min-width: 1600px){
+				height: 700px;
+			}
+			
+			h1.hero-title{
+				margin-bottom: 5px;
+				text-transform: capitalize;
+			}
+			.hero-price{
+				@include font-size(29px);
+			}
+
+		}
+	}
+	.info-operador-descripcion.box{
+		margin-top: 50px;
+		text-align: justify;
+		strong{
+			@include font-size(18.5px);
+		}
+	}
+	.info-operador-descripcion-content{
+		margin-top: 20px;
+	}
+	.info-operador-booking{
+		
+		margin: 50px 0;
+		padding-top: 30px;
+
+		@media (min-width: 768px){
+			margin: 0;
+		}
+
+		h3{
+			text-transform: capitalize;
+		}
+
+		h6{
+			color: #C4C4C4;
+			font-weight: bolder;
+			margin-bottom: 30px;
+			@include font-size(18px);
+		}
+	}
+	.is-mobile.info-operador{
+		display: none;
+	}
+	.info-operador-booking{
+
+	}
+	#fotos,
+	#experiencias,
+	#comentarios{
+		margin-bottom: 30px;
+	}
+	#fotos{
+		
+		margin-top: 50px;
+		margin-bottom: 50px;
+
+
+		#lightgallery{
+			@include box;
+			a{
+				@include box;
+				max-width: calc(50% - 10px);
+				margin: 5px;
+				border-radius: 4px;
+				overflow: hidden;
+				@media screen and (min-width: 992px){
+					max-width: calc(25% - 10px);
+					
+					&:first-child{
+						max-width: calc(50% - 10px);
+					}
+				}
+				.zoom-img{
+					background-image: url("../libs/lightgallery/img/zoom.png");
+					position: absolute;
+					width: 20px;
+					height: 20px;
+					top: calc(50% - 10px);
+					left: calc(50% - 10px);
+					opacity: 0;
+					margin: 0;
+					transition: all .185s ease-in-out;
+				}
+				img{
+					width: 100%;
+					height: auto;
+				}
+				&:before{
+					content: "";
+					position: absolute;
+					top: 0;
+					left: 0;
+					right: 0;
+					width: 100%;
+					height: 100%;
+					transition: all .185s ease-in-out;
+					border-radius: 4px;
+					overflow: hidden;
+				}
+				&:hover:before{
+					@include opacitybefore(.5);
+				}
+				&:hover{
+					.zoom-img{
+						opacity: 1;
+					}
+				}
+			}
+		}
+	}
+}
+/* Servicios manuales */
+body.service-crucero-puesta-de-sol{
+	.hero#hero{
+		background-image: url(../images/experiencias/crucero-puesta-sol.jpg);
+	}
+}
+body.service-pasadia-isla-marina-islas-del-rosario{
+	.hero#hero{
+		background-image: url(../images/experiencias/isla-marina.jpg);
+	}
+}
+body.service-pasadia-islas-del-rosario{
+	.hero#hero{
+		background-image: url(../images/experiencias/islas-del-rosario.jpg);
+	}
+}
+body.service-pasadia-bendita-beach{
+	.hero#hero{
+		background-image: url(../images/experiencias/bendita.jpg);
+	}
+}
+body.service-city-tour-tradicional-cartagena{
+	.hero#hero{
+		background-image: url(../images/experiencias/city-tour-tradicional-cartagena.jpg);
+	}
+}
+body.service-tour-manglares{
+	.hero#hero{
+		background-image: url(../images/experiencias/tour-manglares.jpg);
+	}
+}
+
+body.service-tour-siglo-xvi-y-xvii{
+	.hero#hero{
+		background-image: url(../images/experiencias/tour-siglo-xvi-y-xvii.jpg);
+	}
+}
+
+body.service-vuelo-10-minutos-fly-cartagena{
+	.hero#hero{
+		background-image: url(../images/experiencias/vuelo-10-minutos-fly-cartagena.jpg);
+	}
+}
+
+body.service-vuelo-15-minutos{
+	.hero#hero{
+		background-image: url(../images/experiencias/vuelo-15-minutos.jpg);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

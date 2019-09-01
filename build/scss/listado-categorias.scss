@@ -1,0 +1,51 @@
+.listado-categoria{
+	
+	#hero{
+		background-image: url(../images/IMG-4.jpg);
+	}
+	.experiencias-categoria-feed-title{
+		@include font-size(45px);
+	}
+	.experiencias-categoria-feed-row{
+		margin-bottom: 50px;
+	}
+	.listado-servicio-card{
+		margin-bottom: 30px;
+	}
+	.experiencias-home.experiencias-categoria-feed{
+		
+		.experiencias-right{
+			margin-bottom: 30px;
+			@media (min-width: 1200px){
+				max-width: 100%;
+				display: block;
+			}
+		}
+	}
+}
+body.experiencias-gastronomicas{
+	#hero{
+		background-image: url(../images/experiencias/hero-exp-gastronomicas.jpg?v=2);
+	}
+}
+body.experiencias-nauticas{
+	#hero{
+		background-image: url(../images/experiencias/hero-exp-nauticas.jpg?v=2);
+	}
+}
+body.tour-y-aventura{
+	#hero{
+		background-image: url(../images/IMG-4.jpg?v=2);
+	}
+}
+body.islas-y-playas{
+	#hero{
+		background-image: url(../images/experiencias/hero-exp-islas.jpg?v=2);
+	}
+}
+body.transfers{
+	#hero{
+		background-image: url(../images/experiencias/hero-exp-transfer.jpg?v=2);
+	}
+}
+

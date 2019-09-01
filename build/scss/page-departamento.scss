@@ -1,0 +1,40 @@
+/* Departamentos */
+body.ciudad{
+	&.turbaco{
+		#hero.hero{
+			background-image: url(../images/pages/departamento/turbaco-hero.jpg?v=3);
+		}
+	}
+	&.marialabaja{
+		#hero.hero{
+			background-image: url(../images/pages/departamento/marialabaja-hero.jpg?v=2);
+		}
+	}
+
+	&.palenque{
+		#hero.hero{
+			background-image: url(../images/pages/departamento/palenque-hero.jpg?v=2);
+		}
+	}
+	&.mompox{
+		#hero.hero{
+			background-image: url(../images/pages/departamento/mompox-hero.jpg?v=2);
+		}
+	}
+	&.sanjacinto{
+		#hero.hero{
+			background-image: url(../images/pages/departamento/sanjacinto-hero.jpg?v=1);
+		}
+	}
+
+
+
+
+
+
+
+	.evento-municipio{
+		margin-bottom: 30px;
+	}
+
+}

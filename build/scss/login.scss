@@ -1,0 +1,21 @@
+.login-form{
+	label{
+		text-align: left;
+	}
+	input{
+		border-radius: 50px;
+	}
+	.btn{
+		background-color: var(--color-rojo-oscuro);
+		padding: 10px 30px 8px;
+	}
+}
+.login-card{
+	@media (min-width: 992px){
+		padding-top: 50px;
+		padding-bottom: 50px;
+	}
+}
+.btn-recover-password{
+	color: #918FAC;
+}

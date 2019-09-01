@@ -1,0 +1,31 @@
+body.listado-search{
+
+	.listado-search-top {
+		margin: 30px 0;
+	}
+	.search-container-title{
+		margin-bottom: 20px;
+	}
+	.search-container-card{
+		padding-top: 30px;
+		padding-bottom: 15px;
+		margin-bottom: 15px;
+		
+		h5{
+			@include font-size(24px);
+			text-transform: capitalize;
+		}
+	}
+	.search-container-content{
+		margin-bottom: 30px;
+	}
+	.search-container-card-categoria{
+		display: inline-block;
+		margin-bottom: 20px;
+		background-color: #fafafa;
+		border-radius: 50px;
+		padding: 4px 15px;
+		color: #999;
+		@include font-size(13px);
+	}
+}

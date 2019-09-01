@@ -1,0 +1,24 @@
+.page-contacto-content{
+	p{
+		text-align: justify;
+	}
+	.page-contacto-telefonos{
+		li{
+			font-weight: bolder;
+			color: #ff555a;
+			@include font-size(21px);
+		}
+	}
+	.page-contacto-correos{
+		li{
+			background-color: white;
+			border-radius: var(--border-radius);
+			padding: 15px;
+			box-shadow: var(--box-shadow);
+			@include box;
+			margin-bottom: 10px;
+			display: flex;
+			justify-content: space-between;
+		}
+	}
+}
