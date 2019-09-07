@@ -1,15 +1,15 @@
 <?php
 
 Route::group([], function () {
-    Route::get('/send-dyf', function(){
+    Route::get('/send-dyf', function () {
         return view('emails.dyf');
     });
 
-    Route::get('/send-operador', function(){
+    Route::get('/send-operador', function () {
         return view('emails.operador');
     });
 
-    Route::get('/send-cliente', function(){
+    Route::get('/send-cliente', function () {
         return view('emails.cliente');
     });
 });
@@ -47,7 +47,7 @@ Route::group([], function () {
 
     /* Eventos DyF */
     Route::get('/eventos', function () {
-        return view('static.events.event-home');    
+        return view('static.events.event-home');
     })->name('event-home');
 
     /* Eventos DyF */
@@ -76,7 +76,6 @@ Route::group([], function () {
     Route::get('/sanjacinto', function () {
         return view('static.pages.sanjacinto');
     })->name('sanjacinto');
-
 });
 
 
@@ -84,25 +83,25 @@ Route::group([], function () {
 Route::group(['prefix' => 'eventos'], function () {
     // Rutas de eventos estaticas
     Route::get('/bike-pray-cartagena', function () {
-        return view('static.events.event-1');    
+        return view('static.events.event-1');
     })->name('evento-1');
 });
 
 Route::group(['prefix' => 'eventos'], function () {
     // Rutas de eventos estaticas
     Route::get('/wef-cartagena', function () {
-        return view('static.events.event-wef2019');    
+        return view('static.events.event-wef2019');
     })->name('evento-wef');
 });
 
 /* Blog */
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/por-que-ir-a-playa-blanca', function () {
-        return view('static.events.event-2');    
+        return view('static.events.event-2');
     })->name('blog-1');
 
     Route::get('/comidas-cartagena', function () {
-        return view('static.events.event-3');    
+        return view('static.events.event-3');
     })->name('blog-2');
 });
 
@@ -173,7 +172,6 @@ Route::group(['prefix' => 'dashboard', 'namespace' => 'Admin'], function () {
         Route::get('/{service}', 'ImageController@show')->name('myGalery');
         Route::DELETE('/image/{image}', 'ImageController@destroy')->name('galeryDestroy');
     });
-
 });
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -182,6 +180,7 @@ Route::group(['prefix' => 'dashboard', 'namespace' => 'Admin'], function () {
 Route::group([], function () {
 
     Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/landing', 'HomeController@landing')->name('landing');
     Route::get('/categoria/{category}', 'HomeController@servicesPerCartegory')->name('category.query');
     Route::get('/servicio/{service}', 'HomeController@serviceReview')->name('service.query');
     Route::post('/search', 'HomeController@search')->name('search');
@@ -213,7 +212,7 @@ Route::group(['namespace' => 'Admin'], function () {
     Route::group(['prefix' => 'morph'], function () {
         Route::get('/service/upload', 'ServiceController@imageForm')->name('service.imageForm');
         Route::post('/service/save', 'ServiceController@imageSave')->name('service.imageSave');
-    });    
+    });
 });
 
 // return epayco ref_payco
@@ -224,6 +223,6 @@ Route::get('/epayco/{token}', 'ShoppingController@token')->name('epayco.token');
 /*
 Route::group([], function () {
     Route::get('login/{provider}', 'Auth\LoginController@redirectToProvider')->name('login.socialite');
-    Route::get('login/{provider}/callback', 'Auth\LoginController@handleProviderCallback')->name('login.callback'); 
+    Route::get('login/{provider}/callback', 'Auth\LoginController@handleProviderCallback')->name('login.callback');
 });
 */

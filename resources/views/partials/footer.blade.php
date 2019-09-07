@@ -122,8 +122,6 @@
 
 		$('#selector-ciudad,#selector-ciudad-nav').on('change', function() {
 			var ciudad = $(this).val();
-			console.log(ciudad);
-
 			switch (ciudad) {
 
 				case "cartagena":
@@ -156,7 +154,7 @@
 
 
 		var ciudad = location.pathname.split('/')[1];
-		
+
 
 		if(document.getElementById(ciudad)){
 			document.getElementById(ciudad).selected="selected";
@@ -178,12 +176,5 @@
 		});
 
 
-	})( jQuery);
+	})(jQuery);
 </script>
-
-
-
-
-
-
-

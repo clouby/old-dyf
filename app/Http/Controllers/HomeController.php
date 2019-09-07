@@ -23,6 +23,11 @@ class HomeController extends Controller
         return view('home', compact(['categories', 'count']));
     }
 
+    public function landing()
+    {
+        return view('landing');
+    }
+
     public function servicesPerCartegory(Category $category)
     {
         $shop = new Shopping;
