@@ -80,7 +80,7 @@
 
         </ul>
 
-        
+
         <hr>
         <h5>Explora</h5>
         <div class="select-ciudad">
@@ -121,7 +121,3 @@
     </div>
 </div>
 </div>
-
-
-
-

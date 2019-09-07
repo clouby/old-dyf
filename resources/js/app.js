@@ -11,7 +11,7 @@ import axios from 'axios';
 
 Vuew.use(VueAxios, axios);
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('examlucple-component', require('./components/ExampleComponent.vue').default);
 
 const router = new VueRouter({
 	mode: 'history'
