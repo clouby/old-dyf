@@ -58,7 +58,7 @@
 </div>
 
 <!-- Intro Home -->
-<div class="intro-home box">
+<!-- <div class="intro-home box">
 	<div class="container">
 		<div class="row row-vh row-title text-center">
 			<div class="col-12 col-md-8">
@@ -93,6 +93,6 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
 
 @endsection
