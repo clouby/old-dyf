@@ -191,8 +191,8 @@
             handler.open( data );
         }
 
-        // FIXME: Temporarily Disabled
-        // $("#checkout").click(handlePayment);
+        // FIXME: Temporaly Disabled
+        $("#checkout").click(handlePayment);
     });
 </script>
 
