@@ -15,8 +15,8 @@
 									<ul class="list-unstyled">
 										<li><a href="{{ route('home') }}">Home</a></li>
 										<li><a href="{{ route('acerca-dyf') }}">Deal your Fun</a></li>
-										<li><a target="_blank" href="http://blog.dealyourfun.com?src=dyf">Blog</a></li>
-										<li><a target="_blank" href="http://blog.dealyourfun.com/eventos/?src=dyf">Próximos Eventos</a></li>
+										<!-- <li><a target="_blank" href="http://blog.dealyourfun.com?src=dyf">Blog</a></li> -->
+										<!-- <li><a target="_blank" href="http://blog.dealyourfun.com/eventos/?src=dyf">Próximos Eventos</a></li> -->
 										@auth
 											@role('superadmin')
 												<li><a href="{{ route('admin') }}">Dashboard</a></li>
