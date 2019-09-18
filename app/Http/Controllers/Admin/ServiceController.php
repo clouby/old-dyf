@@ -85,8 +85,12 @@ class ServiceController extends Controller
                 'important_inf'     => ucfirst( mb_convert_encoding( $request->important_inf, 'UTF-8' ) ),
                 'additional_inf'    => ucfirst( mb_convert_encoding( $request->additional_inf, 'UTF-8' ) ),
                 'price_adult'       => $request->price_adult,
-                'price_boy'         => $request->price_boy,
-                'boy_active'        => $request->boy_active,
+                'price_kids'        => $request->price_kids,
+                'kids_active'       => $request->kids_active,
+                'kids_message'      => $request->kids_message,
+                'price_infants'     => $request->price_infants,
+                'infants_active'    => $request->infants_active,
+                'infants_message'   => $request->infants_message,
                 'active'            => $request->active,
                 'combo'             => $request->combo,
                 'principal'         => $imageP,
@@ -175,8 +179,12 @@ class ServiceController extends Controller
             $serv->important_inf    = ucfirst( mb_convert_encoding( $request->important_inf, 'UTF-8' ) );
             $serv->additional_inf   = ucfirst( mb_convert_encoding( $request->additional_inf, 'UTF-8' ) );
             $serv->price_adult      = $request->price_adult;
-            $serv->price_boy        = $request->price_boy;
-            $serv->boy_active       = $request->boy_active;
+            $serv->price_kids       = $request->price_kids;
+            $serv->kids_active      = $request->kids_active;
+            $serv->kids_message     = $request->kids_message;
+            $serv->price_infants    = $request->price_infants;
+            $serv->infants_active   = $request->infants_active;
+            $serv->infants_message  = $request->infants_message;
             $serv->active           = $request->active;
             $serv->combo            = $request->combo;
 

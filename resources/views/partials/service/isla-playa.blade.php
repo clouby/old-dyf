@@ -18,7 +18,7 @@
     @else
         <div class="form-group">
             <label for="adults">
-                @if ($service->boy_active)
+                @if ($service->kids_active)
                     Adultos
                 @else
                     N° de pasajeros
@@ -26,12 +26,20 @@
             </label>
             <input type="number" name="adults" id="adults" min="1" max="15" class="form-control" required>
         </div>
-        @if ($service->boy_active)
+        @if ($service->kids_active)
         <div class="form-group">
-            <label for="boys">Niños (4 - 11 años)</label>
-            <input type="number" name="boys" id="boys" min="0" max="4" class="form-control">
+            <label for="kids">Niños (4 - 11 años)</label>
+            <input type="number" name="kids" id="kids" min="0" max="4" class="form-control">
         </div>
         @endif
+        
+        @if ($service->infants_active)
+        <div class="form-group">
+            <label for="infants">Niños (0 - 4 años)</label>
+            <input type="number" name="infants" id="infants" min="0" max="4" class="form-control">
+        </div>
+        @endif
+
     @endif
 
     <button class="btn btn-info-operador-booking" type="submit">¡Solicitar ahora! <span class="arrow">&rarr;</span></button>

@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-136157823-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-136157823-1');
+</script>
+
     <meta charset="UTF-8"/>
 </head>
 <body style="margin:0;padding:0;font-family:Helvetica Neue, Helvetica, Arial,sans-serif;background:#fafafa;font-size:15px;color:#333333;">
