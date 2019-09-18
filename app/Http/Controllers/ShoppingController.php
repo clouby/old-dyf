@@ -75,12 +75,12 @@ class ShoppingController extends Controller
             $price = $adults_pay;
             $quantity = ($adults>1) ? $adults." adultos" : $adults." adulto" ;
             
-            if ( $serv->boy_active ) {
-                $boys = (int) $request->boys;
-                if ($boys>0) {
-                    $boys_pay = $boys * $serv->price_boy;
-                    $price = $price + $boys_pay;
-                    $quantity .= ($boys>1) ? ", ".$boys." niños" : ", ".$boys." niño" ;
+            if ( $serv->kids_active ) {
+                $kids = (int) $request->kids;
+                if ($kids>0) {
+                    $kids_pay = $kids * $serv->price_kids;
+                    $price = $price + $kids_pay;
+                    $quantity .= ($kids>1) ? ", ".$kids." niños" : ", ".$kids." niño" ;
                 }
             }
 
@@ -148,12 +148,12 @@ class ShoppingController extends Controller
             $price = $adults_pay;
             $quantity = ($adults>1) ? $adults." adultos" : $adults." adulto" ;
             
-            if ( $serv->boy_active ) {
-                $boys = (int) $request->boys;
-                if ($boys>0) {
-                    $boys_pay = $boys * $serv->price_boy;
-                    $price = $price + $boys_pay;
-                    $quantity .= ($boys>1) ? ", ".$boys." niños" : ", ".$boys." niño" ;
+            if ( $serv->kids_active ) {
+                $kids = (int) $request->kids;
+                if ($kids>0) {
+                    $kids_pay = $kids * $serv->price_kyds;
+                    $price = $price + $kids_pay;
+                    $quantity .= ($kids>1) ? ", ".$kids." niños" : ", ".$kids." niño" ;
                 }
             }
 
@@ -221,12 +221,12 @@ class ShoppingController extends Controller
             $price = $adults_pay;
             $quantity = ($adults>1) ? $adults." adultos" : $adults." adulto" ;
             
-            if ( $serv->boy_active ) {
-                $boys = (int) $request->boys;
-                if ($boys>0) {
-                    $boys_pay = $boys * $serv->price_boy;
-                    $price = $price + $boys_pay;
-                    $quantity .= ($boys>1) ? ", ".$boys." niños" : ", ".$boys." niño" ;
+            if ( $serv->kids_active ) {
+                $kids = (int) $request->kids;
+                if ($kids>0) {
+                    $kids_pay = $kids * $serv->price_kids;
+                    $price = $price + $kids_pay;
+                    $quantity .= ($kids>1) ? ", ".$kids." niños" : ", ".$kids." niño" ;
                 }
             }
 
@@ -294,12 +294,12 @@ class ShoppingController extends Controller
             $price = $adults_pay;
             $quantity = ($adults>1) ? $adults." adultos" : $adults." adulto" ;
             
-            if ( $serv->boy_active ) {
-                $boys = (int) $request->boys;
-                if ($boys>0) {
-                    $boys_pay = $boys * $serv->price_boy;
-                    $price = $price + $boys_pay;
-                    $quantity .= ($boys>1) ? ", ".$boys." niños" : ", ".$boys." niño" ;
+            if ( $serv->kids_active ) {
+                $kids = (int) $request->kids;
+                if ($kids>0) {
+                    $kids_pay = $kids * $serv->price_kids;
+                    $price = $price + $kids_pay;
+                    $quantity .= ($kids>1) ? ", ".$kids." niños" : ", ".$kids." niño" ;
                 }
             }
 

@@ -33,7 +33,7 @@
     @else
         <div class="form-group">
             <label for="adults">
-                @if ($service->boy_active)
+                @if ($service->kids_active)
                     Adultos
                 @else
                     N° de pasajeros
@@ -41,10 +41,10 @@
             </label>
             <input type="number" name="adults" id="adults" min="1" class="form-control" required>
         </div>
-        @if ($service->boy_active)
+        @if ($service->kids_active)
         <div class="form-group">
-            <label for="boys">Niños (4 - 11 años)</label>
-            <input type="number" name="boys" id="boys" min="0" class="form-control">
+            <label for="kids">Niños (4 - 11 años)</label>
+            <input type="number" name="kids" id="kids" min="0" class="form-control">
         </div>
         @endif
     @endif
