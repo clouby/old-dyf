@@ -1,4 +1,4 @@
-@extends('layouts.app')
+ @extends('layouts.app')
 
 @section('titulopagina') Deal your Fun @endsection
 
@@ -72,7 +72,7 @@
 <div class="eventos eventos-home box">
 	<div class="container">
 		<div class="row">
-			
+
 			<div class="col-12 col-sm-6">
 				<div class="eventos-blog-home-content box">
 					<div class="info">

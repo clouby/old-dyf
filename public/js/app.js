@@ -1754,39 +1754,6 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&":
-/*!***************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js& ***!
-  \***************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    console.log('Component mounted.');
-  }
-});
-
-/***/ }),
-
 /***/ "./node_modules/bootstrap/dist/js/bootstrap.js":
 /*!*****************************************************!*\
   !*** ./node_modules/bootstrap/dist/js/bootstrap.js ***!
@@ -6272,7 +6239,7 @@ function isSlowBuffer (obj) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * jQuery JavaScript Library v3.4.1
+ * jQuery JavaScript Library v3.4.0
  * https://jquery.com/
  *
  * Includes Sizzle.js
@@ -6282,7 +6249,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
  * Released under the MIT license
  * https://jquery.org/license
  *
- * Date: 2019-05-01T21:04Z
+ * Date: 2019-04-10T19:48Z
  */
 ( function( global, factory ) {
 
@@ -6415,7 +6382,7 @@ function toType( obj ) {
 
 
 var
-	version = "3.4.1",
+	version = "3.4.0",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -10771,12 +10738,8 @@ var documentElement = document.documentElement;
 		},
 		composed = { composed: true };
 
-	// Support: IE 9 - 11+, Edge 12 - 18+, iOS 10.0 - 10.2 only
 	// Check attachment across shadow DOM boundaries when possible (gh-3504)
-	// Support: iOS 10.0-10.2 only
-	// Early iOS 10 versions support `attachShadow` but not `getRootNode`,
-	// leading to errors. We need to check for `getRootNode`.
-	if ( documentElement.getRootNode ) {
+	if ( documentElement.attachShadow ) {
 		isAttached = function( elem ) {
 			return jQuery.contains( elem.ownerDocument, elem ) ||
 				elem.getRootNode( composed ) === elem.ownerDocument;
@@ -11636,7 +11599,8 @@ jQuery.event = {
 
 				// Claim the first handler
 				if ( rcheckableType.test( el.type ) &&
-					el.click && nodeName( el, "input" ) ) {
+					el.click && nodeName( el, "input" ) &&
+					dataPriv.get( el, "click" ) === undefined ) {
 
 					// dataPriv.set( el, "click", ... )
 					leverageNative( el, "click", returnTrue );
@@ -11653,7 +11617,8 @@ jQuery.event = {
 
 				// Force setup before triggering a click
 				if ( rcheckableType.test( el.type ) &&
-					el.click && nodeName( el, "input" ) ) {
+					el.click && nodeName( el, "input" ) &&
+					dataPriv.get( el, "click" ) === undefined ) {
 
 					leverageNative( el, "click" );
 				}
@@ -11694,9 +11659,7 @@ function leverageNative( el, type, expectSync ) {
 
 	// Missing expectSync indicates a trigger call, which must force setup through jQuery.event.add
 	if ( !expectSync ) {
-		if ( dataPriv.get( el, type ) === undefined ) {
-			jQuery.event.add( el, type, returnTrue );
-		}
+		jQuery.event.add( el, type, returnTrue );
 		return;
 	}
 
@@ -11711,13 +11674,9 @@ function leverageNative( el, type, expectSync ) {
 			if ( ( event.isTrigger & 1 ) && this[ type ] ) {
 
 				// Interrupt processing of the outer synthetic .trigger()ed event
-				// Saved data should be false in such cases, but might be a leftover capture object
-				// from an async native handler (gh-4350)
-				if ( !saved.length ) {
+				if ( !saved ) {
 
 					// Store arguments for use when handling the inner native event
-					// There will always be at least one argument (an event object), so this array
-					// will not be confused with a leftover capture object.
 					saved = slice.call( arguments );
 					dataPriv.set( this, type, saved );
 
@@ -11730,14 +11689,14 @@ function leverageNative( el, type, expectSync ) {
 					if ( saved !== result || notAsync ) {
 						dataPriv.set( this, type, false );
 					} else {
-						result = {};
+						result = undefined;
 					}
 					if ( saved !== result ) {
 
 						// Cancel the outer synthetic event
 						event.stopImmediatePropagation();
 						event.preventDefault();
-						return result.value;
+						return result;
 					}
 
 				// If this is an inner synthetic event for an event with a bubbling surrogate
@@ -11752,19 +11711,17 @@ function leverageNative( el, type, expectSync ) {
 
 			// If this is a native event triggered above, everything is now in order
 			// Fire an inner synthetic event with the original arguments
-			} else if ( saved.length ) {
+			} else if ( saved ) {
 
 				// ...and capture the result
-				dataPriv.set( this, type, {
-					value: jQuery.event.trigger(
+				dataPriv.set( this, type, jQuery.event.trigger(
 
-						// Support: IE <=9 - 11+
-						// Extend with the prototype to reset the above stopImmediatePropagation()
-						jQuery.extend( saved[ 0 ], jQuery.Event.prototype ),
-						saved.slice( 1 ),
-						this
-					)
-				} );
+					// Support: IE <=9 - 11+
+					// Extend with the prototype to reset the above stopImmediatePropagation()
+					jQuery.extend( saved.shift(), jQuery.Event.prototype ),
+					saved,
+					this
+				) );
 
 				// Abort handling of the native event
 				event.stopImmediatePropagation();
@@ -37071,3068 +37028,6 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
-/***/ "./node_modules/vue-axios/dist/vue-axios.min.js":
-/*!******************************************************!*\
-  !*** ./node_modules/vue-axios/dist/vue-axios.min.js ***!
-  \******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(o){return typeof o}:function(o){return o&&"function"==typeof Symbol&&o.constructor===Symbol&&o!==Symbol.prototype?"symbol":typeof o};!function(){function o(e,t){if(!o.installed){if(o.installed=!0,!t)return void console.error("You have to install axios");e.axios=t,Object.defineProperties(e.prototype,{axios:{get:function(){return t}},$http:{get:function(){return t}}})}}"object"==( false?undefined:_typeof(exports))?module.exports=o: true?!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function(){return o}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):undefined}();
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e&":
-/*!*******************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e& ***!
-  \*******************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-8" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _vm._v("Example Component")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _vm._v(
-                "\n                    I'm an example component.\n                "
-              )
-            ])
-          ])
-        ])
-      ])
-    ])
-  }
-]
-render._withStripped = true
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
-  \********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-function normalizeComponent (
-  scriptExports,
-  render,
-  staticRenderFns,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier, /* server only */
-  shadowMode /* vue-cli only */
-) {
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (render) {
-    options.render = render
-    options.staticRenderFns = staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = 'data-v-' + scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
-      : injectStyles
-  }
-
-  if (hook) {
-    if (options.functional) {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      var originalRender = options.render
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return originalRender(h, context)
-      }
-    } else {
-      // inject component registration as beforeCreate hook
-      var existing = options.beforeCreate
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    }
-  }
-
-  return {
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-router/dist/vue-router.esm.js":
-/*!********************************************************!*\
-  !*** ./node_modules/vue-router/dist/vue-router.esm.js ***!
-  \********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/*!
-  * vue-router v3.1.3
-  * (c) 2019 Evan You
-  * @license MIT
-  */
-/*  */
-
-function assert (condition, message) {
-  if (!condition) {
-    throw new Error(("[vue-router] " + message))
-  }
-}
-
-function warn (condition, message) {
-  if ( true && !condition) {
-    typeof console !== 'undefined' && console.warn(("[vue-router] " + message));
-  }
-}
-
-function isError (err) {
-  return Object.prototype.toString.call(err).indexOf('Error') > -1
-}
-
-function isExtendedError (constructor, err) {
-  return (
-    err instanceof constructor ||
-    // _name is to support IE9 too
-    (err && (err.name === constructor.name || err._name === constructor._name))
-  )
-}
-
-function extend (a, b) {
-  for (var key in b) {
-    a[key] = b[key];
-  }
-  return a
-}
-
-var View = {
-  name: 'RouterView',
-  functional: true,
-  props: {
-    name: {
-      type: String,
-      default: 'default'
-    }
-  },
-  render: function render (_, ref) {
-    var props = ref.props;
-    var children = ref.children;
-    var parent = ref.parent;
-    var data = ref.data;
-
-    // used by devtools to display a router-view badge
-    data.routerView = true;
-
-    // directly use parent context's createElement() function
-    // so that components rendered by router-view can resolve named slots
-    var h = parent.$createElement;
-    var name = props.name;
-    var route = parent.$route;
-    var cache = parent._routerViewCache || (parent._routerViewCache = {});
-
-    // determine current view depth, also check to see if the tree
-    // has been toggled inactive but kept-alive.
-    var depth = 0;
-    var inactive = false;
-    while (parent && parent._routerRoot !== parent) {
-      var vnodeData = parent.$vnode && parent.$vnode.data;
-      if (vnodeData) {
-        if (vnodeData.routerView) {
-          depth++;
-        }
-        if (vnodeData.keepAlive && parent._inactive) {
-          inactive = true;
-        }
-      }
-      parent = parent.$parent;
-    }
-    data.routerViewDepth = depth;
-
-    // render previous view if the tree is inactive and kept-alive
-    if (inactive) {
-      return h(cache[name], data, children)
-    }
-
-    var matched = route.matched[depth];
-    // render empty node if no matched route
-    if (!matched) {
-      cache[name] = null;
-      return h()
-    }
-
-    var component = cache[name] = matched.components[name];
-
-    // attach instance registration hook
-    // this will be called in the instance's injected lifecycle hooks
-    data.registerRouteInstance = function (vm, val) {
-      // val could be undefined for unregistration
-      var current = matched.instances[name];
-      if (
-        (val && current !== vm) ||
-        (!val && current === vm)
-      ) {
-        matched.instances[name] = val;
-      }
-    }
-
-    // also register instance in prepatch hook
-    // in case the same component instance is reused across different routes
-    ;(data.hook || (data.hook = {})).prepatch = function (_, vnode) {
-      matched.instances[name] = vnode.componentInstance;
-    };
-
-    // register instance in init hook
-    // in case kept-alive component be actived when routes changed
-    data.hook.init = function (vnode) {
-      if (vnode.data.keepAlive &&
-        vnode.componentInstance &&
-        vnode.componentInstance !== matched.instances[name]
-      ) {
-        matched.instances[name] = vnode.componentInstance;
-      }
-    };
-
-    // resolve props
-    var propsToPass = data.props = resolveProps(route, matched.props && matched.props[name]);
-    if (propsToPass) {
-      // clone to prevent mutation
-      propsToPass = data.props = extend({}, propsToPass);
-      // pass non-declared props as attrs
-      var attrs = data.attrs = data.attrs || {};
-      for (var key in propsToPass) {
-        if (!component.props || !(key in component.props)) {
-          attrs[key] = propsToPass[key];
-          delete propsToPass[key];
-        }
-      }
-    }
-
-    return h(component, data, children)
-  }
-};
-
-function resolveProps (route, config) {
-  switch (typeof config) {
-    case 'undefined':
-      return
-    case 'object':
-      return config
-    case 'function':
-      return config(route)
-    case 'boolean':
-      return config ? route.params : undefined
-    default:
-      if (true) {
-        warn(
-          false,
-          "props in \"" + (route.path) + "\" is a " + (typeof config) + ", " +
-          "expecting an object, function or boolean."
-        );
-      }
-  }
-}
-
-/*  */
-
-var encodeReserveRE = /[!'()*]/g;
-var encodeReserveReplacer = function (c) { return '%' + c.charCodeAt(0).toString(16); };
-var commaRE = /%2C/g;
-
-// fixed encodeURIComponent which is more conformant to RFC3986:
-// - escapes [!'()*]
-// - preserve commas
-var encode = function (str) { return encodeURIComponent(str)
-  .replace(encodeReserveRE, encodeReserveReplacer)
-  .replace(commaRE, ','); };
-
-var decode = decodeURIComponent;
-
-function resolveQuery (
-  query,
-  extraQuery,
-  _parseQuery
-) {
-  if ( extraQuery === void 0 ) extraQuery = {};
-
-  var parse = _parseQuery || parseQuery;
-  var parsedQuery;
-  try {
-    parsedQuery = parse(query || '');
-  } catch (e) {
-     true && warn(false, e.message);
-    parsedQuery = {};
-  }
-  for (var key in extraQuery) {
-    parsedQuery[key] = extraQuery[key];
-  }
-  return parsedQuery
-}
-
-function parseQuery (query) {
-  var res = {};
-
-  query = query.trim().replace(/^(\?|#|&)/, '');
-
-  if (!query) {
-    return res
-  }
-
-  query.split('&').forEach(function (param) {
-    var parts = param.replace(/\+/g, ' ').split('=');
-    var key = decode(parts.shift());
-    var val = parts.length > 0
-      ? decode(parts.join('='))
-      : null;
-
-    if (res[key] === undefined) {
-      res[key] = val;
-    } else if (Array.isArray(res[key])) {
-      res[key].push(val);
-    } else {
-      res[key] = [res[key], val];
-    }
-  });
-
-  return res
-}
-
-function stringifyQuery (obj) {
-  var res = obj ? Object.keys(obj).map(function (key) {
-    var val = obj[key];
-
-    if (val === undefined) {
-      return ''
-    }
-
-    if (val === null) {
-      return encode(key)
-    }
-
-    if (Array.isArray(val)) {
-      var result = [];
-      val.forEach(function (val2) {
-        if (val2 === undefined) {
-          return
-        }
-        if (val2 === null) {
-          result.push(encode(key));
-        } else {
-          result.push(encode(key) + '=' + encode(val2));
-        }
-      });
-      return result.join('&')
-    }
-
-    return encode(key) + '=' + encode(val)
-  }).filter(function (x) { return x.length > 0; }).join('&') : null;
-  return res ? ("?" + res) : ''
-}
-
-/*  */
-
-var trailingSlashRE = /\/?$/;
-
-function createRoute (
-  record,
-  location,
-  redirectedFrom,
-  router
-) {
-  var stringifyQuery = router && router.options.stringifyQuery;
-
-  var query = location.query || {};
-  try {
-    query = clone(query);
-  } catch (e) {}
-
-  var route = {
-    name: location.name || (record && record.name),
-    meta: (record && record.meta) || {},
-    path: location.path || '/',
-    hash: location.hash || '',
-    query: query,
-    params: location.params || {},
-    fullPath: getFullPath(location, stringifyQuery),
-    matched: record ? formatMatch(record) : []
-  };
-  if (redirectedFrom) {
-    route.redirectedFrom = getFullPath(redirectedFrom, stringifyQuery);
-  }
-  return Object.freeze(route)
-}
-
-function clone (value) {
-  if (Array.isArray(value)) {
-    return value.map(clone)
-  } else if (value && typeof value === 'object') {
-    var res = {};
-    for (var key in value) {
-      res[key] = clone(value[key]);
-    }
-    return res
-  } else {
-    return value
-  }
-}
-
-// the starting route that represents the initial state
-var START = createRoute(null, {
-  path: '/'
-});
-
-function formatMatch (record) {
-  var res = [];
-  while (record) {
-    res.unshift(record);
-    record = record.parent;
-  }
-  return res
-}
-
-function getFullPath (
-  ref,
-  _stringifyQuery
-) {
-  var path = ref.path;
-  var query = ref.query; if ( query === void 0 ) query = {};
-  var hash = ref.hash; if ( hash === void 0 ) hash = '';
-
-  var stringify = _stringifyQuery || stringifyQuery;
-  return (path || '/') + stringify(query) + hash
-}
-
-function isSameRoute (a, b) {
-  if (b === START) {
-    return a === b
-  } else if (!b) {
-    return false
-  } else if (a.path && b.path) {
-    return (
-      a.path.replace(trailingSlashRE, '') === b.path.replace(trailingSlashRE, '') &&
-      a.hash === b.hash &&
-      isObjectEqual(a.query, b.query)
-    )
-  } else if (a.name && b.name) {
-    return (
-      a.name === b.name &&
-      a.hash === b.hash &&
-      isObjectEqual(a.query, b.query) &&
-      isObjectEqual(a.params, b.params)
-    )
-  } else {
-    return false
-  }
-}
-
-function isObjectEqual (a, b) {
-  if ( a === void 0 ) a = {};
-  if ( b === void 0 ) b = {};
-
-  // handle null value #1566
-  if (!a || !b) { return a === b }
-  var aKeys = Object.keys(a);
-  var bKeys = Object.keys(b);
-  if (aKeys.length !== bKeys.length) {
-    return false
-  }
-  return aKeys.every(function (key) {
-    var aVal = a[key];
-    var bVal = b[key];
-    // check nested equality
-    if (typeof aVal === 'object' && typeof bVal === 'object') {
-      return isObjectEqual(aVal, bVal)
-    }
-    return String(aVal) === String(bVal)
-  })
-}
-
-function isIncludedRoute (current, target) {
-  return (
-    current.path.replace(trailingSlashRE, '/').indexOf(
-      target.path.replace(trailingSlashRE, '/')
-    ) === 0 &&
-    (!target.hash || current.hash === target.hash) &&
-    queryIncludes(current.query, target.query)
-  )
-}
-
-function queryIncludes (current, target) {
-  for (var key in target) {
-    if (!(key in current)) {
-      return false
-    }
-  }
-  return true
-}
-
-/*  */
-
-function resolvePath (
-  relative,
-  base,
-  append
-) {
-  var firstChar = relative.charAt(0);
-  if (firstChar === '/') {
-    return relative
-  }
-
-  if (firstChar === '?' || firstChar === '#') {
-    return base + relative
-  }
-
-  var stack = base.split('/');
-
-  // remove trailing segment if:
-  // - not appending
-  // - appending to trailing slash (last segment is empty)
-  if (!append || !stack[stack.length - 1]) {
-    stack.pop();
-  }
-
-  // resolve relative path
-  var segments = relative.replace(/^\//, '').split('/');
-  for (var i = 0; i < segments.length; i++) {
-    var segment = segments[i];
-    if (segment === '..') {
-      stack.pop();
-    } else if (segment !== '.') {
-      stack.push(segment);
-    }
-  }
-
-  // ensure leading slash
-  if (stack[0] !== '') {
-    stack.unshift('');
-  }
-
-  return stack.join('/')
-}
-
-function parsePath (path) {
-  var hash = '';
-  var query = '';
-
-  var hashIndex = path.indexOf('#');
-  if (hashIndex >= 0) {
-    hash = path.slice(hashIndex);
-    path = path.slice(0, hashIndex);
-  }
-
-  var queryIndex = path.indexOf('?');
-  if (queryIndex >= 0) {
-    query = path.slice(queryIndex + 1);
-    path = path.slice(0, queryIndex);
-  }
-
-  return {
-    path: path,
-    query: query,
-    hash: hash
-  }
-}
-
-function cleanPath (path) {
-  return path.replace(/\/\//g, '/')
-}
-
-var isarray = Array.isArray || function (arr) {
-  return Object.prototype.toString.call(arr) == '[object Array]';
-};
-
-/**
- * Expose `pathToRegexp`.
- */
-var pathToRegexp_1 = pathToRegexp;
-var parse_1 = parse;
-var compile_1 = compile;
-var tokensToFunction_1 = tokensToFunction;
-var tokensToRegExp_1 = tokensToRegExp;
-
-/**
- * The main path matching regexp utility.
- *
- * @type {RegExp}
- */
-var PATH_REGEXP = new RegExp([
-  // Match escaped characters that would otherwise appear in future matches.
-  // This allows the user to escape special characters that won't transform.
-  '(\\\\.)',
-  // Match Express-style parameters and un-named parameters with a prefix
-  // and optional suffixes. Matches appear as:
-  //
-  // "/:test(\\d+)?" => ["/", "test", "\d+", undefined, "?", undefined]
-  // "/route(\\d+)"  => [undefined, undefined, undefined, "\d+", undefined, undefined]
-  // "/*"            => ["/", undefined, undefined, undefined, undefined, "*"]
-  '([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^\\\\()])+)\\))?|\\(((?:\\\\.|[^\\\\()])+)\\))([+*?])?|(\\*))'
-].join('|'), 'g');
-
-/**
- * Parse a string for the raw tokens.
- *
- * @param  {string}  str
- * @param  {Object=} options
- * @return {!Array}
- */
-function parse (str, options) {
-  var tokens = [];
-  var key = 0;
-  var index = 0;
-  var path = '';
-  var defaultDelimiter = options && options.delimiter || '/';
-  var res;
-
-  while ((res = PATH_REGEXP.exec(str)) != null) {
-    var m = res[0];
-    var escaped = res[1];
-    var offset = res.index;
-    path += str.slice(index, offset);
-    index = offset + m.length;
-
-    // Ignore already escaped sequences.
-    if (escaped) {
-      path += escaped[1];
-      continue
-    }
-
-    var next = str[index];
-    var prefix = res[2];
-    var name = res[3];
-    var capture = res[4];
-    var group = res[5];
-    var modifier = res[6];
-    var asterisk = res[7];
-
-    // Push the current path onto the tokens.
-    if (path) {
-      tokens.push(path);
-      path = '';
-    }
-
-    var partial = prefix != null && next != null && next !== prefix;
-    var repeat = modifier === '+' || modifier === '*';
-    var optional = modifier === '?' || modifier === '*';
-    var delimiter = res[2] || defaultDelimiter;
-    var pattern = capture || group;
-
-    tokens.push({
-      name: name || key++,
-      prefix: prefix || '',
-      delimiter: delimiter,
-      optional: optional,
-      repeat: repeat,
-      partial: partial,
-      asterisk: !!asterisk,
-      pattern: pattern ? escapeGroup(pattern) : (asterisk ? '.*' : '[^' + escapeString(delimiter) + ']+?')
-    });
-  }
-
-  // Match any characters still remaining.
-  if (index < str.length) {
-    path += str.substr(index);
-  }
-
-  // If the path exists, push it onto the end.
-  if (path) {
-    tokens.push(path);
-  }
-
-  return tokens
-}
-
-/**
- * Compile a string to a template function for the path.
- *
- * @param  {string}             str
- * @param  {Object=}            options
- * @return {!function(Object=, Object=)}
- */
-function compile (str, options) {
-  return tokensToFunction(parse(str, options))
-}
-
-/**
- * Prettier encoding of URI path segments.
- *
- * @param  {string}
- * @return {string}
- */
-function encodeURIComponentPretty (str) {
-  return encodeURI(str).replace(/[\/?#]/g, function (c) {
-    return '%' + c.charCodeAt(0).toString(16).toUpperCase()
-  })
-}
-
-/**
- * Encode the asterisk parameter. Similar to `pretty`, but allows slashes.
- *
- * @param  {string}
- * @return {string}
- */
-function encodeAsterisk (str) {
-  return encodeURI(str).replace(/[?#]/g, function (c) {
-    return '%' + c.charCodeAt(0).toString(16).toUpperCase()
-  })
-}
-
-/**
- * Expose a method for transforming tokens into the path function.
- */
-function tokensToFunction (tokens) {
-  // Compile all the tokens into regexps.
-  var matches = new Array(tokens.length);
-
-  // Compile all the patterns before compilation.
-  for (var i = 0; i < tokens.length; i++) {
-    if (typeof tokens[i] === 'object') {
-      matches[i] = new RegExp('^(?:' + tokens[i].pattern + ')$');
-    }
-  }
-
-  return function (obj, opts) {
-    var path = '';
-    var data = obj || {};
-    var options = opts || {};
-    var encode = options.pretty ? encodeURIComponentPretty : encodeURIComponent;
-
-    for (var i = 0; i < tokens.length; i++) {
-      var token = tokens[i];
-
-      if (typeof token === 'string') {
-        path += token;
-
-        continue
-      }
-
-      var value = data[token.name];
-      var segment;
-
-      if (value == null) {
-        if (token.optional) {
-          // Prepend partial segment prefixes.
-          if (token.partial) {
-            path += token.prefix;
-          }
-
-          continue
-        } else {
-          throw new TypeError('Expected "' + token.name + '" to be defined')
-        }
-      }
-
-      if (isarray(value)) {
-        if (!token.repeat) {
-          throw new TypeError('Expected "' + token.name + '" to not repeat, but received `' + JSON.stringify(value) + '`')
-        }
-
-        if (value.length === 0) {
-          if (token.optional) {
-            continue
-          } else {
-            throw new TypeError('Expected "' + token.name + '" to not be empty')
-          }
-        }
-
-        for (var j = 0; j < value.length; j++) {
-          segment = encode(value[j]);
-
-          if (!matches[i].test(segment)) {
-            throw new TypeError('Expected all "' + token.name + '" to match "' + token.pattern + '", but received `' + JSON.stringify(segment) + '`')
-          }
-
-          path += (j === 0 ? token.prefix : token.delimiter) + segment;
-        }
-
-        continue
-      }
-
-      segment = token.asterisk ? encodeAsterisk(value) : encode(value);
-
-      if (!matches[i].test(segment)) {
-        throw new TypeError('Expected "' + token.name + '" to match "' + token.pattern + '", but received "' + segment + '"')
-      }
-
-      path += token.prefix + segment;
-    }
-
-    return path
-  }
-}
-
-/**
- * Escape a regular expression string.
- *
- * @param  {string} str
- * @return {string}
- */
-function escapeString (str) {
-  return str.replace(/([.+*?=^!:${}()[\]|\/\\])/g, '\\$1')
-}
-
-/**
- * Escape the capturing group by escaping special characters and meaning.
- *
- * @param  {string} group
- * @return {string}
- */
-function escapeGroup (group) {
-  return group.replace(/([=!:$\/()])/g, '\\$1')
-}
-
-/**
- * Attach the keys as a property of the regexp.
- *
- * @param  {!RegExp} re
- * @param  {Array}   keys
- * @return {!RegExp}
- */
-function attachKeys (re, keys) {
-  re.keys = keys;
-  return re
-}
-
-/**
- * Get the flags for a regexp from the options.
- *
- * @param  {Object} options
- * @return {string}
- */
-function flags (options) {
-  return options.sensitive ? '' : 'i'
-}
-
-/**
- * Pull out keys from a regexp.
- *
- * @param  {!RegExp} path
- * @param  {!Array}  keys
- * @return {!RegExp}
- */
-function regexpToRegexp (path, keys) {
-  // Use a negative lookahead to match only capturing groups.
-  var groups = path.source.match(/\((?!\?)/g);
-
-  if (groups) {
-    for (var i = 0; i < groups.length; i++) {
-      keys.push({
-        name: i,
-        prefix: null,
-        delimiter: null,
-        optional: false,
-        repeat: false,
-        partial: false,
-        asterisk: false,
-        pattern: null
-      });
-    }
-  }
-
-  return attachKeys(path, keys)
-}
-
-/**
- * Transform an array into a regexp.
- *
- * @param  {!Array}  path
- * @param  {Array}   keys
- * @param  {!Object} options
- * @return {!RegExp}
- */
-function arrayToRegexp (path, keys, options) {
-  var parts = [];
-
-  for (var i = 0; i < path.length; i++) {
-    parts.push(pathToRegexp(path[i], keys, options).source);
-  }
-
-  var regexp = new RegExp('(?:' + parts.join('|') + ')', flags(options));
-
-  return attachKeys(regexp, keys)
-}
-
-/**
- * Create a path regexp from string input.
- *
- * @param  {string}  path
- * @param  {!Array}  keys
- * @param  {!Object} options
- * @return {!RegExp}
- */
-function stringToRegexp (path, keys, options) {
-  return tokensToRegExp(parse(path, options), keys, options)
-}
-
-/**
- * Expose a function for taking tokens and returning a RegExp.
- *
- * @param  {!Array}          tokens
- * @param  {(Array|Object)=} keys
- * @param  {Object=}         options
- * @return {!RegExp}
- */
-function tokensToRegExp (tokens, keys, options) {
-  if (!isarray(keys)) {
-    options = /** @type {!Object} */ (keys || options);
-    keys = [];
-  }
-
-  options = options || {};
-
-  var strict = options.strict;
-  var end = options.end !== false;
-  var route = '';
-
-  // Iterate over the tokens and create our regexp string.
-  for (var i = 0; i < tokens.length; i++) {
-    var token = tokens[i];
-
-    if (typeof token === 'string') {
-      route += escapeString(token);
-    } else {
-      var prefix = escapeString(token.prefix);
-      var capture = '(?:' + token.pattern + ')';
-
-      keys.push(token);
-
-      if (token.repeat) {
-        capture += '(?:' + prefix + capture + ')*';
-      }
-
-      if (token.optional) {
-        if (!token.partial) {
-          capture = '(?:' + prefix + '(' + capture + '))?';
-        } else {
-          capture = prefix + '(' + capture + ')?';
-        }
-      } else {
-        capture = prefix + '(' + capture + ')';
-      }
-
-      route += capture;
-    }
-  }
-
-  var delimiter = escapeString(options.delimiter || '/');
-  var endsWithDelimiter = route.slice(-delimiter.length) === delimiter;
-
-  // In non-strict mode we allow a slash at the end of match. If the path to
-  // match already ends with a slash, we remove it for consistency. The slash
-  // is valid at the end of a path match, not in the middle. This is important
-  // in non-ending mode, where "/test/" shouldn't match "/test//route".
-  if (!strict) {
-    route = (endsWithDelimiter ? route.slice(0, -delimiter.length) : route) + '(?:' + delimiter + '(?=$))?';
-  }
-
-  if (end) {
-    route += '$';
-  } else {
-    // In non-ending mode, we need the capturing groups to match as much as
-    // possible by using a positive lookahead to the end or next path segment.
-    route += strict && endsWithDelimiter ? '' : '(?=' + delimiter + '|$)';
-  }
-
-  return attachKeys(new RegExp('^' + route, flags(options)), keys)
-}
-
-/**
- * Normalize the given path string, returning a regular expression.
- *
- * An empty array can be passed in for the keys, which will hold the
- * placeholder key descriptions. For example, using `/user/:id`, `keys` will
- * contain `[{ name: 'id', delimiter: '/', optional: false, repeat: false }]`.
- *
- * @param  {(string|RegExp|Array)} path
- * @param  {(Array|Object)=}       keys
- * @param  {Object=}               options
- * @return {!RegExp}
- */
-function pathToRegexp (path, keys, options) {
-  if (!isarray(keys)) {
-    options = /** @type {!Object} */ (keys || options);
-    keys = [];
-  }
-
-  options = options || {};
-
-  if (path instanceof RegExp) {
-    return regexpToRegexp(path, /** @type {!Array} */ (keys))
-  }
-
-  if (isarray(path)) {
-    return arrayToRegexp(/** @type {!Array} */ (path), /** @type {!Array} */ (keys), options)
-  }
-
-  return stringToRegexp(/** @type {string} */ (path), /** @type {!Array} */ (keys), options)
-}
-pathToRegexp_1.parse = parse_1;
-pathToRegexp_1.compile = compile_1;
-pathToRegexp_1.tokensToFunction = tokensToFunction_1;
-pathToRegexp_1.tokensToRegExp = tokensToRegExp_1;
-
-/*  */
-
-// $flow-disable-line
-var regexpCompileCache = Object.create(null);
-
-function fillParams (
-  path,
-  params,
-  routeMsg
-) {
-  params = params || {};
-  try {
-    var filler =
-      regexpCompileCache[path] ||
-      (regexpCompileCache[path] = pathToRegexp_1.compile(path));
-
-    // Fix #2505 resolving asterisk routes { name: 'not-found', params: { pathMatch: '/not-found' }}
-    if (params.pathMatch) { params[0] = params.pathMatch; }
-
-    return filler(params, { pretty: true })
-  } catch (e) {
-    if (true) {
-      warn(false, ("missing param for " + routeMsg + ": " + (e.message)));
-    }
-    return ''
-  } finally {
-    // delete the 0 if it was added
-    delete params[0];
-  }
-}
-
-/*  */
-
-function normalizeLocation (
-  raw,
-  current,
-  append,
-  router
-) {
-  var next = typeof raw === 'string' ? { path: raw } : raw;
-  // named target
-  if (next._normalized) {
-    return next
-  } else if (next.name) {
-    return extend({}, raw)
-  }
-
-  // relative params
-  if (!next.path && next.params && current) {
-    next = extend({}, next);
-    next._normalized = true;
-    var params = extend(extend({}, current.params), next.params);
-    if (current.name) {
-      next.name = current.name;
-      next.params = params;
-    } else if (current.matched.length) {
-      var rawPath = current.matched[current.matched.length - 1].path;
-      next.path = fillParams(rawPath, params, ("path " + (current.path)));
-    } else if (true) {
-      warn(false, "relative params navigation requires a current route.");
-    }
-    return next
-  }
-
-  var parsedPath = parsePath(next.path || '');
-  var basePath = (current && current.path) || '/';
-  var path = parsedPath.path
-    ? resolvePath(parsedPath.path, basePath, append || next.append)
-    : basePath;
-
-  var query = resolveQuery(
-    parsedPath.query,
-    next.query,
-    router && router.options.parseQuery
-  );
-
-  var hash = next.hash || parsedPath.hash;
-  if (hash && hash.charAt(0) !== '#') {
-    hash = "#" + hash;
-  }
-
-  return {
-    _normalized: true,
-    path: path,
-    query: query,
-    hash: hash
-  }
-}
-
-/*  */
-
-// work around weird flow bug
-var toTypes = [String, Object];
-var eventTypes = [String, Array];
-
-var noop = function () {};
-
-var Link = {
-  name: 'RouterLink',
-  props: {
-    to: {
-      type: toTypes,
-      required: true
-    },
-    tag: {
-      type: String,
-      default: 'a'
-    },
-    exact: Boolean,
-    append: Boolean,
-    replace: Boolean,
-    activeClass: String,
-    exactActiveClass: String,
-    event: {
-      type: eventTypes,
-      default: 'click'
-    }
-  },
-  render: function render (h) {
-    var this$1 = this;
-
-    var router = this.$router;
-    var current = this.$route;
-    var ref = router.resolve(
-      this.to,
-      current,
-      this.append
-    );
-    var location = ref.location;
-    var route = ref.route;
-    var href = ref.href;
-
-    var classes = {};
-    var globalActiveClass = router.options.linkActiveClass;
-    var globalExactActiveClass = router.options.linkExactActiveClass;
-    // Support global empty active class
-    var activeClassFallback =
-      globalActiveClass == null ? 'router-link-active' : globalActiveClass;
-    var exactActiveClassFallback =
-      globalExactActiveClass == null
-        ? 'router-link-exact-active'
-        : globalExactActiveClass;
-    var activeClass =
-      this.activeClass == null ? activeClassFallback : this.activeClass;
-    var exactActiveClass =
-      this.exactActiveClass == null
-        ? exactActiveClassFallback
-        : this.exactActiveClass;
-
-    var compareTarget = route.redirectedFrom
-      ? createRoute(null, normalizeLocation(route.redirectedFrom), null, router)
-      : route;
-
-    classes[exactActiveClass] = isSameRoute(current, compareTarget);
-    classes[activeClass] = this.exact
-      ? classes[exactActiveClass]
-      : isIncludedRoute(current, compareTarget);
-
-    var handler = function (e) {
-      if (guardEvent(e)) {
-        if (this$1.replace) {
-          router.replace(location, noop);
-        } else {
-          router.push(location, noop);
-        }
-      }
-    };
-
-    var on = { click: guardEvent };
-    if (Array.isArray(this.event)) {
-      this.event.forEach(function (e) {
-        on[e] = handler;
-      });
-    } else {
-      on[this.event] = handler;
-    }
-
-    var data = { class: classes };
-
-    var scopedSlot =
-      !this.$scopedSlots.$hasNormal &&
-      this.$scopedSlots.default &&
-      this.$scopedSlots.default({
-        href: href,
-        route: route,
-        navigate: handler,
-        isActive: classes[activeClass],
-        isExactActive: classes[exactActiveClass]
-      });
-
-    if (scopedSlot) {
-      if (scopedSlot.length === 1) {
-        return scopedSlot[0]
-      } else if (scopedSlot.length > 1 || !scopedSlot.length) {
-        if (true) {
-          warn(
-            false,
-            ("RouterLink with to=\"" + (this.props.to) + "\" is trying to use a scoped slot but it didn't provide exactly one child.")
-          );
-        }
-        return scopedSlot.length === 0 ? h() : h('span', {}, scopedSlot)
-      }
-    }
-
-    if (this.tag === 'a') {
-      data.on = on;
-      data.attrs = { href: href };
-    } else {
-      // find the first <a> child and apply listener and href
-      var a = findAnchor(this.$slots.default);
-      if (a) {
-        // in case the <a> is a static node
-        a.isStatic = false;
-        var aData = (a.data = extend({}, a.data));
-        aData.on = aData.on || {};
-        // transform existing events in both objects into arrays so we can push later
-        for (var event in aData.on) {
-          var handler$1 = aData.on[event];
-          if (event in on) {
-            aData.on[event] = Array.isArray(handler$1) ? handler$1 : [handler$1];
-          }
-        }
-        // append new listeners for router-link
-        for (var event$1 in on) {
-          if (event$1 in aData.on) {
-            // on[event] is always a function
-            aData.on[event$1].push(on[event$1]);
-          } else {
-            aData.on[event$1] = handler;
-          }
-        }
-
-        var aAttrs = (a.data.attrs = extend({}, a.data.attrs));
-        aAttrs.href = href;
-      } else {
-        // doesn't have <a> child, apply listener to self
-        data.on = on;
-      }
-    }
-
-    return h(this.tag, data, this.$slots.default)
-  }
-};
-
-function guardEvent (e) {
-  // don't redirect with control keys
-  if (e.metaKey || e.altKey || e.ctrlKey || e.shiftKey) { return }
-  // don't redirect when preventDefault called
-  if (e.defaultPrevented) { return }
-  // don't redirect on right click
-  if (e.button !== undefined && e.button !== 0) { return }
-  // don't redirect if `target="_blank"`
-  if (e.currentTarget && e.currentTarget.getAttribute) {
-    var target = e.currentTarget.getAttribute('target');
-    if (/\b_blank\b/i.test(target)) { return }
-  }
-  // this may be a Weex event which doesn't have this method
-  if (e.preventDefault) {
-    e.preventDefault();
-  }
-  return true
-}
-
-function findAnchor (children) {
-  if (children) {
-    var child;
-    for (var i = 0; i < children.length; i++) {
-      child = children[i];
-      if (child.tag === 'a') {
-        return child
-      }
-      if (child.children && (child = findAnchor(child.children))) {
-        return child
-      }
-    }
-  }
-}
-
-var _Vue;
-
-function install (Vue) {
-  if (install.installed && _Vue === Vue) { return }
-  install.installed = true;
-
-  _Vue = Vue;
-
-  var isDef = function (v) { return v !== undefined; };
-
-  var registerInstance = function (vm, callVal) {
-    var i = vm.$options._parentVnode;
-    if (isDef(i) && isDef(i = i.data) && isDef(i = i.registerRouteInstance)) {
-      i(vm, callVal);
-    }
-  };
-
-  Vue.mixin({
-    beforeCreate: function beforeCreate () {
-      if (isDef(this.$options.router)) {
-        this._routerRoot = this;
-        this._router = this.$options.router;
-        this._router.init(this);
-        Vue.util.defineReactive(this, '_route', this._router.history.current);
-      } else {
-        this._routerRoot = (this.$parent && this.$parent._routerRoot) || this;
-      }
-      registerInstance(this, this);
-    },
-    destroyed: function destroyed () {
-      registerInstance(this);
-    }
-  });
-
-  Object.defineProperty(Vue.prototype, '$router', {
-    get: function get () { return this._routerRoot._router }
-  });
-
-  Object.defineProperty(Vue.prototype, '$route', {
-    get: function get () { return this._routerRoot._route }
-  });
-
-  Vue.component('RouterView', View);
-  Vue.component('RouterLink', Link);
-
-  var strats = Vue.config.optionMergeStrategies;
-  // use the same hook merging strategy for route hooks
-  strats.beforeRouteEnter = strats.beforeRouteLeave = strats.beforeRouteUpdate = strats.created;
-}
-
-/*  */
-
-var inBrowser = typeof window !== 'undefined';
-
-/*  */
-
-function createRouteMap (
-  routes,
-  oldPathList,
-  oldPathMap,
-  oldNameMap
-) {
-  // the path list is used to control path matching priority
-  var pathList = oldPathList || [];
-  // $flow-disable-line
-  var pathMap = oldPathMap || Object.create(null);
-  // $flow-disable-line
-  var nameMap = oldNameMap || Object.create(null);
-
-  routes.forEach(function (route) {
-    addRouteRecord(pathList, pathMap, nameMap, route);
-  });
-
-  // ensure wildcard routes are always at the end
-  for (var i = 0, l = pathList.length; i < l; i++) {
-    if (pathList[i] === '*') {
-      pathList.push(pathList.splice(i, 1)[0]);
-      l--;
-      i--;
-    }
-  }
-
-  if (true) {
-    // warn if routes do not include leading slashes
-    var found = pathList
-    // check for missing leading slash
-      .filter(function (path) { return path && path.charAt(0) !== '*' && path.charAt(0) !== '/'; });
-
-    if (found.length > 0) {
-      var pathNames = found.map(function (path) { return ("- " + path); }).join('\n');
-      warn(false, ("Non-nested routes must include a leading slash character. Fix the following routes: \n" + pathNames));
-    }
-  }
-
-  return {
-    pathList: pathList,
-    pathMap: pathMap,
-    nameMap: nameMap
-  }
-}
-
-function addRouteRecord (
-  pathList,
-  pathMap,
-  nameMap,
-  route,
-  parent,
-  matchAs
-) {
-  var path = route.path;
-  var name = route.name;
-  if (true) {
-    assert(path != null, "\"path\" is required in a route configuration.");
-    assert(
-      typeof route.component !== 'string',
-      "route config \"component\" for path: " + (String(
-        path || name
-      )) + " cannot be a " + "string id. Use an actual component instead."
-    );
-  }
-
-  var pathToRegexpOptions =
-    route.pathToRegexpOptions || {};
-  var normalizedPath = normalizePath(path, parent, pathToRegexpOptions.strict);
-
-  if (typeof route.caseSensitive === 'boolean') {
-    pathToRegexpOptions.sensitive = route.caseSensitive;
-  }
-
-  var record = {
-    path: normalizedPath,
-    regex: compileRouteRegex(normalizedPath, pathToRegexpOptions),
-    components: route.components || { default: route.component },
-    instances: {},
-    name: name,
-    parent: parent,
-    matchAs: matchAs,
-    redirect: route.redirect,
-    beforeEnter: route.beforeEnter,
-    meta: route.meta || {},
-    props:
-      route.props == null
-        ? {}
-        : route.components
-          ? route.props
-          : { default: route.props }
-  };
-
-  if (route.children) {
-    // Warn if route is named, does not redirect and has a default child route.
-    // If users navigate to this route by name, the default child will
-    // not be rendered (GH Issue #629)
-    if (true) {
-      if (
-        route.name &&
-        !route.redirect &&
-        route.children.some(function (child) { return /^\/?$/.test(child.path); })
-      ) {
-        warn(
-          false,
-          "Named Route '" + (route.name) + "' has a default child route. " +
-            "When navigating to this named route (:to=\"{name: '" + (route.name) + "'\"), " +
-            "the default child route will not be rendered. Remove the name from " +
-            "this route and use the name of the default child route for named " +
-            "links instead."
-        );
-      }
-    }
-    route.children.forEach(function (child) {
-      var childMatchAs = matchAs
-        ? cleanPath((matchAs + "/" + (child.path)))
-        : undefined;
-      addRouteRecord(pathList, pathMap, nameMap, child, record, childMatchAs);
-    });
-  }
-
-  if (!pathMap[record.path]) {
-    pathList.push(record.path);
-    pathMap[record.path] = record;
-  }
-
-  if (route.alias !== undefined) {
-    var aliases = Array.isArray(route.alias) ? route.alias : [route.alias];
-    for (var i = 0; i < aliases.length; ++i) {
-      var alias = aliases[i];
-      if ( true && alias === path) {
-        warn(
-          false,
-          ("Found an alias with the same value as the path: \"" + path + "\". You have to remove that alias. It will be ignored in development.")
-        );
-        // skip in dev to make it work
-        continue
-      }
-
-      var aliasRoute = {
-        path: alias,
-        children: route.children
-      };
-      addRouteRecord(
-        pathList,
-        pathMap,
-        nameMap,
-        aliasRoute,
-        parent,
-        record.path || '/' // matchAs
-      );
-    }
-  }
-
-  if (name) {
-    if (!nameMap[name]) {
-      nameMap[name] = record;
-    } else if ( true && !matchAs) {
-      warn(
-        false,
-        "Duplicate named routes definition: " +
-          "{ name: \"" + name + "\", path: \"" + (record.path) + "\" }"
-      );
-    }
-  }
-}
-
-function compileRouteRegex (
-  path,
-  pathToRegexpOptions
-) {
-  var regex = pathToRegexp_1(path, [], pathToRegexpOptions);
-  if (true) {
-    var keys = Object.create(null);
-    regex.keys.forEach(function (key) {
-      warn(
-        !keys[key.name],
-        ("Duplicate param keys in route with path: \"" + path + "\"")
-      );
-      keys[key.name] = true;
-    });
-  }
-  return regex
-}
-
-function normalizePath (
-  path,
-  parent,
-  strict
-) {
-  if (!strict) { path = path.replace(/\/$/, ''); }
-  if (path[0] === '/') { return path }
-  if (parent == null) { return path }
-  return cleanPath(((parent.path) + "/" + path))
-}
-
-/*  */
-
-
-
-function createMatcher (
-  routes,
-  router
-) {
-  var ref = createRouteMap(routes);
-  var pathList = ref.pathList;
-  var pathMap = ref.pathMap;
-  var nameMap = ref.nameMap;
-
-  function addRoutes (routes) {
-    createRouteMap(routes, pathList, pathMap, nameMap);
-  }
-
-  function match (
-    raw,
-    currentRoute,
-    redirectedFrom
-  ) {
-    var location = normalizeLocation(raw, currentRoute, false, router);
-    var name = location.name;
-
-    if (name) {
-      var record = nameMap[name];
-      if (true) {
-        warn(record, ("Route with name '" + name + "' does not exist"));
-      }
-      if (!record) { return _createRoute(null, location) }
-      var paramNames = record.regex.keys
-        .filter(function (key) { return !key.optional; })
-        .map(function (key) { return key.name; });
-
-      if (typeof location.params !== 'object') {
-        location.params = {};
-      }
-
-      if (currentRoute && typeof currentRoute.params === 'object') {
-        for (var key in currentRoute.params) {
-          if (!(key in location.params) && paramNames.indexOf(key) > -1) {
-            location.params[key] = currentRoute.params[key];
-          }
-        }
-      }
-
-      location.path = fillParams(record.path, location.params, ("named route \"" + name + "\""));
-      return _createRoute(record, location, redirectedFrom)
-    } else if (location.path) {
-      location.params = {};
-      for (var i = 0; i < pathList.length; i++) {
-        var path = pathList[i];
-        var record$1 = pathMap[path];
-        if (matchRoute(record$1.regex, location.path, location.params)) {
-          return _createRoute(record$1, location, redirectedFrom)
-        }
-      }
-    }
-    // no match
-    return _createRoute(null, location)
-  }
-
-  function redirect (
-    record,
-    location
-  ) {
-    var originalRedirect = record.redirect;
-    var redirect = typeof originalRedirect === 'function'
-      ? originalRedirect(createRoute(record, location, null, router))
-      : originalRedirect;
-
-    if (typeof redirect === 'string') {
-      redirect = { path: redirect };
-    }
-
-    if (!redirect || typeof redirect !== 'object') {
-      if (true) {
-        warn(
-          false, ("invalid redirect option: " + (JSON.stringify(redirect)))
-        );
-      }
-      return _createRoute(null, location)
-    }
-
-    var re = redirect;
-    var name = re.name;
-    var path = re.path;
-    var query = location.query;
-    var hash = location.hash;
-    var params = location.params;
-    query = re.hasOwnProperty('query') ? re.query : query;
-    hash = re.hasOwnProperty('hash') ? re.hash : hash;
-    params = re.hasOwnProperty('params') ? re.params : params;
-
-    if (name) {
-      // resolved named direct
-      var targetRecord = nameMap[name];
-      if (true) {
-        assert(targetRecord, ("redirect failed: named route \"" + name + "\" not found."));
-      }
-      return match({
-        _normalized: true,
-        name: name,
-        query: query,
-        hash: hash,
-        params: params
-      }, undefined, location)
-    } else if (path) {
-      // 1. resolve relative redirect
-      var rawPath = resolveRecordPath(path, record);
-      // 2. resolve params
-      var resolvedPath = fillParams(rawPath, params, ("redirect route with path \"" + rawPath + "\""));
-      // 3. rematch with existing query and hash
-      return match({
-        _normalized: true,
-        path: resolvedPath,
-        query: query,
-        hash: hash
-      }, undefined, location)
-    } else {
-      if (true) {
-        warn(false, ("invalid redirect option: " + (JSON.stringify(redirect))));
-      }
-      return _createRoute(null, location)
-    }
-  }
-
-  function alias (
-    record,
-    location,
-    matchAs
-  ) {
-    var aliasedPath = fillParams(matchAs, location.params, ("aliased route with path \"" + matchAs + "\""));
-    var aliasedMatch = match({
-      _normalized: true,
-      path: aliasedPath
-    });
-    if (aliasedMatch) {
-      var matched = aliasedMatch.matched;
-      var aliasedRecord = matched[matched.length - 1];
-      location.params = aliasedMatch.params;
-      return _createRoute(aliasedRecord, location)
-    }
-    return _createRoute(null, location)
-  }
-
-  function _createRoute (
-    record,
-    location,
-    redirectedFrom
-  ) {
-    if (record && record.redirect) {
-      return redirect(record, redirectedFrom || location)
-    }
-    if (record && record.matchAs) {
-      return alias(record, location, record.matchAs)
-    }
-    return createRoute(record, location, redirectedFrom, router)
-  }
-
-  return {
-    match: match,
-    addRoutes: addRoutes
-  }
-}
-
-function matchRoute (
-  regex,
-  path,
-  params
-) {
-  var m = path.match(regex);
-
-  if (!m) {
-    return false
-  } else if (!params) {
-    return true
-  }
-
-  for (var i = 1, len = m.length; i < len; ++i) {
-    var key = regex.keys[i - 1];
-    var val = typeof m[i] === 'string' ? decodeURIComponent(m[i]) : m[i];
-    if (key) {
-      // Fix #1994: using * with props: true generates a param named 0
-      params[key.name || 'pathMatch'] = val;
-    }
-  }
-
-  return true
-}
-
-function resolveRecordPath (path, record) {
-  return resolvePath(path, record.parent ? record.parent.path : '/', true)
-}
-
-/*  */
-
-// use User Timing api (if present) for more accurate key precision
-var Time =
-  inBrowser && window.performance && window.performance.now
-    ? window.performance
-    : Date;
-
-function genStateKey () {
-  return Time.now().toFixed(3)
-}
-
-var _key = genStateKey();
-
-function getStateKey () {
-  return _key
-}
-
-function setStateKey (key) {
-  return (_key = key)
-}
-
-/*  */
-
-var positionStore = Object.create(null);
-
-function setupScroll () {
-  // Fix for #1585 for Firefox
-  // Fix for #2195 Add optional third attribute to workaround a bug in safari https://bugs.webkit.org/show_bug.cgi?id=182678
-  // Fix for #2774 Support for apps loaded from Windows file shares not mapped to network drives: replaced location.origin with
-  // window.location.protocol + '//' + window.location.host
-  // location.host contains the port and location.hostname doesn't
-  var protocolAndPath = window.location.protocol + '//' + window.location.host;
-  var absolutePath = window.location.href.replace(protocolAndPath, '');
-  window.history.replaceState({ key: getStateKey() }, '', absolutePath);
-  window.addEventListener('popstate', function (e) {
-    saveScrollPosition();
-    if (e.state && e.state.key) {
-      setStateKey(e.state.key);
-    }
-  });
-}
-
-function handleScroll (
-  router,
-  to,
-  from,
-  isPop
-) {
-  if (!router.app) {
-    return
-  }
-
-  var behavior = router.options.scrollBehavior;
-  if (!behavior) {
-    return
-  }
-
-  if (true) {
-    assert(typeof behavior === 'function', "scrollBehavior must be a function");
-  }
-
-  // wait until re-render finishes before scrolling
-  router.app.$nextTick(function () {
-    var position = getScrollPosition();
-    var shouldScroll = behavior.call(
-      router,
-      to,
-      from,
-      isPop ? position : null
-    );
-
-    if (!shouldScroll) {
-      return
-    }
-
-    if (typeof shouldScroll.then === 'function') {
-      shouldScroll
-        .then(function (shouldScroll) {
-          scrollToPosition((shouldScroll), position);
-        })
-        .catch(function (err) {
-          if (true) {
-            assert(false, err.toString());
-          }
-        });
-    } else {
-      scrollToPosition(shouldScroll, position);
-    }
-  });
-}
-
-function saveScrollPosition () {
-  var key = getStateKey();
-  if (key) {
-    positionStore[key] = {
-      x: window.pageXOffset,
-      y: window.pageYOffset
-    };
-  }
-}
-
-function getScrollPosition () {
-  var key = getStateKey();
-  if (key) {
-    return positionStore[key]
-  }
-}
-
-function getElementPosition (el, offset) {
-  var docEl = document.documentElement;
-  var docRect = docEl.getBoundingClientRect();
-  var elRect = el.getBoundingClientRect();
-  return {
-    x: elRect.left - docRect.left - offset.x,
-    y: elRect.top - docRect.top - offset.y
-  }
-}
-
-function isValidPosition (obj) {
-  return isNumber(obj.x) || isNumber(obj.y)
-}
-
-function normalizePosition (obj) {
-  return {
-    x: isNumber(obj.x) ? obj.x : window.pageXOffset,
-    y: isNumber(obj.y) ? obj.y : window.pageYOffset
-  }
-}
-
-function normalizeOffset (obj) {
-  return {
-    x: isNumber(obj.x) ? obj.x : 0,
-    y: isNumber(obj.y) ? obj.y : 0
-  }
-}
-
-function isNumber (v) {
-  return typeof v === 'number'
-}
-
-var hashStartsWithNumberRE = /^#\d/;
-
-function scrollToPosition (shouldScroll, position) {
-  var isObject = typeof shouldScroll === 'object';
-  if (isObject && typeof shouldScroll.selector === 'string') {
-    // getElementById would still fail if the selector contains a more complicated query like #main[data-attr]
-    // but at the same time, it doesn't make much sense to select an element with an id and an extra selector
-    var el = hashStartsWithNumberRE.test(shouldScroll.selector) // $flow-disable-line
-      ? document.getElementById(shouldScroll.selector.slice(1)) // $flow-disable-line
-      : document.querySelector(shouldScroll.selector);
-
-    if (el) {
-      var offset =
-        shouldScroll.offset && typeof shouldScroll.offset === 'object'
-          ? shouldScroll.offset
-          : {};
-      offset = normalizeOffset(offset);
-      position = getElementPosition(el, offset);
-    } else if (isValidPosition(shouldScroll)) {
-      position = normalizePosition(shouldScroll);
-    }
-  } else if (isObject && isValidPosition(shouldScroll)) {
-    position = normalizePosition(shouldScroll);
-  }
-
-  if (position) {
-    window.scrollTo(position.x, position.y);
-  }
-}
-
-/*  */
-
-var supportsPushState =
-  inBrowser &&
-  (function () {
-    var ua = window.navigator.userAgent;
-
-    if (
-      (ua.indexOf('Android 2.') !== -1 || ua.indexOf('Android 4.0') !== -1) &&
-      ua.indexOf('Mobile Safari') !== -1 &&
-      ua.indexOf('Chrome') === -1 &&
-      ua.indexOf('Windows Phone') === -1
-    ) {
-      return false
-    }
-
-    return window.history && 'pushState' in window.history
-  })();
-
-function pushState (url, replace) {
-  saveScrollPosition();
-  // try...catch the pushState call to get around Safari
-  // DOM Exception 18 where it limits to 100 pushState calls
-  var history = window.history;
-  try {
-    if (replace) {
-      history.replaceState({ key: getStateKey() }, '', url);
-    } else {
-      history.pushState({ key: setStateKey(genStateKey()) }, '', url);
-    }
-  } catch (e) {
-    window.location[replace ? 'replace' : 'assign'](url);
-  }
-}
-
-function replaceState (url) {
-  pushState(url, true);
-}
-
-/*  */
-
-function runQueue (queue, fn, cb) {
-  var step = function (index) {
-    if (index >= queue.length) {
-      cb();
-    } else {
-      if (queue[index]) {
-        fn(queue[index], function () {
-          step(index + 1);
-        });
-      } else {
-        step(index + 1);
-      }
-    }
-  };
-  step(0);
-}
-
-/*  */
-
-function resolveAsyncComponents (matched) {
-  return function (to, from, next) {
-    var hasAsync = false;
-    var pending = 0;
-    var error = null;
-
-    flatMapComponents(matched, function (def, _, match, key) {
-      // if it's a function and doesn't have cid attached,
-      // assume it's an async component resolve function.
-      // we are not using Vue's default async resolving mechanism because
-      // we want to halt the navigation until the incoming component has been
-      // resolved.
-      if (typeof def === 'function' && def.cid === undefined) {
-        hasAsync = true;
-        pending++;
-
-        var resolve = once(function (resolvedDef) {
-          if (isESModule(resolvedDef)) {
-            resolvedDef = resolvedDef.default;
-          }
-          // save resolved on async factory in case it's used elsewhere
-          def.resolved = typeof resolvedDef === 'function'
-            ? resolvedDef
-            : _Vue.extend(resolvedDef);
-          match.components[key] = resolvedDef;
-          pending--;
-          if (pending <= 0) {
-            next();
-          }
-        });
-
-        var reject = once(function (reason) {
-          var msg = "Failed to resolve async component " + key + ": " + reason;
-           true && warn(false, msg);
-          if (!error) {
-            error = isError(reason)
-              ? reason
-              : new Error(msg);
-            next(error);
-          }
-        });
-
-        var res;
-        try {
-          res = def(resolve, reject);
-        } catch (e) {
-          reject(e);
-        }
-        if (res) {
-          if (typeof res.then === 'function') {
-            res.then(resolve, reject);
-          } else {
-            // new syntax in Vue 2.3
-            var comp = res.component;
-            if (comp && typeof comp.then === 'function') {
-              comp.then(resolve, reject);
-            }
-          }
-        }
-      }
-    });
-
-    if (!hasAsync) { next(); }
-  }
-}
-
-function flatMapComponents (
-  matched,
-  fn
-) {
-  return flatten(matched.map(function (m) {
-    return Object.keys(m.components).map(function (key) { return fn(
-      m.components[key],
-      m.instances[key],
-      m, key
-    ); })
-  }))
-}
-
-function flatten (arr) {
-  return Array.prototype.concat.apply([], arr)
-}
-
-var hasSymbol =
-  typeof Symbol === 'function' &&
-  typeof Symbol.toStringTag === 'symbol';
-
-function isESModule (obj) {
-  return obj.__esModule || (hasSymbol && obj[Symbol.toStringTag] === 'Module')
-}
-
-// in Webpack 2, require.ensure now also returns a Promise
-// so the resolve/reject functions may get called an extra time
-// if the user uses an arrow function shorthand that happens to
-// return that Promise.
-function once (fn) {
-  var called = false;
-  return function () {
-    var args = [], len = arguments.length;
-    while ( len-- ) args[ len ] = arguments[ len ];
-
-    if (called) { return }
-    called = true;
-    return fn.apply(this, args)
-  }
-}
-
-var NavigationDuplicated = /*@__PURE__*/(function (Error) {
-  function NavigationDuplicated (normalizedLocation) {
-    Error.call(this);
-    this.name = this._name = 'NavigationDuplicated';
-    // passing the message to super() doesn't seem to work in the transpiled version
-    this.message = "Navigating to current location (\"" + (normalizedLocation.fullPath) + "\") is not allowed";
-    // add a stack property so services like Sentry can correctly display it
-    Object.defineProperty(this, 'stack', {
-      value: new Error().stack,
-      writable: true,
-      configurable: true
-    });
-    // we could also have used
-    // Error.captureStackTrace(this, this.constructor)
-    // but it only exists on node and chrome
-  }
-
-  if ( Error ) NavigationDuplicated.__proto__ = Error;
-  NavigationDuplicated.prototype = Object.create( Error && Error.prototype );
-  NavigationDuplicated.prototype.constructor = NavigationDuplicated;
-
-  return NavigationDuplicated;
-}(Error));
-
-// support IE9
-NavigationDuplicated._name = 'NavigationDuplicated';
-
-/*  */
-
-var History = function History (router, base) {
-  this.router = router;
-  this.base = normalizeBase(base);
-  // start with a route object that stands for "nowhere"
-  this.current = START;
-  this.pending = null;
-  this.ready = false;
-  this.readyCbs = [];
-  this.readyErrorCbs = [];
-  this.errorCbs = [];
-};
-
-History.prototype.listen = function listen (cb) {
-  this.cb = cb;
-};
-
-History.prototype.onReady = function onReady (cb, errorCb) {
-  if (this.ready) {
-    cb();
-  } else {
-    this.readyCbs.push(cb);
-    if (errorCb) {
-      this.readyErrorCbs.push(errorCb);
-    }
-  }
-};
-
-History.prototype.onError = function onError (errorCb) {
-  this.errorCbs.push(errorCb);
-};
-
-History.prototype.transitionTo = function transitionTo (
-  location,
-  onComplete,
-  onAbort
-) {
-    var this$1 = this;
-
-  var route = this.router.match(location, this.current);
-  this.confirmTransition(
-    route,
-    function () {
-      this$1.updateRoute(route);
-      onComplete && onComplete(route);
-      this$1.ensureURL();
-
-      // fire ready cbs once
-      if (!this$1.ready) {
-        this$1.ready = true;
-        this$1.readyCbs.forEach(function (cb) {
-          cb(route);
-        });
-      }
-    },
-    function (err) {
-      if (onAbort) {
-        onAbort(err);
-      }
-      if (err && !this$1.ready) {
-        this$1.ready = true;
-        this$1.readyErrorCbs.forEach(function (cb) {
-          cb(err);
-        });
-      }
-    }
-  );
-};
-
-History.prototype.confirmTransition = function confirmTransition (route, onComplete, onAbort) {
-    var this$1 = this;
-
-  var current = this.current;
-  var abort = function (err) {
-    // after merging https://github.com/vuejs/vue-router/pull/2771 we
-    // When the user navigates through history through back/forward buttons
-    // we do not want to throw the error. We only throw it if directly calling
-    // push/replace. That's why it's not included in isError
-    if (!isExtendedError(NavigationDuplicated, err) && isError(err)) {
-      if (this$1.errorCbs.length) {
-        this$1.errorCbs.forEach(function (cb) {
-          cb(err);
-        });
-      } else {
-        warn(false, 'uncaught error during route navigation:');
-        console.error(err);
-      }
-    }
-    onAbort && onAbort(err);
-  };
-  if (
-    isSameRoute(route, current) &&
-    // in the case the route map has been dynamically appended to
-    route.matched.length === current.matched.length
-  ) {
-    this.ensureURL();
-    return abort(new NavigationDuplicated(route))
-  }
-
-  var ref = resolveQueue(
-    this.current.matched,
-    route.matched
-  );
-    var updated = ref.updated;
-    var deactivated = ref.deactivated;
-    var activated = ref.activated;
-
-  var queue = [].concat(
-    // in-component leave guards
-    extractLeaveGuards(deactivated),
-    // global before hooks
-    this.router.beforeHooks,
-    // in-component update hooks
-    extractUpdateHooks(updated),
-    // in-config enter guards
-    activated.map(function (m) { return m.beforeEnter; }),
-    // async components
-    resolveAsyncComponents(activated)
-  );
-
-  this.pending = route;
-  var iterator = function (hook, next) {
-    if (this$1.pending !== route) {
-      return abort()
-    }
-    try {
-      hook(route, current, function (to) {
-        if (to === false || isError(to)) {
-          // next(false) -> abort navigation, ensure current URL
-          this$1.ensureURL(true);
-          abort(to);
-        } else if (
-          typeof to === 'string' ||
-          (typeof to === 'object' &&
-            (typeof to.path === 'string' || typeof to.name === 'string'))
-        ) {
-          // next('/') or next({ path: '/' }) -> redirect
-          abort();
-          if (typeof to === 'object' && to.replace) {
-            this$1.replace(to);
-          } else {
-            this$1.push(to);
-          }
-        } else {
-          // confirm transition and pass on the value
-          next(to);
-        }
-      });
-    } catch (e) {
-      abort(e);
-    }
-  };
-
-  runQueue(queue, iterator, function () {
-    var postEnterCbs = [];
-    var isValid = function () { return this$1.current === route; };
-    // wait until async components are resolved before
-    // extracting in-component enter guards
-    var enterGuards = extractEnterGuards(activated, postEnterCbs, isValid);
-    var queue = enterGuards.concat(this$1.router.resolveHooks);
-    runQueue(queue, iterator, function () {
-      if (this$1.pending !== route) {
-        return abort()
-      }
-      this$1.pending = null;
-      onComplete(route);
-      if (this$1.router.app) {
-        this$1.router.app.$nextTick(function () {
-          postEnterCbs.forEach(function (cb) {
-            cb();
-          });
-        });
-      }
-    });
-  });
-};
-
-History.prototype.updateRoute = function updateRoute (route) {
-  var prev = this.current;
-  this.current = route;
-  this.cb && this.cb(route);
-  this.router.afterHooks.forEach(function (hook) {
-    hook && hook(route, prev);
-  });
-};
-
-function normalizeBase (base) {
-  if (!base) {
-    if (inBrowser) {
-      // respect <base> tag
-      var baseEl = document.querySelector('base');
-      base = (baseEl && baseEl.getAttribute('href')) || '/';
-      // strip full URL origin
-      base = base.replace(/^https?:\/\/[^\/]+/, '');
-    } else {
-      base = '/';
-    }
-  }
-  // make sure there's the starting slash
-  if (base.charAt(0) !== '/') {
-    base = '/' + base;
-  }
-  // remove trailing slash
-  return base.replace(/\/$/, '')
-}
-
-function resolveQueue (
-  current,
-  next
-) {
-  var i;
-  var max = Math.max(current.length, next.length);
-  for (i = 0; i < max; i++) {
-    if (current[i] !== next[i]) {
-      break
-    }
-  }
-  return {
-    updated: next.slice(0, i),
-    activated: next.slice(i),
-    deactivated: current.slice(i)
-  }
-}
-
-function extractGuards (
-  records,
-  name,
-  bind,
-  reverse
-) {
-  var guards = flatMapComponents(records, function (def, instance, match, key) {
-    var guard = extractGuard(def, name);
-    if (guard) {
-      return Array.isArray(guard)
-        ? guard.map(function (guard) { return bind(guard, instance, match, key); })
-        : bind(guard, instance, match, key)
-    }
-  });
-  return flatten(reverse ? guards.reverse() : guards)
-}
-
-function extractGuard (
-  def,
-  key
-) {
-  if (typeof def !== 'function') {
-    // extend now so that global mixins are applied.
-    def = _Vue.extend(def);
-  }
-  return def.options[key]
-}
-
-function extractLeaveGuards (deactivated) {
-  return extractGuards(deactivated, 'beforeRouteLeave', bindGuard, true)
-}
-
-function extractUpdateHooks (updated) {
-  return extractGuards(updated, 'beforeRouteUpdate', bindGuard)
-}
-
-function bindGuard (guard, instance) {
-  if (instance) {
-    return function boundRouteGuard () {
-      return guard.apply(instance, arguments)
-    }
-  }
-}
-
-function extractEnterGuards (
-  activated,
-  cbs,
-  isValid
-) {
-  return extractGuards(
-    activated,
-    'beforeRouteEnter',
-    function (guard, _, match, key) {
-      return bindEnterGuard(guard, match, key, cbs, isValid)
-    }
-  )
-}
-
-function bindEnterGuard (
-  guard,
-  match,
-  key,
-  cbs,
-  isValid
-) {
-  return function routeEnterGuard (to, from, next) {
-    return guard(to, from, function (cb) {
-      if (typeof cb === 'function') {
-        cbs.push(function () {
-          // #750
-          // if a router-view is wrapped with an out-in transition,
-          // the instance may not have been registered at this time.
-          // we will need to poll for registration until current route
-          // is no longer valid.
-          poll(cb, match.instances, key, isValid);
-        });
-      }
-      next(cb);
-    })
-  }
-}
-
-function poll (
-  cb, // somehow flow cannot infer this is a function
-  instances,
-  key,
-  isValid
-) {
-  if (
-    instances[key] &&
-    !instances[key]._isBeingDestroyed // do not reuse being destroyed instance
-  ) {
-    cb(instances[key]);
-  } else if (isValid()) {
-    setTimeout(function () {
-      poll(cb, instances, key, isValid);
-    }, 16);
-  }
-}
-
-/*  */
-
-var HTML5History = /*@__PURE__*/(function (History) {
-  function HTML5History (router, base) {
-    var this$1 = this;
-
-    History.call(this, router, base);
-
-    var expectScroll = router.options.scrollBehavior;
-    var supportsScroll = supportsPushState && expectScroll;
-
-    if (supportsScroll) {
-      setupScroll();
-    }
-
-    var initLocation = getLocation(this.base);
-    window.addEventListener('popstate', function (e) {
-      var current = this$1.current;
-
-      // Avoiding first `popstate` event dispatched in some browsers but first
-      // history route not updated since async guard at the same time.
-      var location = getLocation(this$1.base);
-      if (this$1.current === START && location === initLocation) {
-        return
-      }
-
-      this$1.transitionTo(location, function (route) {
-        if (supportsScroll) {
-          handleScroll(router, route, current, true);
-        }
-      });
-    });
-  }
-
-  if ( History ) HTML5History.__proto__ = History;
-  HTML5History.prototype = Object.create( History && History.prototype );
-  HTML5History.prototype.constructor = HTML5History;
-
-  HTML5History.prototype.go = function go (n) {
-    window.history.go(n);
-  };
-
-  HTML5History.prototype.push = function push (location, onComplete, onAbort) {
-    var this$1 = this;
-
-    var ref = this;
-    var fromRoute = ref.current;
-    this.transitionTo(location, function (route) {
-      pushState(cleanPath(this$1.base + route.fullPath));
-      handleScroll(this$1.router, route, fromRoute, false);
-      onComplete && onComplete(route);
-    }, onAbort);
-  };
-
-  HTML5History.prototype.replace = function replace (location, onComplete, onAbort) {
-    var this$1 = this;
-
-    var ref = this;
-    var fromRoute = ref.current;
-    this.transitionTo(location, function (route) {
-      replaceState(cleanPath(this$1.base + route.fullPath));
-      handleScroll(this$1.router, route, fromRoute, false);
-      onComplete && onComplete(route);
-    }, onAbort);
-  };
-
-  HTML5History.prototype.ensureURL = function ensureURL (push) {
-    if (getLocation(this.base) !== this.current.fullPath) {
-      var current = cleanPath(this.base + this.current.fullPath);
-      push ? pushState(current) : replaceState(current);
-    }
-  };
-
-  HTML5History.prototype.getCurrentLocation = function getCurrentLocation () {
-    return getLocation(this.base)
-  };
-
-  return HTML5History;
-}(History));
-
-function getLocation (base) {
-  var path = decodeURI(window.location.pathname);
-  if (base && path.indexOf(base) === 0) {
-    path = path.slice(base.length);
-  }
-  return (path || '/') + window.location.search + window.location.hash
-}
-
-/*  */
-
-var HashHistory = /*@__PURE__*/(function (History) {
-  function HashHistory (router, base, fallback) {
-    History.call(this, router, base);
-    // check history fallback deeplinking
-    if (fallback && checkFallback(this.base)) {
-      return
-    }
-    ensureSlash();
-  }
-
-  if ( History ) HashHistory.__proto__ = History;
-  HashHistory.prototype = Object.create( History && History.prototype );
-  HashHistory.prototype.constructor = HashHistory;
-
-  // this is delayed until the app mounts
-  // to avoid the hashchange listener being fired too early
-  HashHistory.prototype.setupListeners = function setupListeners () {
-    var this$1 = this;
-
-    var router = this.router;
-    var expectScroll = router.options.scrollBehavior;
-    var supportsScroll = supportsPushState && expectScroll;
-
-    if (supportsScroll) {
-      setupScroll();
-    }
-
-    window.addEventListener(
-      supportsPushState ? 'popstate' : 'hashchange',
-      function () {
-        var current = this$1.current;
-        if (!ensureSlash()) {
-          return
-        }
-        this$1.transitionTo(getHash(), function (route) {
-          if (supportsScroll) {
-            handleScroll(this$1.router, route, current, true);
-          }
-          if (!supportsPushState) {
-            replaceHash(route.fullPath);
-          }
-        });
-      }
-    );
-  };
-
-  HashHistory.prototype.push = function push (location, onComplete, onAbort) {
-    var this$1 = this;
-
-    var ref = this;
-    var fromRoute = ref.current;
-    this.transitionTo(
-      location,
-      function (route) {
-        pushHash(route.fullPath);
-        handleScroll(this$1.router, route, fromRoute, false);
-        onComplete && onComplete(route);
-      },
-      onAbort
-    );
-  };
-
-  HashHistory.prototype.replace = function replace (location, onComplete, onAbort) {
-    var this$1 = this;
-
-    var ref = this;
-    var fromRoute = ref.current;
-    this.transitionTo(
-      location,
-      function (route) {
-        replaceHash(route.fullPath);
-        handleScroll(this$1.router, route, fromRoute, false);
-        onComplete && onComplete(route);
-      },
-      onAbort
-    );
-  };
-
-  HashHistory.prototype.go = function go (n) {
-    window.history.go(n);
-  };
-
-  HashHistory.prototype.ensureURL = function ensureURL (push) {
-    var current = this.current.fullPath;
-    if (getHash() !== current) {
-      push ? pushHash(current) : replaceHash(current);
-    }
-  };
-
-  HashHistory.prototype.getCurrentLocation = function getCurrentLocation () {
-    return getHash()
-  };
-
-  return HashHistory;
-}(History));
-
-function checkFallback (base) {
-  var location = getLocation(base);
-  if (!/^\/#/.test(location)) {
-    window.location.replace(cleanPath(base + '/#' + location));
-    return true
-  }
-}
-
-function ensureSlash () {
-  var path = getHash();
-  if (path.charAt(0) === '/') {
-    return true
-  }
-  replaceHash('/' + path);
-  return false
-}
-
-function getHash () {
-  // We can't use window.location.hash here because it's not
-  // consistent across browsers - Firefox will pre-decode it!
-  var href = window.location.href;
-  var index = href.indexOf('#');
-  // empty path
-  if (index < 0) { return '' }
-
-  href = href.slice(index + 1);
-  // decode the hash but not the search or hash
-  // as search(query) is already decoded
-  // https://github.com/vuejs/vue-router/issues/2708
-  var searchIndex = href.indexOf('?');
-  if (searchIndex < 0) {
-    var hashIndex = href.indexOf('#');
-    if (hashIndex > -1) {
-      href = decodeURI(href.slice(0, hashIndex)) + href.slice(hashIndex);
-    } else { href = decodeURI(href); }
-  } else {
-    if (searchIndex > -1) {
-      href = decodeURI(href.slice(0, searchIndex)) + href.slice(searchIndex);
-    }
-  }
-
-  return href
-}
-
-function getUrl (path) {
-  var href = window.location.href;
-  var i = href.indexOf('#');
-  var base = i >= 0 ? href.slice(0, i) : href;
-  return (base + "#" + path)
-}
-
-function pushHash (path) {
-  if (supportsPushState) {
-    pushState(getUrl(path));
-  } else {
-    window.location.hash = path;
-  }
-}
-
-function replaceHash (path) {
-  if (supportsPushState) {
-    replaceState(getUrl(path));
-  } else {
-    window.location.replace(getUrl(path));
-  }
-}
-
-/*  */
-
-var AbstractHistory = /*@__PURE__*/(function (History) {
-  function AbstractHistory (router, base) {
-    History.call(this, router, base);
-    this.stack = [];
-    this.index = -1;
-  }
-
-  if ( History ) AbstractHistory.__proto__ = History;
-  AbstractHistory.prototype = Object.create( History && History.prototype );
-  AbstractHistory.prototype.constructor = AbstractHistory;
-
-  AbstractHistory.prototype.push = function push (location, onComplete, onAbort) {
-    var this$1 = this;
-
-    this.transitionTo(
-      location,
-      function (route) {
-        this$1.stack = this$1.stack.slice(0, this$1.index + 1).concat(route);
-        this$1.index++;
-        onComplete && onComplete(route);
-      },
-      onAbort
-    );
-  };
-
-  AbstractHistory.prototype.replace = function replace (location, onComplete, onAbort) {
-    var this$1 = this;
-
-    this.transitionTo(
-      location,
-      function (route) {
-        this$1.stack = this$1.stack.slice(0, this$1.index).concat(route);
-        onComplete && onComplete(route);
-      },
-      onAbort
-    );
-  };
-
-  AbstractHistory.prototype.go = function go (n) {
-    var this$1 = this;
-
-    var targetIndex = this.index + n;
-    if (targetIndex < 0 || targetIndex >= this.stack.length) {
-      return
-    }
-    var route = this.stack[targetIndex];
-    this.confirmTransition(
-      route,
-      function () {
-        this$1.index = targetIndex;
-        this$1.updateRoute(route);
-      },
-      function (err) {
-        if (isExtendedError(NavigationDuplicated, err)) {
-          this$1.index = targetIndex;
-        }
-      }
-    );
-  };
-
-  AbstractHistory.prototype.getCurrentLocation = function getCurrentLocation () {
-    var current = this.stack[this.stack.length - 1];
-    return current ? current.fullPath : '/'
-  };
-
-  AbstractHistory.prototype.ensureURL = function ensureURL () {
-    // noop
-  };
-
-  return AbstractHistory;
-}(History));
-
-/*  */
-
-
-
-var VueRouter = function VueRouter (options) {
-  if ( options === void 0 ) options = {};
-
-  this.app = null;
-  this.apps = [];
-  this.options = options;
-  this.beforeHooks = [];
-  this.resolveHooks = [];
-  this.afterHooks = [];
-  this.matcher = createMatcher(options.routes || [], this);
-
-  var mode = options.mode || 'hash';
-  this.fallback = mode === 'history' && !supportsPushState && options.fallback !== false;
-  if (this.fallback) {
-    mode = 'hash';
-  }
-  if (!inBrowser) {
-    mode = 'abstract';
-  }
-  this.mode = mode;
-
-  switch (mode) {
-    case 'history':
-      this.history = new HTML5History(this, options.base);
-      break
-    case 'hash':
-      this.history = new HashHistory(this, options.base, this.fallback);
-      break
-    case 'abstract':
-      this.history = new AbstractHistory(this, options.base);
-      break
-    default:
-      if (true) {
-        assert(false, ("invalid mode: " + mode));
-      }
-  }
-};
-
-var prototypeAccessors = { currentRoute: { configurable: true } };
-
-VueRouter.prototype.match = function match (
-  raw,
-  current,
-  redirectedFrom
-) {
-  return this.matcher.match(raw, current, redirectedFrom)
-};
-
-prototypeAccessors.currentRoute.get = function () {
-  return this.history && this.history.current
-};
-
-VueRouter.prototype.init = function init (app /* Vue component instance */) {
-    var this$1 = this;
-
-   true && assert(
-    install.installed,
-    "not installed. Make sure to call `Vue.use(VueRouter)` " +
-    "before creating root instance."
-  );
-
-  this.apps.push(app);
-
-  // set up app destroyed handler
-  // https://github.com/vuejs/vue-router/issues/2639
-  app.$once('hook:destroyed', function () {
-    // clean out app from this.apps array once destroyed
-    var index = this$1.apps.indexOf(app);
-    if (index > -1) { this$1.apps.splice(index, 1); }
-    // ensure we still have a main app or null if no apps
-    // we do not release the router so it can be reused
-    if (this$1.app === app) { this$1.app = this$1.apps[0] || null; }
-  });
-
-  // main app previously initialized
-  // return as we don't need to set up new history listener
-  if (this.app) {
-    return
-  }
-
-  this.app = app;
-
-  var history = this.history;
-
-  if (history instanceof HTML5History) {
-    history.transitionTo(history.getCurrentLocation());
-  } else if (history instanceof HashHistory) {
-    var setupHashListener = function () {
-      history.setupListeners();
-    };
-    history.transitionTo(
-      history.getCurrentLocation(),
-      setupHashListener,
-      setupHashListener
-    );
-  }
-
-  history.listen(function (route) {
-    this$1.apps.forEach(function (app) {
-      app._route = route;
-    });
-  });
-};
-
-VueRouter.prototype.beforeEach = function beforeEach (fn) {
-  return registerHook(this.beforeHooks, fn)
-};
-
-VueRouter.prototype.beforeResolve = function beforeResolve (fn) {
-  return registerHook(this.resolveHooks, fn)
-};
-
-VueRouter.prototype.afterEach = function afterEach (fn) {
-  return registerHook(this.afterHooks, fn)
-};
-
-VueRouter.prototype.onReady = function onReady (cb, errorCb) {
-  this.history.onReady(cb, errorCb);
-};
-
-VueRouter.prototype.onError = function onError (errorCb) {
-  this.history.onError(errorCb);
-};
-
-VueRouter.prototype.push = function push (location, onComplete, onAbort) {
-    var this$1 = this;
-
-  // $flow-disable-line
-  if (!onComplete && !onAbort && typeof Promise !== 'undefined') {
-    return new Promise(function (resolve, reject) {
-      this$1.history.push(location, resolve, reject);
-    })
-  } else {
-    this.history.push(location, onComplete, onAbort);
-  }
-};
-
-VueRouter.prototype.replace = function replace (location, onComplete, onAbort) {
-    var this$1 = this;
-
-  // $flow-disable-line
-  if (!onComplete && !onAbort && typeof Promise !== 'undefined') {
-    return new Promise(function (resolve, reject) {
-      this$1.history.replace(location, resolve, reject);
-    })
-  } else {
-    this.history.replace(location, onComplete, onAbort);
-  }
-};
-
-VueRouter.prototype.go = function go (n) {
-  this.history.go(n);
-};
-
-VueRouter.prototype.back = function back () {
-  this.go(-1);
-};
-
-VueRouter.prototype.forward = function forward () {
-  this.go(1);
-};
-
-VueRouter.prototype.getMatchedComponents = function getMatchedComponents (to) {
-  var route = to
-    ? to.matched
-      ? to
-      : this.resolve(to).route
-    : this.currentRoute;
-  if (!route) {
-    return []
-  }
-  return [].concat.apply([], route.matched.map(function (m) {
-    return Object.keys(m.components).map(function (key) {
-      return m.components[key]
-    })
-  }))
-};
-
-VueRouter.prototype.resolve = function resolve (
-  to,
-  current,
-  append
-) {
-  current = current || this.history.current;
-  var location = normalizeLocation(
-    to,
-    current,
-    append,
-    this
-  );
-  var route = this.match(location, current);
-  var fullPath = route.redirectedFrom || route.fullPath;
-  var base = this.history.base;
-  var href = createHref(base, fullPath, this.mode);
-  return {
-    location: location,
-    route: route,
-    href: href,
-    // for backwards compat
-    normalizedTo: location,
-    resolved: route
-  }
-};
-
-VueRouter.prototype.addRoutes = function addRoutes (routes) {
-  this.matcher.addRoutes(routes);
-  if (this.history.current !== START) {
-    this.history.transitionTo(this.history.getCurrentLocation());
-  }
-};
-
-Object.defineProperties( VueRouter.prototype, prototypeAccessors );
-
-function registerHook (list, fn) {
-  list.push(fn);
-  return function () {
-    var i = list.indexOf(fn);
-    if (i > -1) { list.splice(i, 1); }
-  }
-}
-
-function createHref (base, fullPath, mode) {
-  var path = mode === 'hash' ? '#' + fullPath : fullPath;
-  return base ? cleanPath(base + '/' + path) : path
-}
-
-VueRouter.install = install;
-VueRouter.version = '3.1.3';
-
-if (inBrowser && window.Vue) {
-  window.Vue.use(VueRouter);
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (VueRouter);
-
-
-/***/ }),
-
 /***/ "./node_modules/vue/dist/vue.common.dev.js":
 /*!*************************************************!*\
   !*** ./node_modules/vue/dist/vue.common.dev.js ***!
@@ -52098,6 +48993,2456 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/vuejs-datepicker/dist/vuejs-datepicker.esm.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/vuejs-datepicker/dist/vuejs-datepicker.esm.js ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _typeof(obj) {
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function (obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function (obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+function _objectSpread(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+    var ownKeys = Object.keys(source);
+
+    if (typeof Object.getOwnPropertySymbols === 'function') {
+      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+      }));
+    }
+
+    ownKeys.forEach(function (key) {
+      _defineProperty(target, key, source[key]);
+    });
+  }
+
+  return target;
+}
+
+var Language =
+/*#__PURE__*/
+function () {
+  function Language(language, months, monthsAbbr, days) {
+    _classCallCheck(this, Language);
+
+    this.language = language;
+    this.months = months;
+    this.monthsAbbr = monthsAbbr;
+    this.days = days;
+    this.rtl = false;
+    this.ymd = false;
+    this.yearSuffix = '';
+  }
+
+  _createClass(Language, [{
+    key: "language",
+    get: function get() {
+      return this._language;
+    },
+    set: function set(language) {
+      if (typeof language !== 'string') {
+        throw new TypeError('Language must be a string');
+      }
+
+      this._language = language;
+    }
+  }, {
+    key: "months",
+    get: function get() {
+      return this._months;
+    },
+    set: function set(months) {
+      if (months.length !== 12) {
+        throw new RangeError("There must be 12 months for ".concat(this.language, " language"));
+      }
+
+      this._months = months;
+    }
+  }, {
+    key: "monthsAbbr",
+    get: function get() {
+      return this._monthsAbbr;
+    },
+    set: function set(monthsAbbr) {
+      if (monthsAbbr.length !== 12) {
+        throw new RangeError("There must be 12 abbreviated months for ".concat(this.language, " language"));
+      }
+
+      this._monthsAbbr = monthsAbbr;
+    }
+  }, {
+    key: "days",
+    get: function get() {
+      return this._days;
+    },
+    set: function set(days) {
+      if (days.length !== 7) {
+        throw new RangeError("There must be 7 days for ".concat(this.language, " language"));
+      }
+
+      this._days = days;
+    }
+  }]);
+
+  return Language;
+}(); // eslint-disable-next-line
+
+var en = new Language('English', ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']) // eslint-disable-next-line
+;
+
+var utils = {
+  /**
+   * @type {Boolean}
+   */
+  useUtc: false,
+
+  /**
+   * Returns the full year, using UTC or not
+   * @param {Date} date
+   */
+  getFullYear: function getFullYear(date) {
+    return this.useUtc ? date.getUTCFullYear() : date.getFullYear();
+  },
+
+  /**
+   * Returns the month, using UTC or not
+   * @param {Date} date
+   */
+  getMonth: function getMonth(date) {
+    return this.useUtc ? date.getUTCMonth() : date.getMonth();
+  },
+
+  /**
+   * Returns the date, using UTC or not
+   * @param {Date} date
+   */
+  getDate: function getDate(date) {
+    return this.useUtc ? date.getUTCDate() : date.getDate();
+  },
+
+  /**
+   * Returns the day, using UTC or not
+   * @param {Date} date
+   */
+  getDay: function getDay(date) {
+    return this.useUtc ? date.getUTCDay() : date.getDay();
+  },
+
+  /**
+   * Returns the hours, using UTC or not
+   * @param {Date} date
+   */
+  getHours: function getHours(date) {
+    return this.useUtc ? date.getUTCHours() : date.getHours();
+  },
+
+  /**
+   * Returns the minutes, using UTC or not
+   * @param {Date} date
+   */
+  getMinutes: function getMinutes(date) {
+    return this.useUtc ? date.getUTCMinutes() : date.getMinutes();
+  },
+
+  /**
+   * Sets the full year, using UTC or not
+   * @param {Date} date
+   */
+  setFullYear: function setFullYear(date, value, useUtc) {
+    return this.useUtc ? date.setUTCFullYear(value) : date.setFullYear(value);
+  },
+
+  /**
+   * Sets the month, using UTC or not
+   * @param {Date} date
+   */
+  setMonth: function setMonth(date, value, useUtc) {
+    return this.useUtc ? date.setUTCMonth(value) : date.setMonth(value);
+  },
+
+  /**
+   * Sets the date, using UTC or not
+   * @param {Date} date
+   * @param {Number} value
+   */
+  setDate: function setDate(date, value, useUtc) {
+    return this.useUtc ? date.setUTCDate(value) : date.setDate(value);
+  },
+
+  /**
+   * Check if date1 is equivalent to date2, without comparing the time
+   * @see https://stackoverflow.com/a/6202196/4455925
+   * @param {Date} date1
+   * @param {Date} date2
+   */
+  compareDates: function compareDates(date1, date2) {
+    var d1 = new Date(date1.getTime());
+    var d2 = new Date(date2.getTime());
+
+    if (this.useUtc) {
+      d1.setUTCHours(0, 0, 0, 0);
+      d2.setUTCHours(0, 0, 0, 0);
+    } else {
+      d1.setHours(0, 0, 0, 0);
+      d2.setHours(0, 0, 0, 0);
+    }
+
+    return d1.getTime() === d2.getTime();
+  },
+
+  /**
+   * Validates a date object
+   * @param {Date} date - an object instantiated with the new Date constructor
+   * @return {Boolean}
+   */
+  isValidDate: function isValidDate(date) {
+    if (Object.prototype.toString.call(date) !== '[object Date]') {
+      return false;
+    }
+
+    return !isNaN(date.getTime());
+  },
+
+  /**
+   * Return abbreviated week day name
+   * @param {Date}
+   * @param {Array}
+   * @return {String}
+   */
+  getDayNameAbbr: function getDayNameAbbr(date, days) {
+    if (_typeof(date) !== 'object') {
+      throw TypeError('Invalid Type');
+    }
+
+    return days[this.getDay(date)];
+  },
+
+  /**
+   * Return name of the month
+   * @param {Number|Date}
+   * @param {Array}
+   * @return {String}
+   */
+  getMonthName: function getMonthName(month, months) {
+    if (!months) {
+      throw Error('missing 2nd parameter Months array');
+    }
+
+    if (_typeof(month) === 'object') {
+      return months[this.getMonth(month)];
+    }
+
+    if (typeof month === 'number') {
+      return months[month];
+    }
+
+    throw TypeError('Invalid type');
+  },
+
+  /**
+   * Return an abbreviated version of the month
+   * @param {Number|Date}
+   * @return {String}
+   */
+  getMonthNameAbbr: function getMonthNameAbbr(month, monthsAbbr) {
+    if (!monthsAbbr) {
+      throw Error('missing 2nd paramter Months array');
+    }
+
+    if (_typeof(month) === 'object') {
+      return monthsAbbr[this.getMonth(month)];
+    }
+
+    if (typeof month === 'number') {
+      return monthsAbbr[month];
+    }
+
+    throw TypeError('Invalid type');
+  },
+
+  /**
+   * Alternative get total number of days in month
+   * @param {Number} year
+   * @param {Number} m
+   * @return {Number}
+   */
+  daysInMonth: function daysInMonth(year, month) {
+    return /8|3|5|10/.test(month) ? 30 : month === 1 ? !(year % 4) && year % 100 || !(year % 400) ? 29 : 28 : 31;
+  },
+
+  /**
+   * Get nth suffix for date
+   * @param {Number} day
+   * @return {String}
+   */
+  getNthSuffix: function getNthSuffix(day) {
+    switch (day) {
+      case 1:
+      case 21:
+      case 31:
+        return 'st';
+
+      case 2:
+      case 22:
+        return 'nd';
+
+      case 3:
+      case 23:
+        return 'rd';
+
+      default:
+        return 'th';
+    }
+  },
+
+  /**
+   * Formats date object
+   * @param {Date}
+   * @param {String}
+   * @param {Object}
+   * @return {String}
+   */
+  formatDate: function formatDate(date, format, translation) {
+    translation = !translation ? en : translation;
+    var year = this.getFullYear(date);
+    var month = this.getMonth(date) + 1;
+    var day = this.getDate(date);
+    var str = format.replace(/dd/, ('0' + day).slice(-2)).replace(/d/, day).replace(/yyyy/, year).replace(/yy/, String(year).slice(2)).replace(/MMMM/, this.getMonthName(this.getMonth(date), translation.months)).replace(/MMM/, this.getMonthNameAbbr(this.getMonth(date), translation.monthsAbbr)).replace(/MM/, ('0' + month).slice(-2)).replace(/M(?!a|ä|e)/, month).replace(/su/, this.getNthSuffix(this.getDate(date))).replace(/D(?!e|é|i)/, this.getDayNameAbbr(date, translation.days));
+    return str;
+  },
+
+  /**
+   * Creates an array of dates for each day in between two dates.
+   * @param {Date} start
+   * @param {Date} end
+   * @return {Array}
+   */
+  createDateArray: function createDateArray(start, end) {
+    var dates = [];
+
+    while (start <= end) {
+      dates.push(new Date(start));
+      start = this.setDate(new Date(start), this.getDate(new Date(start)) + 1);
+    }
+
+    return dates;
+  },
+
+  /**
+   * method used as a prop validator for input values
+   * @param {*} val
+   * @return {Boolean}
+   */
+  validateDateInput: function validateDateInput(val) {
+    return val === null || val instanceof Date || typeof val === 'string' || typeof val === 'number';
+  }
+};
+var makeDateUtils = function makeDateUtils(useUtc) {
+  return _objectSpread({}, utils, {
+    useUtc: useUtc
+  });
+};
+var utils$1 = _objectSpread({}, utils) // eslint-disable-next-line
+;
+
+var script = {
+  props: {
+    selectedDate: Date,
+    resetTypedDate: [Date],
+    format: [String, Function],
+    translation: Object,
+    inline: Boolean,
+    id: String,
+    name: String,
+    refName: String,
+    openDate: Date,
+    placeholder: String,
+    inputClass: [String, Object, Array],
+    clearButton: Boolean,
+    clearButtonIcon: String,
+    calendarButton: Boolean,
+    calendarButtonIcon: String,
+    calendarButtonIconContent: String,
+    disabled: Boolean,
+    required: Boolean,
+    typeable: Boolean,
+    bootstrapStyling: Boolean,
+    useUtc: Boolean
+  },
+  data: function data() {
+    var constructedDateUtils = makeDateUtils(this.useUtc);
+    return {
+      input: null,
+      typedDate: false,
+      utils: constructedDateUtils
+    };
+  },
+  computed: {
+    formattedValue: function formattedValue() {
+      if (!this.selectedDate) {
+        return null;
+      }
+
+      if (this.typedDate) {
+        return this.typedDate;
+      }
+
+      return typeof this.format === 'function' ? this.format(this.selectedDate) : this.utils.formatDate(new Date(this.selectedDate), this.format, this.translation);
+    },
+    computedInputClass: function computedInputClass() {
+      if (this.bootstrapStyling) {
+        if (typeof this.inputClass === 'string') {
+          return [this.inputClass, 'form-control'].join(' ');
+        }
+
+        return _objectSpread({
+          'form-control': true
+        }, this.inputClass);
+      }
+
+      return this.inputClass;
+    }
+  },
+  watch: {
+    resetTypedDate: function resetTypedDate() {
+      this.typedDate = false;
+    }
+  },
+  methods: {
+    showCalendar: function showCalendar() {
+      this.$emit('showCalendar');
+    },
+
+    /**
+     * Attempt to parse a typed date
+     * @param {Event} event
+     */
+    parseTypedDate: function parseTypedDate(event) {
+      // close calendar if escape or enter are pressed
+      if ([27, // escape
+      13 // enter
+      ].includes(event.keyCode)) {
+        this.input.blur();
+      }
+
+      if (this.typeable) {
+        var typedDate = Date.parse(this.input.value);
+
+        if (!isNaN(typedDate)) {
+          this.typedDate = this.input.value;
+          this.$emit('typedDate', new Date(this.typedDate));
+        }
+      }
+    },
+
+    /**
+     * nullify the typed date to defer to regular formatting
+     * called once the input is blurred
+     */
+    inputBlurred: function inputBlurred() {
+      if (this.typeable && isNaN(Date.parse(this.input.value))) {
+        this.clearDate();
+        this.input.value = null;
+        this.typedDate = null;
+      }
+
+      this.$emit('closeCalendar');
+    },
+
+    /**
+     * emit a clearDate event
+     */
+    clearDate: function clearDate() {
+      this.$emit('clearDate');
+    }
+  },
+  mounted: function mounted() {
+    this.input = this.$el.querySelector('input');
+  }
+} // eslint-disable-next-line
+;
+
+function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier
+/* server only */
+, shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
+  if (typeof shadowMode !== 'boolean') {
+    createInjectorSSR = createInjector;
+    createInjector = shadowMode;
+    shadowMode = false;
+  } // Vue.extend constructor export interop.
+
+
+  var options = typeof script === 'function' ? script.options : script; // render functions
+
+  if (template && template.render) {
+    options.render = template.render;
+    options.staticRenderFns = template.staticRenderFns;
+    options._compiled = true; // functional template
+
+    if (isFunctionalTemplate) {
+      options.functional = true;
+    }
+  } // scopedId
+
+
+  if (scopeId) {
+    options._scopeId = scopeId;
+  }
+
+  var hook;
+
+  if (moduleIdentifier) {
+    // server build
+    hook = function hook(context) {
+      // 2.3 injection
+      context = context || // cached call
+      this.$vnode && this.$vnode.ssrContext || // stateful
+      this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext; // functional
+      // 2.2 with runInNewContext: true
+
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__;
+      } // inject component styles
+
+
+      if (style) {
+        style.call(this, createInjectorSSR(context));
+      } // register component module identifier for async chunk inference
+
+
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier);
+      }
+    }; // used by ssr in case component is cached and beforeCreate
+    // never gets called
+
+
+    options._ssrRegister = hook;
+  } else if (style) {
+    hook = shadowMode ? function () {
+      style.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
+    } : function (context) {
+      style.call(this, createInjector(context));
+    };
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // register for functional component in vue file
+      var originalRender = options.render;
+
+      options.render = function renderWithStyleInjection(h, context) {
+        hook.call(context);
+        return originalRender(h, context);
+      };
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate;
+      options.beforeCreate = existing ? [].concat(existing, hook) : [hook];
+    }
+  }
+
+  return script;
+}
+
+var normalizeComponent_1 = normalizeComponent;
+
+/* script */
+const __vue_script__ = script;
+
+/* template */
+var __vue_render__ = function() {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c(
+    "div",
+    { class: { "input-group": _vm.bootstrapStyling } },
+    [
+      _vm.calendarButton
+        ? _c(
+            "span",
+            {
+              staticClass: "vdp-datepicker__calendar-button",
+              class: { "input-group-prepend": _vm.bootstrapStyling },
+              style: { "cursor:not-allowed;": _vm.disabled },
+              on: { click: _vm.showCalendar }
+            },
+            [
+              _c(
+                "span",
+                { class: { "input-group-text": _vm.bootstrapStyling } },
+                [
+                  _c("i", { class: _vm.calendarButtonIcon }, [
+                    _vm._v(
+                      "\n        " +
+                        _vm._s(_vm.calendarButtonIconContent) +
+                        "\n        "
+                    ),
+                    !_vm.calendarButtonIcon
+                      ? _c("span", [_vm._v("…")])
+                      : _vm._e()
+                  ])
+                ]
+              )
+            ]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c("input", {
+        ref: _vm.refName,
+        class: _vm.computedInputClass,
+        attrs: {
+          type: _vm.inline ? "hidden" : "text",
+          name: _vm.name,
+          id: _vm.id,
+          "open-date": _vm.openDate,
+          placeholder: _vm.placeholder,
+          "clear-button": _vm.clearButton,
+          disabled: _vm.disabled,
+          required: _vm.required,
+          readonly: !_vm.typeable,
+          autocomplete: "off"
+        },
+        domProps: { value: _vm.formattedValue },
+        on: {
+          click: _vm.showCalendar,
+          keyup: _vm.parseTypedDate,
+          blur: _vm.inputBlurred
+        }
+      }),
+      _vm._v(" "),
+      _vm.clearButton && _vm.selectedDate
+        ? _c(
+            "span",
+            {
+              staticClass: "vdp-datepicker__clear-button",
+              class: { "input-group-append": _vm.bootstrapStyling },
+              on: {
+                click: function($event) {
+                  return _vm.clearDate()
+                }
+              }
+            },
+            [
+              _c(
+                "span",
+                { class: { "input-group-text": _vm.bootstrapStyling } },
+                [
+                  _c("i", { class: _vm.clearButtonIcon }, [
+                    !_vm.clearButtonIcon ? _c("span", [_vm._v("×")]) : _vm._e()
+                  ])
+                ]
+              )
+            ]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm._t("afterDateInput")
+    ],
+    2
+  )
+};
+var __vue_staticRenderFns__ = [];
+__vue_render__._withStripped = true;
+
+  /* style */
+  const __vue_inject_styles__ = undefined;
+  /* scoped */
+  const __vue_scope_id__ = undefined;
+  /* module identifier */
+  const __vue_module_identifier__ = undefined;
+  /* functional template */
+  const __vue_is_functional_template__ = false;
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var DateInput = normalizeComponent_1(
+    { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
+    __vue_inject_styles__,
+    __vue_script__,
+    __vue_scope_id__,
+    __vue_is_functional_template__,
+    __vue_module_identifier__,
+    undefined,
+    undefined
+  );
+
+//
+var script$1 = {
+  props: {
+    showDayView: Boolean,
+    selectedDate: Date,
+    pageDate: Date,
+    pageTimestamp: Number,
+    fullMonthName: Boolean,
+    allowedToShowView: Function,
+    dayCellContent: {
+      type: Function,
+      "default": function _default(day) {
+        return day.date;
+      }
+    },
+    disabledDates: Object,
+    highlighted: Object,
+    calendarClass: [String, Object, Array],
+    calendarStyle: Object,
+    translation: Object,
+    isRtl: Boolean,
+    mondayFirst: Boolean,
+    useUtc: Boolean
+  },
+  data: function data() {
+    var constructedDateUtils = makeDateUtils(this.useUtc);
+    return {
+      utils: constructedDateUtils
+    };
+  },
+  computed: {
+    /**
+     * Returns an array of day names
+     * @return {String[]}
+     */
+    daysOfWeek: function daysOfWeek() {
+      if (this.mondayFirst) {
+        var tempDays = this.translation.days.slice();
+        tempDays.push(tempDays.shift());
+        return tempDays;
+      }
+
+      return this.translation.days;
+    },
+
+    /**
+     * Returns the day number of the week less one for the first of the current month
+     * Used to show amount of empty cells before the first in the day calendar layout
+     * @return {Number}
+     */
+    blankDays: function blankDays() {
+      var d = this.pageDate;
+      var dObj = this.useUtc ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1)) : new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes());
+
+      if (this.mondayFirst) {
+        return this.utils.getDay(dObj) > 0 ? this.utils.getDay(dObj) - 1 : 6;
+      }
+
+      return this.utils.getDay(dObj);
+    },
+
+    /**
+     * @return {Object[]}
+     */
+    days: function days() {
+      var d = this.pageDate;
+      var days = []; // set up a new date object to the beginning of the current 'page'
+
+      var dObj = this.useUtc ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1)) : new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes());
+      var daysInMonth = this.utils.daysInMonth(this.utils.getFullYear(dObj), this.utils.getMonth(dObj));
+
+      for (var i = 0; i < daysInMonth; i++) {
+        days.push({
+          date: this.utils.getDate(dObj),
+          timestamp: dObj.getTime(),
+          isSelected: this.isSelectedDate(dObj),
+          isDisabled: this.isDisabledDate(dObj),
+          isHighlighted: this.isHighlightedDate(dObj),
+          isHighlightStart: this.isHighlightStart(dObj),
+          isHighlightEnd: this.isHighlightEnd(dObj),
+          isToday: this.utils.compareDates(dObj, new Date()),
+          isWeekend: this.utils.getDay(dObj) === 0 || this.utils.getDay(dObj) === 6,
+          isSaturday: this.utils.getDay(dObj) === 6,
+          isSunday: this.utils.getDay(dObj) === 0
+        });
+        this.utils.setDate(dObj, this.utils.getDate(dObj) + 1);
+      }
+
+      return days;
+    },
+
+    /**
+     * Gets the name of the month the current page is on
+     * @return {String}
+     */
+    currMonthName: function currMonthName() {
+      var monthName = this.fullMonthName ? this.translation.months : this.translation.monthsAbbr;
+      return this.utils.getMonthNameAbbr(this.utils.getMonth(this.pageDate), monthName);
+    },
+
+    /**
+     * Gets the name of the year that current page is on
+     * @return {Number}
+     */
+    currYearName: function currYearName() {
+      var yearSuffix = this.translation.yearSuffix;
+      return "".concat(this.utils.getFullYear(this.pageDate)).concat(yearSuffix);
+    },
+
+    /**
+     * Is this translation using year/month/day format?
+     * @return {Boolean}
+     */
+    isYmd: function isYmd() {
+      return this.translation.ymd && this.translation.ymd === true;
+    },
+
+    /**
+     * Is the left hand navigation button disabled?
+     * @return {Boolean}
+     */
+    isLeftNavDisabled: function isLeftNavDisabled() {
+      return this.isRtl ? this.isNextMonthDisabled(this.pageTimestamp) : this.isPreviousMonthDisabled(this.pageTimestamp);
+    },
+
+    /**
+     * Is the right hand navigation button disabled?
+     * @return {Boolean}
+     */
+    isRightNavDisabled: function isRightNavDisabled() {
+      return this.isRtl ? this.isPreviousMonthDisabled(this.pageTimestamp) : this.isNextMonthDisabled(this.pageTimestamp);
+    }
+  },
+  methods: {
+    selectDate: function selectDate(date) {
+      if (date.isDisabled) {
+        this.$emit('selectedDisabled', date);
+        return false;
+      }
+
+      this.$emit('selectDate', date);
+    },
+
+    /**
+     * @return {Number}
+     */
+    getPageMonth: function getPageMonth() {
+      return this.utils.getMonth(this.pageDate);
+    },
+
+    /**
+     * Emit an event to show the month picker
+     */
+    showMonthCalendar: function showMonthCalendar() {
+      this.$emit('showMonthCalendar');
+    },
+
+    /**
+     * Change the page month
+     * @param {Number} incrementBy
+     */
+    changeMonth: function changeMonth(incrementBy) {
+      var date = this.pageDate;
+      this.utils.setMonth(date, this.utils.getMonth(date) + incrementBy);
+      this.$emit('changedMonth', date);
+    },
+
+    /**
+     * Decrement the page month
+     */
+    previousMonth: function previousMonth() {
+      if (!this.isPreviousMonthDisabled()) {
+        this.changeMonth(-1);
+      }
+    },
+
+    /**
+     * Is the previous month disabled?
+     * @return {Boolean}
+     */
+    isPreviousMonthDisabled: function isPreviousMonthDisabled() {
+      if (!this.disabledDates || !this.disabledDates.to) {
+        return false;
+      }
+
+      var d = this.pageDate;
+      return this.utils.getMonth(this.disabledDates.to) >= this.utils.getMonth(d) && this.utils.getFullYear(this.disabledDates.to) >= this.utils.getFullYear(d);
+    },
+
+    /**
+     * Increment the current page month
+     */
+    nextMonth: function nextMonth() {
+      if (!this.isNextMonthDisabled()) {
+        this.changeMonth(+1);
+      }
+    },
+
+    /**
+     * Is the next month disabled?
+     * @return {Boolean}
+     */
+    isNextMonthDisabled: function isNextMonthDisabled() {
+      if (!this.disabledDates || !this.disabledDates.from) {
+        return false;
+      }
+
+      var d = this.pageDate;
+      return this.utils.getMonth(this.disabledDates.from) <= this.utils.getMonth(d) && this.utils.getFullYear(this.disabledDates.from) <= this.utils.getFullYear(d);
+    },
+
+    /**
+     * Whether a day is selected
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isSelectedDate: function isSelectedDate(dObj) {
+      return this.selectedDate && this.utils.compareDates(this.selectedDate, dObj);
+    },
+
+    /**
+     * Whether a day is disabled
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isDisabledDate: function isDisabledDate(date) {
+      var _this = this;
+
+      var disabledDates = false;
+
+      if (typeof this.disabledDates === 'undefined') {
+        return false;
+      }
+
+      if (typeof this.disabledDates.dates !== 'undefined') {
+        this.disabledDates.dates.forEach(function (d) {
+          if (_this.utils.compareDates(date, d)) {
+            disabledDates = true;
+            return true;
+          }
+        });
+      }
+
+      if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to && date < this.disabledDates.to) {
+        disabledDates = true;
+      }
+
+      if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from && date > this.disabledDates.from) {
+        disabledDates = true;
+      }
+
+      if (typeof this.disabledDates.ranges !== 'undefined') {
+        this.disabledDates.ranges.forEach(function (range) {
+          if (typeof range.from !== 'undefined' && range.from && typeof range.to !== 'undefined' && range.to) {
+            if (date < range.to && date > range.from) {
+              disabledDates = true;
+              return true;
+            }
+          }
+        });
+      }
+
+      if (typeof this.disabledDates.days !== 'undefined' && this.disabledDates.days.indexOf(this.utils.getDay(date)) !== -1) {
+        disabledDates = true;
+      }
+
+      if (typeof this.disabledDates.daysOfMonth !== 'undefined' && this.disabledDates.daysOfMonth.indexOf(this.utils.getDate(date)) !== -1) {
+        disabledDates = true;
+      }
+
+      if (typeof this.disabledDates.customPredictor === 'function' && this.disabledDates.customPredictor(date)) {
+        disabledDates = true;
+      }
+
+      return disabledDates;
+    },
+
+    /**
+     * Whether a day is highlighted (only if it is not disabled already except when highlighted.includeDisabled is true)
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isHighlightedDate: function isHighlightedDate(date) {
+      var _this2 = this;
+
+      if (!(this.highlighted && this.highlighted.includeDisabled) && this.isDisabledDate(date)) {
+        return false;
+      }
+
+      var highlighted = false;
+
+      if (typeof this.highlighted === 'undefined') {
+        return false;
+      }
+
+      if (typeof this.highlighted.dates !== 'undefined') {
+        this.highlighted.dates.forEach(function (d) {
+          if (_this2.utils.compareDates(date, d)) {
+            highlighted = true;
+            return true;
+          }
+        });
+      }
+
+      if (this.isDefined(this.highlighted.from) && this.isDefined(this.highlighted.to)) {
+        highlighted = date >= this.highlighted.from && date <= this.highlighted.to;
+      }
+
+      if (typeof this.highlighted.days !== 'undefined' && this.highlighted.days.indexOf(this.utils.getDay(date)) !== -1) {
+        highlighted = true;
+      }
+
+      if (typeof this.highlighted.daysOfMonth !== 'undefined' && this.highlighted.daysOfMonth.indexOf(this.utils.getDate(date)) !== -1) {
+        highlighted = true;
+      }
+
+      if (typeof this.highlighted.customPredictor === 'function' && this.highlighted.customPredictor(date)) {
+        highlighted = true;
+      }
+
+      return highlighted;
+    },
+    dayClasses: function dayClasses(day) {
+      return {
+        'selected': day.isSelected,
+        'disabled': day.isDisabled,
+        'highlighted': day.isHighlighted,
+        'today': day.isToday,
+        'weekend': day.isWeekend,
+        'sat': day.isSaturday,
+        'sun': day.isSunday,
+        'highlight-start': day.isHighlightStart,
+        'highlight-end': day.isHighlightEnd
+      };
+    },
+
+    /**
+     * Whether a day is highlighted and it is the first date
+     * in the highlighted range of dates
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isHighlightStart: function isHighlightStart(date) {
+      return this.isHighlightedDate(date) && this.highlighted.from instanceof Date && this.utils.getFullYear(this.highlighted.from) === this.utils.getFullYear(date) && this.utils.getMonth(this.highlighted.from) === this.utils.getMonth(date) && this.utils.getDate(this.highlighted.from) === this.utils.getDate(date);
+    },
+
+    /**
+     * Whether a day is highlighted and it is the first date
+     * in the highlighted range of dates
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isHighlightEnd: function isHighlightEnd(date) {
+      return this.isHighlightedDate(date) && this.highlighted.to instanceof Date && this.utils.getFullYear(this.highlighted.to) === this.utils.getFullYear(date) && this.utils.getMonth(this.highlighted.to) === this.utils.getMonth(date) && this.utils.getDate(this.highlighted.to) === this.utils.getDate(date);
+    },
+
+    /**
+     * Helper
+     * @param  {mixed}  prop
+     * @return {Boolean}
+     */
+    isDefined: function isDefined(prop) {
+      return typeof prop !== 'undefined' && prop;
+    }
+  } // eslint-disable-next-line
+
+};
+
+/* script */
+const __vue_script__$1 = script$1;
+
+/* template */
+var __vue_render__$1 = function() {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: _vm.showDayView,
+          expression: "showDayView"
+        }
+      ],
+      class: [_vm.calendarClass, "vdp-datepicker__calendar"],
+      style: _vm.calendarStyle,
+      on: {
+        mousedown: function($event) {
+          $event.preventDefault();
+        }
+      }
+    },
+    [
+      _vm._t("beforeCalendarHeader"),
+      _vm._v(" "),
+      _c("header", [
+        _c(
+          "span",
+          {
+            staticClass: "prev",
+            class: { disabled: _vm.isLeftNavDisabled },
+            on: {
+              click: function($event) {
+                _vm.isRtl ? _vm.nextMonth() : _vm.previousMonth();
+              }
+            }
+          },
+          [_vm._v("<")]
+        ),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            staticClass: "day__month_btn",
+            class: _vm.allowedToShowView("month") ? "up" : "",
+            on: { click: _vm.showMonthCalendar }
+          },
+          [
+            _vm._v(
+              _vm._s(_vm.isYmd ? _vm.currYearName : _vm.currMonthName) +
+                " " +
+                _vm._s(_vm.isYmd ? _vm.currMonthName : _vm.currYearName)
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            staticClass: "next",
+            class: { disabled: _vm.isRightNavDisabled },
+            on: {
+              click: function($event) {
+                _vm.isRtl ? _vm.previousMonth() : _vm.nextMonth();
+              }
+            }
+          },
+          [_vm._v(">")]
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { class: _vm.isRtl ? "flex-rtl" : "" },
+        [
+          _vm._l(_vm.daysOfWeek, function(d) {
+            return _c(
+              "span",
+              { key: d.timestamp, staticClass: "cell day-header" },
+              [_vm._v(_vm._s(d))]
+            )
+          }),
+          _vm._v(" "),
+          _vm.blankDays > 0
+            ? _vm._l(_vm.blankDays, function(d) {
+                return _c("span", {
+                  key: d.timestamp,
+                  staticClass: "cell day blank"
+                })
+              })
+            : _vm._e(),
+          _vm._l(_vm.days, function(day) {
+            return _c("span", {
+              key: day.timestamp,
+              staticClass: "cell day",
+              class: _vm.dayClasses(day),
+              domProps: { innerHTML: _vm._s(_vm.dayCellContent(day)) },
+              on: {
+                click: function($event) {
+                  return _vm.selectDate(day)
+                }
+              }
+            })
+          })
+        ],
+        2
+      )
+    ],
+    2
+  )
+};
+var __vue_staticRenderFns__$1 = [];
+__vue_render__$1._withStripped = true;
+
+  /* style */
+  const __vue_inject_styles__$1 = undefined;
+  /* scoped */
+  const __vue_scope_id__$1 = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$1 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$1 = false;
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var PickerDay = normalizeComponent_1(
+    { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
+    __vue_inject_styles__$1,
+    __vue_script__$1,
+    __vue_scope_id__$1,
+    __vue_is_functional_template__$1,
+    __vue_module_identifier__$1,
+    undefined,
+    undefined
+  );
+
+//
+var script$2 = {
+  props: {
+    showMonthView: Boolean,
+    selectedDate: Date,
+    pageDate: Date,
+    pageTimestamp: Number,
+    disabledDates: Object,
+    calendarClass: [String, Object, Array],
+    calendarStyle: Object,
+    translation: Object,
+    isRtl: Boolean,
+    allowedToShowView: Function,
+    useUtc: Boolean
+  },
+  data: function data() {
+    var constructedDateUtils = makeDateUtils(this.useUtc);
+    return {
+      utils: constructedDateUtils
+    };
+  },
+  computed: {
+    months: function months() {
+      var d = this.pageDate;
+      var months = []; // set up a new date object to the beginning of the current 'page'
+
+      var dObj = this.useUtc ? new Date(Date.UTC(d.getUTCFullYear(), 0, d.getUTCDate())) : new Date(d.getFullYear(), 0, d.getDate(), d.getHours(), d.getMinutes());
+
+      for (var i = 0; i < 12; i++) {
+        months.push({
+          month: this.utils.getMonthName(i, this.translation.months),
+          timestamp: dObj.getTime(),
+          isSelected: this.isSelectedMonth(dObj),
+          isDisabled: this.isDisabledMonth(dObj)
+        });
+        this.utils.setMonth(dObj, this.utils.getMonth(dObj) + 1);
+      }
+
+      return months;
+    },
+
+    /**
+     * Get year name on current page.
+     * @return {String}
+     */
+    pageYearName: function pageYearName() {
+      var yearSuffix = this.translation.yearSuffix;
+      return "".concat(this.utils.getFullYear(this.pageDate)).concat(yearSuffix);
+    },
+
+    /**
+     * Is the left hand navigation disabled
+     * @return {Boolean}
+     */
+    isLeftNavDisabled: function isLeftNavDisabled() {
+      return this.isRtl ? this.isNextYearDisabled(this.pageTimestamp) : this.isPreviousYearDisabled(this.pageTimestamp);
+    },
+
+    /**
+     * Is the right hand navigation disabled
+     * @return {Boolean}
+     */
+    isRightNavDisabled: function isRightNavDisabled() {
+      return this.isRtl ? this.isPreviousYearDisabled(this.pageTimestamp) : this.isNextYearDisabled(this.pageTimestamp);
+    }
+  },
+  methods: {
+    /**
+     * Emits a selectMonth event
+     * @param {Object} month
+     */
+    selectMonth: function selectMonth(month) {
+      if (month.isDisabled) {
+        return false;
+      }
+
+      this.$emit('selectMonth', month);
+    },
+
+    /**
+     * Changes the year up or down
+     * @param {Number} incrementBy
+     */
+    changeYear: function changeYear(incrementBy) {
+      var date = this.pageDate;
+      this.utils.setFullYear(date, this.utils.getFullYear(date) + incrementBy);
+      this.$emit('changedYear', date);
+    },
+
+    /**
+     * Decrements the year
+     */
+    previousYear: function previousYear() {
+      if (!this.isPreviousYearDisabled()) {
+        this.changeYear(-1);
+      }
+    },
+
+    /**
+     * Checks if the previous year is disabled or not
+     * @return {Boolean}
+     */
+    isPreviousYearDisabled: function isPreviousYearDisabled() {
+      if (!this.disabledDates || !this.disabledDates.to) {
+        return false;
+      }
+
+      return this.utils.getFullYear(this.disabledDates.to) >= this.utils.getFullYear(this.pageDate);
+    },
+
+    /**
+     * Increments the year
+     */
+    nextYear: function nextYear() {
+      if (!this.isNextYearDisabled()) {
+        this.changeYear(1);
+      }
+    },
+
+    /**
+     * Checks if the next year is disabled or not
+     * @return {Boolean}
+     */
+    isNextYearDisabled: function isNextYearDisabled() {
+      if (!this.disabledDates || !this.disabledDates.from) {
+        return false;
+      }
+
+      return this.utils.getFullYear(this.disabledDates.from) <= this.utils.getFullYear(this.pageDate);
+    },
+
+    /**
+     * Emits an event that shows the year calendar
+     */
+    showYearCalendar: function showYearCalendar() {
+      this.$emit('showYearCalendar');
+    },
+
+    /**
+     * Whether the selected date is in this month
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isSelectedMonth: function isSelectedMonth(date) {
+      return this.selectedDate && this.utils.getFullYear(this.selectedDate) === this.utils.getFullYear(date) && this.utils.getMonth(this.selectedDate) === this.utils.getMonth(date);
+    },
+
+    /**
+     * Whether a month is disabled
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isDisabledMonth: function isDisabledMonth(date) {
+      var disabledDates = false;
+
+      if (typeof this.disabledDates === 'undefined') {
+        return false;
+      }
+
+      if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to) {
+        if (this.utils.getMonth(date) < this.utils.getMonth(this.disabledDates.to) && this.utils.getFullYear(date) <= this.utils.getFullYear(this.disabledDates.to) || this.utils.getFullYear(date) < this.utils.getFullYear(this.disabledDates.to)) {
+          disabledDates = true;
+        }
+      }
+
+      if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from) {
+        if (this.utils.getMonth(date) > this.utils.getMonth(this.disabledDates.from) && this.utils.getFullYear(date) >= this.utils.getFullYear(this.disabledDates.from) || this.utils.getFullYear(date) > this.utils.getFullYear(this.disabledDates.from)) {
+          disabledDates = true;
+        }
+      }
+
+      if (typeof this.disabledDates.customPredictor === 'function' && this.disabledDates.customPredictor(date)) {
+        disabledDates = true;
+      }
+
+      return disabledDates;
+    }
+  } // eslint-disable-next-line
+
+};
+
+/* script */
+const __vue_script__$2 = script$2;
+
+/* template */
+var __vue_render__$2 = function() {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: _vm.showMonthView,
+          expression: "showMonthView"
+        }
+      ],
+      class: [_vm.calendarClass, "vdp-datepicker__calendar"],
+      style: _vm.calendarStyle,
+      on: {
+        mousedown: function($event) {
+          $event.preventDefault();
+        }
+      }
+    },
+    [
+      _vm._t("beforeCalendarHeader"),
+      _vm._v(" "),
+      _c("header", [
+        _c(
+          "span",
+          {
+            staticClass: "prev",
+            class: { disabled: _vm.isLeftNavDisabled },
+            on: {
+              click: function($event) {
+                _vm.isRtl ? _vm.nextYear() : _vm.previousYear();
+              }
+            }
+          },
+          [_vm._v("<")]
+        ),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            staticClass: "month__year_btn",
+            class: _vm.allowedToShowView("year") ? "up" : "",
+            on: { click: _vm.showYearCalendar }
+          },
+          [_vm._v(_vm._s(_vm.pageYearName))]
+        ),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            staticClass: "next",
+            class: { disabled: _vm.isRightNavDisabled },
+            on: {
+              click: function($event) {
+                _vm.isRtl ? _vm.previousYear() : _vm.nextYear();
+              }
+            }
+          },
+          [_vm._v(">")]
+        )
+      ]),
+      _vm._v(" "),
+      _vm._l(_vm.months, function(month) {
+        return _c(
+          "span",
+          {
+            key: month.timestamp,
+            staticClass: "cell month",
+            class: { selected: month.isSelected, disabled: month.isDisabled },
+            on: {
+              click: function($event) {
+                $event.stopPropagation();
+                return _vm.selectMonth(month)
+              }
+            }
+          },
+          [_vm._v(_vm._s(month.month))]
+        )
+      })
+    ],
+    2
+  )
+};
+var __vue_staticRenderFns__$2 = [];
+__vue_render__$2._withStripped = true;
+
+  /* style */
+  const __vue_inject_styles__$2 = undefined;
+  /* scoped */
+  const __vue_scope_id__$2 = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$2 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$2 = false;
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var PickerMonth = normalizeComponent_1(
+    { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
+    __vue_inject_styles__$2,
+    __vue_script__$2,
+    __vue_scope_id__$2,
+    __vue_is_functional_template__$2,
+    __vue_module_identifier__$2,
+    undefined,
+    undefined
+  );
+
+//
+var script$3 = {
+  props: {
+    showYearView: Boolean,
+    selectedDate: Date,
+    pageDate: Date,
+    pageTimestamp: Number,
+    disabledDates: Object,
+    highlighted: Object,
+    calendarClass: [String, Object, Array],
+    calendarStyle: Object,
+    translation: Object,
+    isRtl: Boolean,
+    allowedToShowView: Function,
+    useUtc: Boolean
+  },
+  computed: {
+    years: function years() {
+      var d = this.pageDate;
+      var years = []; // set up a new date object to the beginning of the current 'page'7
+
+      var dObj = this.useUtc ? new Date(Date.UTC(Math.floor(d.getUTCFullYear() / 10) * 10, d.getUTCMonth(), d.getUTCDate())) : new Date(Math.floor(d.getFullYear() / 10) * 10, d.getMonth(), d.getDate(), d.getHours(), d.getMinutes());
+
+      for (var i = 0; i < 10; i++) {
+        years.push({
+          year: this.utils.getFullYear(dObj),
+          timestamp: dObj.getTime(),
+          isSelected: this.isSelectedYear(dObj),
+          isDisabled: this.isDisabledYear(dObj)
+        });
+        this.utils.setFullYear(dObj, this.utils.getFullYear(dObj) + 1);
+      }
+
+      return years;
+    },
+
+    /**
+     * @return {String}
+     */
+    getPageDecade: function getPageDecade() {
+      var decadeStart = Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10;
+      var decadeEnd = decadeStart + 9;
+      var yearSuffix = this.translation.yearSuffix;
+      return "".concat(decadeStart, " - ").concat(decadeEnd).concat(yearSuffix);
+    },
+
+    /**
+     * Is the left hand navigation button disabled?
+     * @return {Boolean}
+     */
+    isLeftNavDisabled: function isLeftNavDisabled() {
+      return this.isRtl ? this.isNextDecadeDisabled(this.pageTimestamp) : this.isPreviousDecadeDisabled(this.pageTimestamp);
+    },
+
+    /**
+     * Is the right hand navigation button disabled?
+     * @return {Boolean}
+     */
+    isRightNavDisabled: function isRightNavDisabled() {
+      return this.isRtl ? this.isPreviousDecadeDisabled(this.pageTimestamp) : this.isNextDecadeDisabled(this.pageTimestamp);
+    }
+  },
+  data: function data() {
+    var constructedDateUtils = makeDateUtils(this.useUtc);
+    return {
+      utils: constructedDateUtils
+    };
+  },
+  methods: {
+    selectYear: function selectYear(year) {
+      if (year.isDisabled) {
+        return false;
+      }
+
+      this.$emit('selectYear', year);
+    },
+    changeYear: function changeYear(incrementBy) {
+      var date = this.pageDate;
+      this.utils.setFullYear(date, this.utils.getFullYear(date) + incrementBy);
+      this.$emit('changedDecade', date);
+    },
+    previousDecade: function previousDecade() {
+      if (this.isPreviousDecadeDisabled()) {
+        return false;
+      }
+
+      this.changeYear(-10);
+    },
+    isPreviousDecadeDisabled: function isPreviousDecadeDisabled() {
+      if (!this.disabledDates || !this.disabledDates.to) {
+        return false;
+      }
+
+      var disabledYear = this.utils.getFullYear(this.disabledDates.to);
+      var lastYearInPreviousPage = Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10 - 1;
+      return disabledYear > lastYearInPreviousPage;
+    },
+    nextDecade: function nextDecade() {
+      if (this.isNextDecadeDisabled()) {
+        return false;
+      }
+
+      this.changeYear(10);
+    },
+    isNextDecadeDisabled: function isNextDecadeDisabled() {
+      if (!this.disabledDates || !this.disabledDates.from) {
+        return false;
+      }
+
+      var disabledYear = this.utils.getFullYear(this.disabledDates.from);
+      var firstYearInNextPage = Math.ceil(this.utils.getFullYear(this.pageDate) / 10) * 10;
+      return disabledYear < firstYearInNextPage;
+    },
+
+    /**
+     * Whether the selected date is in this year
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isSelectedYear: function isSelectedYear(date) {
+      return this.selectedDate && this.utils.getFullYear(this.selectedDate) === this.utils.getFullYear(date);
+    },
+
+    /**
+     * Whether a year is disabled
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isDisabledYear: function isDisabledYear(date) {
+      var disabledDates = false;
+
+      if (typeof this.disabledDates === 'undefined' || !this.disabledDates) {
+        return false;
+      }
+
+      if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to) {
+        if (this.utils.getFullYear(date) < this.utils.getFullYear(this.disabledDates.to)) {
+          disabledDates = true;
+        }
+      }
+
+      if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from) {
+        if (this.utils.getFullYear(date) > this.utils.getFullYear(this.disabledDates.from)) {
+          disabledDates = true;
+        }
+      }
+
+      if (typeof this.disabledDates.customPredictor === 'function' && this.disabledDates.customPredictor(date)) {
+        disabledDates = true;
+      }
+
+      return disabledDates;
+    }
+  } // eslint-disable-next-line
+
+};
+
+/* script */
+const __vue_script__$3 = script$3;
+
+/* template */
+var __vue_render__$3 = function() {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: _vm.showYearView,
+          expression: "showYearView"
+        }
+      ],
+      class: [_vm.calendarClass, "vdp-datepicker__calendar"],
+      style: _vm.calendarStyle,
+      on: {
+        mousedown: function($event) {
+          $event.preventDefault();
+        }
+      }
+    },
+    [
+      _vm._t("beforeCalendarHeader"),
+      _vm._v(" "),
+      _c("header", [
+        _c(
+          "span",
+          {
+            staticClass: "prev",
+            class: { disabled: _vm.isLeftNavDisabled },
+            on: {
+              click: function($event) {
+                _vm.isRtl ? _vm.nextDecade() : _vm.previousDecade();
+              }
+            }
+          },
+          [_vm._v("<")]
+        ),
+        _vm._v(" "),
+        _c("span", [_vm._v(_vm._s(_vm.getPageDecade))]),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            staticClass: "next",
+            class: { disabled: _vm.isRightNavDisabled },
+            on: {
+              click: function($event) {
+                _vm.isRtl ? _vm.previousDecade() : _vm.nextDecade();
+              }
+            }
+          },
+          [_vm._v(">")]
+        )
+      ]),
+      _vm._v(" "),
+      _vm._l(_vm.years, function(year) {
+        return _c(
+          "span",
+          {
+            key: year.timestamp,
+            staticClass: "cell year",
+            class: { selected: year.isSelected, disabled: year.isDisabled },
+            on: {
+              click: function($event) {
+                $event.stopPropagation();
+                return _vm.selectYear(year)
+              }
+            }
+          },
+          [_vm._v(_vm._s(year.year))]
+        )
+      })
+    ],
+    2
+  )
+};
+var __vue_staticRenderFns__$3 = [];
+__vue_render__$3._withStripped = true;
+
+  /* style */
+  const __vue_inject_styles__$3 = undefined;
+  /* scoped */
+  const __vue_scope_id__$3 = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$3 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$3 = false;
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var PickerYear = normalizeComponent_1(
+    { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 },
+    __vue_inject_styles__$3,
+    __vue_script__$3,
+    __vue_scope_id__$3,
+    __vue_is_functional_template__$3,
+    __vue_module_identifier__$3,
+    undefined,
+    undefined
+  );
+
+//
+var script$4 = {
+  components: {
+    DateInput: DateInput,
+    PickerDay: PickerDay,
+    PickerMonth: PickerMonth,
+    PickerYear: PickerYear
+  },
+  props: {
+    value: {
+      validator: function validator(val) {
+        return utils$1.validateDateInput(val);
+      }
+    },
+    name: String,
+    refName: String,
+    id: String,
+    format: {
+      type: [String, Function],
+      "default": 'dd MMM yyyy'
+    },
+    language: {
+      type: Object,
+      "default": function _default() {
+        return en;
+      }
+    },
+    openDate: {
+      validator: function validator(val) {
+        return utils$1.validateDateInput(val);
+      }
+    },
+    dayCellContent: Function,
+    fullMonthName: Boolean,
+    disabledDates: Object,
+    highlighted: Object,
+    placeholder: String,
+    inline: Boolean,
+    calendarClass: [String, Object, Array],
+    inputClass: [String, Object, Array],
+    wrapperClass: [String, Object, Array],
+    mondayFirst: Boolean,
+    clearButton: Boolean,
+    clearButtonIcon: String,
+    calendarButton: Boolean,
+    calendarButtonIcon: String,
+    calendarButtonIconContent: String,
+    bootstrapStyling: Boolean,
+    initialView: String,
+    disabled: Boolean,
+    required: Boolean,
+    typeable: Boolean,
+    useUtc: Boolean,
+    minimumView: {
+      type: String,
+      "default": 'day'
+    },
+    maximumView: {
+      type: String,
+      "default": 'year'
+    }
+  },
+  data: function data() {
+    var startDate = this.openDate ? new Date(this.openDate) : new Date();
+    var constructedDateUtils = makeDateUtils(this.useUtc);
+    var pageTimestamp = constructedDateUtils.setDate(startDate, 1);
+    return {
+      /*
+       * Vue cannot observe changes to a Date Object so date must be stored as a timestamp
+       * This represents the first day of the current viewing month
+       * {Number}
+       */
+      pageTimestamp: pageTimestamp,
+
+      /*
+       * Selected Date
+       * {Date}
+       */
+      selectedDate: null,
+
+      /*
+       * Flags to show calendar views
+       * {Boolean}
+       */
+      showDayView: false,
+      showMonthView: false,
+      showYearView: false,
+
+      /*
+       * Positioning
+       */
+      calendarHeight: 0,
+      resetTypedDate: new Date(),
+      utils: constructedDateUtils
+    };
+  },
+  watch: {
+    value: function value(_value) {
+      this.setValue(_value);
+    },
+    openDate: function openDate() {
+      this.setPageDate();
+    },
+    initialView: function initialView() {
+      this.setInitialView();
+    }
+  },
+  computed: {
+    computedInitialView: function computedInitialView() {
+      if (!this.initialView) {
+        return this.minimumView;
+      }
+
+      return this.initialView;
+    },
+    pageDate: function pageDate() {
+      return new Date(this.pageTimestamp);
+    },
+    translation: function translation() {
+      return this.language;
+    },
+    calendarStyle: function calendarStyle() {
+      return {
+        position: this.isInline ? 'static' : undefined
+      };
+    },
+    isOpen: function isOpen() {
+      return this.showDayView || this.showMonthView || this.showYearView;
+    },
+    isInline: function isInline() {
+      return !!this.inline;
+    },
+    isRtl: function isRtl() {
+      return this.translation.rtl === true;
+    }
+  },
+  methods: {
+    /**
+     * Called in the event that the user navigates to date pages and
+     * closes the picker without selecting a date.
+     */
+    resetDefaultPageDate: function resetDefaultPageDate() {
+      if (this.selectedDate === null) {
+        this.setPageDate();
+        return;
+      }
+
+      this.setPageDate(this.selectedDate);
+    },
+
+    /**
+     * Effectively a toggle to show/hide the calendar
+     * @return {mixed}
+     */
+    showCalendar: function showCalendar() {
+      if (this.disabled || this.isInline) {
+        return false;
+      }
+
+      if (this.isOpen) {
+        return this.close(true);
+      }
+
+      this.setInitialView();
+    },
+
+    /**
+     * Sets the initial picker page view: day, month or year
+     */
+    setInitialView: function setInitialView() {
+      var initialView = this.computedInitialView;
+
+      if (!this.allowedToShowView(initialView)) {
+        throw new Error("initialView '".concat(this.initialView, "' cannot be rendered based on minimum '").concat(this.minimumView, "' and maximum '").concat(this.maximumView, "'"));
+      }
+
+      switch (initialView) {
+        case 'year':
+          this.showYearCalendar();
+          break;
+
+        case 'month':
+          this.showMonthCalendar();
+          break;
+
+        default:
+          this.showDayCalendar();
+          break;
+      }
+    },
+
+    /**
+     * Are we allowed to show a specific picker view?
+     * @param {String} view
+     * @return {Boolean}
+     */
+    allowedToShowView: function allowedToShowView(view) {
+      var views = ['day', 'month', 'year'];
+      var minimumViewIndex = views.indexOf(this.minimumView);
+      var maximumViewIndex = views.indexOf(this.maximumView);
+      var viewIndex = views.indexOf(view);
+      return viewIndex >= minimumViewIndex && viewIndex <= maximumViewIndex;
+    },
+
+    /**
+     * Show the day picker
+     * @return {Boolean}
+     */
+    showDayCalendar: function showDayCalendar() {
+      if (!this.allowedToShowView('day')) {
+        return false;
+      }
+
+      this.close();
+      this.showDayView = true;
+      return true;
+    },
+
+    /**
+     * Show the month picker
+     * @return {Boolean}
+     */
+    showMonthCalendar: function showMonthCalendar() {
+      if (!this.allowedToShowView('month')) {
+        return false;
+      }
+
+      this.close();
+      this.showMonthView = true;
+      return true;
+    },
+
+    /**
+     * Show the year picker
+     * @return {Boolean}
+     */
+    showYearCalendar: function showYearCalendar() {
+      if (!this.allowedToShowView('year')) {
+        return false;
+      }
+
+      this.close();
+      this.showYearView = true;
+      return true;
+    },
+
+    /**
+     * Set the selected date
+     * @param {Number} timestamp
+     */
+    setDate: function setDate(timestamp) {
+      var date = new Date(timestamp);
+      this.selectedDate = date;
+      this.setPageDate(date);
+      this.$emit('selected', date);
+      this.$emit('input', date);
+    },
+
+    /**
+     * Clear the selected date
+     */
+    clearDate: function clearDate() {
+      this.selectedDate = null;
+      this.setPageDate();
+      this.$emit('selected', null);
+      this.$emit('input', null);
+      this.$emit('cleared');
+    },
+
+    /**
+     * @param {Object} date
+     */
+    selectDate: function selectDate(date) {
+      this.setDate(date.timestamp);
+
+      if (!this.isInline) {
+        this.close(true);
+      }
+
+      this.resetTypedDate = new Date();
+    },
+
+    /**
+     * @param {Object} date
+     */
+    selectDisabledDate: function selectDisabledDate(date) {
+      this.$emit('selectedDisabled', date);
+    },
+
+    /**
+     * @param {Object} month
+     */
+    selectMonth: function selectMonth(month) {
+      var date = new Date(month.timestamp);
+
+      if (this.allowedToShowView('day')) {
+        this.setPageDate(date);
+        this.$emit('changedMonth', month);
+        this.showDayCalendar();
+      } else {
+        this.selectDate(month);
+      }
+    },
+
+    /**
+     * @param {Object} year
+     */
+    selectYear: function selectYear(year) {
+      var date = new Date(year.timestamp);
+
+      if (this.allowedToShowView('month')) {
+        this.setPageDate(date);
+        this.$emit('changedYear', year);
+        this.showMonthCalendar();
+      } else {
+        this.selectDate(year);
+      }
+    },
+
+    /**
+     * Set the datepicker value
+     * @param {Date|String|Number|null} date
+     */
+    setValue: function setValue(date) {
+      if (typeof date === 'string' || typeof date === 'number') {
+        var parsed = new Date(date);
+        date = isNaN(parsed.valueOf()) ? null : parsed;
+      }
+
+      if (!date) {
+        this.setPageDate();
+        this.selectedDate = null;
+        return;
+      }
+
+      this.selectedDate = date;
+      this.setPageDate(date);
+    },
+
+    /**
+     * Sets the date that the calendar should open on
+     */
+    setPageDate: function setPageDate(date) {
+      if (!date) {
+        if (this.openDate) {
+          date = new Date(this.openDate);
+        } else {
+          date = new Date();
+        }
+      }
+
+      this.pageTimestamp = this.utils.setDate(new Date(date), 1);
+    },
+
+    /**
+     * Handles a month change from the day picker
+     */
+    handleChangedMonthFromDayPicker: function handleChangedMonthFromDayPicker(date) {
+      this.setPageDate(date);
+      this.$emit('changedMonth', date);
+    },
+
+    /**
+     * Set the date from a typedDate event
+     */
+    setTypedDate: function setTypedDate(date) {
+      this.setDate(date.getTime());
+    },
+
+    /**
+     * Close all calendar layers
+     * @param {Boolean} emitEvent - emit close event
+     */
+    close: function close(emitEvent) {
+      this.showDayView = this.showMonthView = this.showYearView = false;
+
+      if (!this.isInline) {
+        if (emitEvent) {
+          this.$emit('closed');
+        }
+
+        document.removeEventListener('click', this.clickOutside, false);
+      }
+    },
+
+    /**
+     * Initiate the component
+     */
+    init: function init() {
+      if (this.value) {
+        this.setValue(this.value);
+      }
+
+      if (this.isInline) {
+        this.setInitialView();
+      }
+    }
+  },
+  mounted: function mounted() {
+    this.init();
+  }
+} // eslint-disable-next-line
+;
+
+var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
+function createInjector(context) {
+  return function (id, style) {
+    return addStyle(id, style);
+  };
+}
+var HEAD = document.head || document.getElementsByTagName('head')[0];
+var styles = {};
+
+function addStyle(id, css) {
+  var group = isOldIE ? css.media || 'default' : id;
+  var style = styles[group] || (styles[group] = {
+    ids: new Set(),
+    styles: []
+  });
+
+  if (!style.ids.has(id)) {
+    style.ids.add(id);
+    var code = css.source;
+
+    if (css.map) {
+      // https://developer.chrome.com/devtools/docs/javascript-debugging
+      // this makes source maps inside style tags work properly in Chrome
+      code += '\n/*# sourceURL=' + css.map.sources[0] + ' */'; // http://stackoverflow.com/a/26603875
+
+      code += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) + ' */';
+    }
+
+    if (!style.element) {
+      style.element = document.createElement('style');
+      style.element.type = 'text/css';
+      if (css.media) style.element.setAttribute('media', css.media);
+      HEAD.appendChild(style.element);
+    }
+
+    if ('styleSheet' in style.element) {
+      style.styles.push(code);
+      style.element.styleSheet.cssText = style.styles.filter(Boolean).join('\n');
+    } else {
+      var index = style.ids.size - 1;
+      var textNode = document.createTextNode(code);
+      var nodes = style.element.childNodes;
+      if (nodes[index]) style.element.removeChild(nodes[index]);
+      if (nodes.length) style.element.insertBefore(textNode, nodes[index]);else style.element.appendChild(textNode);
+    }
+  }
+}
+
+var browser = createInjector;
+
+/* script */
+const __vue_script__$4 = script$4;
+
+/* template */
+var __vue_render__$4 = function() {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c(
+    "div",
+    {
+      staticClass: "vdp-datepicker",
+      class: [_vm.wrapperClass, _vm.isRtl ? "rtl" : ""]
+    },
+    [
+      _c(
+        "date-input",
+        {
+          attrs: {
+            selectedDate: _vm.selectedDate,
+            resetTypedDate: _vm.resetTypedDate,
+            format: _vm.format,
+            translation: _vm.translation,
+            inline: _vm.inline,
+            id: _vm.id,
+            name: _vm.name,
+            refName: _vm.refName,
+            openDate: _vm.openDate,
+            placeholder: _vm.placeholder,
+            inputClass: _vm.inputClass,
+            typeable: _vm.typeable,
+            clearButton: _vm.clearButton,
+            clearButtonIcon: _vm.clearButtonIcon,
+            calendarButton: _vm.calendarButton,
+            calendarButtonIcon: _vm.calendarButtonIcon,
+            calendarButtonIconContent: _vm.calendarButtonIconContent,
+            disabled: _vm.disabled,
+            required: _vm.required,
+            bootstrapStyling: _vm.bootstrapStyling,
+            "use-utc": _vm.useUtc
+          },
+          on: {
+            showCalendar: _vm.showCalendar,
+            closeCalendar: _vm.close,
+            typedDate: _vm.setTypedDate,
+            clearDate: _vm.clearDate
+          }
+        },
+        [_vm._t("afterDateInput", null, { slot: "afterDateInput" })],
+        2
+      ),
+      _vm._v(" "),
+      _vm.allowedToShowView("day")
+        ? _c(
+            "picker-day",
+            {
+              attrs: {
+                pageDate: _vm.pageDate,
+                selectedDate: _vm.selectedDate,
+                showDayView: _vm.showDayView,
+                fullMonthName: _vm.fullMonthName,
+                allowedToShowView: _vm.allowedToShowView,
+                disabledDates: _vm.disabledDates,
+                highlighted: _vm.highlighted,
+                calendarClass: _vm.calendarClass,
+                calendarStyle: _vm.calendarStyle,
+                translation: _vm.translation,
+                pageTimestamp: _vm.pageTimestamp,
+                isRtl: _vm.isRtl,
+                mondayFirst: _vm.mondayFirst,
+                dayCellContent: _vm.dayCellContent,
+                "use-utc": _vm.useUtc
+              },
+              on: {
+                changedMonth: _vm.handleChangedMonthFromDayPicker,
+                selectDate: _vm.selectDate,
+                showMonthCalendar: _vm.showMonthCalendar,
+                selectedDisabled: _vm.selectDisabledDate
+              }
+            },
+            [
+              _vm._t("beforeCalendarHeader", null, {
+                slot: "beforeCalendarHeader"
+              })
+            ],
+            2
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.allowedToShowView("month")
+        ? _c(
+            "picker-month",
+            {
+              attrs: {
+                pageDate: _vm.pageDate,
+                selectedDate: _vm.selectedDate,
+                showMonthView: _vm.showMonthView,
+                allowedToShowView: _vm.allowedToShowView,
+                disabledDates: _vm.disabledDates,
+                calendarClass: _vm.calendarClass,
+                calendarStyle: _vm.calendarStyle,
+                translation: _vm.translation,
+                isRtl: _vm.isRtl,
+                "use-utc": _vm.useUtc
+              },
+              on: {
+                selectMonth: _vm.selectMonth,
+                showYearCalendar: _vm.showYearCalendar,
+                changedYear: _vm.setPageDate
+              }
+            },
+            [
+              _vm._t("beforeCalendarHeader", null, {
+                slot: "beforeCalendarHeader"
+              })
+            ],
+            2
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.allowedToShowView("year")
+        ? _c(
+            "picker-year",
+            {
+              attrs: {
+                pageDate: _vm.pageDate,
+                selectedDate: _vm.selectedDate,
+                showYearView: _vm.showYearView,
+                allowedToShowView: _vm.allowedToShowView,
+                disabledDates: _vm.disabledDates,
+                calendarClass: _vm.calendarClass,
+                calendarStyle: _vm.calendarStyle,
+                translation: _vm.translation,
+                isRtl: _vm.isRtl,
+                "use-utc": _vm.useUtc
+              },
+              on: { selectYear: _vm.selectYear, changedDecade: _vm.setPageDate }
+            },
+            [
+              _vm._t("beforeCalendarHeader", null, {
+                slot: "beforeCalendarHeader"
+              })
+            ],
+            2
+          )
+        : _vm._e()
+    ],
+    1
+  )
+};
+var __vue_staticRenderFns__$4 = [];
+__vue_render__$4._withStripped = true;
+
+  /* style */
+  const __vue_inject_styles__$4 = function (inject) {
+    if (!inject) return
+    inject("data-v-64ca2bb5_0", { source: ".rtl {\n  direction: rtl;\n}\n.vdp-datepicker {\n  position: relative;\n  text-align: left;\n}\n.vdp-datepicker * {\n  box-sizing: border-box;\n}\n.vdp-datepicker__calendar {\n  position: absolute;\n  z-index: 100;\n  background: #fff;\n  width: 300px;\n  border: 1px solid #ccc;\n}\n.vdp-datepicker__calendar header {\n  display: block;\n  line-height: 40px;\n}\n.vdp-datepicker__calendar header span {\n  display: inline-block;\n  text-align: center;\n  width: 71.42857142857143%;\n  float: left;\n}\n.vdp-datepicker__calendar header .prev,\n.vdp-datepicker__calendar header .next {\n  width: 14.285714285714286%;\n  float: left;\n  text-indent: -10000px;\n  position: relative;\n}\n.vdp-datepicker__calendar header .prev:after,\n.vdp-datepicker__calendar header .next:after {\n  content: '';\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  transform: translateX(-50%) translateY(-50%);\n  border: 6px solid transparent;\n}\n.vdp-datepicker__calendar header .prev:after {\n  border-right: 10px solid #000;\n  margin-left: -5px;\n}\n.vdp-datepicker__calendar header .prev.disabled:after {\n  border-right: 10px solid #ddd;\n}\n.vdp-datepicker__calendar header .next:after {\n  border-left: 10px solid #000;\n  margin-left: 5px;\n}\n.vdp-datepicker__calendar header .next.disabled:after {\n  border-left: 10px solid #ddd;\n}\n.vdp-datepicker__calendar header .prev:not(.disabled),\n.vdp-datepicker__calendar header .next:not(.disabled),\n.vdp-datepicker__calendar header .up:not(.disabled) {\n  cursor: pointer;\n}\n.vdp-datepicker__calendar header .prev:not(.disabled):hover,\n.vdp-datepicker__calendar header .next:not(.disabled):hover,\n.vdp-datepicker__calendar header .up:not(.disabled):hover {\n  background: #eee;\n}\n.vdp-datepicker__calendar .disabled {\n  color: #ddd;\n  cursor: default;\n}\n.vdp-datepicker__calendar .flex-rtl {\n  display: flex;\n  width: inherit;\n  flex-wrap: wrap;\n}\n.vdp-datepicker__calendar .cell {\n  display: inline-block;\n  padding: 0 5px;\n  width: 14.285714285714286%;\n  height: 40px;\n  line-height: 40px;\n  text-align: center;\n  vertical-align: middle;\n  border: 1px solid transparent;\n}\n.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day,\n.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month,\n.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year {\n  cursor: pointer;\n}\n.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover,\n.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover,\n.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover {\n  border: 1px solid #4bd;\n}\n.vdp-datepicker__calendar .cell.selected {\n  background: #4bd;\n}\n.vdp-datepicker__calendar .cell.selected:hover {\n  background: #4bd;\n}\n.vdp-datepicker__calendar .cell.selected.highlighted {\n  background: #4bd;\n}\n.vdp-datepicker__calendar .cell.highlighted {\n  background: #cae5ed;\n}\n.vdp-datepicker__calendar .cell.highlighted.disabled {\n  color: #a3a3a3;\n}\n.vdp-datepicker__calendar .cell.grey {\n  color: #888;\n}\n.vdp-datepicker__calendar .cell.grey:hover {\n  background: inherit;\n}\n.vdp-datepicker__calendar .cell.day-header {\n  font-size: 75%;\n  white-space: nowrap;\n  cursor: inherit;\n}\n.vdp-datepicker__calendar .cell.day-header:hover {\n  background: inherit;\n}\n.vdp-datepicker__calendar .month,\n.vdp-datepicker__calendar .year {\n  width: 33.333%;\n}\n.vdp-datepicker__clear-button,\n.vdp-datepicker__calendar-button {\n  cursor: pointer;\n  font-style: normal;\n}\n.vdp-datepicker__clear-button.disabled,\n.vdp-datepicker__calendar-button.disabled {\n  color: #999;\n  cursor: default;\n}\n", map: {"version":3,"sources":["Datepicker.vue"],"names":[],"mappings":"AAAA;EACE,cAAc;AAChB;AACA;EACE,kBAAkB;EAClB,gBAAgB;AAClB;AACA;EACE,sBAAsB;AACxB;AACA;EACE,kBAAkB;EAClB,YAAY;EACZ,gBAAgB;EAChB,YAAY;EACZ,sBAAsB;AACxB;AACA;EACE,cAAc;EACd,iBAAiB;AACnB;AACA;EACE,qBAAqB;EACrB,kBAAkB;EAClB,yBAAyB;EACzB,WAAW;AACb;AACA;;EAEE,0BAA0B;EAC1B,WAAW;EACX,qBAAqB;EACrB,kBAAkB;AACpB;AACA;;EAEE,WAAW;EACX,kBAAkB;EAClB,SAAS;EACT,QAAQ;EACR,4CAA4C;EAC5C,6BAA6B;AAC/B;AACA;EACE,6BAA6B;EAC7B,iBAAiB;AACnB;AACA;EACE,6BAA6B;AAC/B;AACA;EACE,4BAA4B;EAC5B,gBAAgB;AAClB;AACA;EACE,4BAA4B;AAC9B;AACA;;;EAGE,eAAe;AACjB;AACA;;;EAGE,gBAAgB;AAClB;AACA;EACE,WAAW;EACX,eAAe;AACjB;AACA;EACE,aAAa;EACb,cAAc;EACd,eAAe;AACjB;AACA;EACE,qBAAqB;EACrB,cAAc;EACd,0BAA0B;EAC1B,YAAY;EACZ,iBAAiB;EACjB,kBAAkB;EAClB,sBAAsB;EACtB,6BAA6B;AAC/B;AACA;;;EAGE,eAAe;AACjB;AACA;;;EAGE,sBAAsB;AACxB;AACA;EACE,gBAAgB;AAClB;AACA;EACE,gBAAgB;AAClB;AACA;EACE,gBAAgB;AAClB;AACA;EACE,mBAAmB;AACrB;AACA;EACE,cAAc;AAChB;AACA;EACE,WAAW;AACb;AACA;EACE,mBAAmB;AACrB;AACA;EACE,cAAc;EACd,mBAAmB;EACnB,eAAe;AACjB;AACA;EACE,mBAAmB;AACrB;AACA;;EAEE,cAAc;AAChB;AACA;;EAEE,eAAe;EACf,kBAAkB;AACpB;AACA;;EAEE,WAAW;EACX,eAAe;AACjB","file":"Datepicker.vue","sourcesContent":[".rtl {\n  direction: rtl;\n}\n.vdp-datepicker {\n  position: relative;\n  text-align: left;\n}\n.vdp-datepicker * {\n  box-sizing: border-box;\n}\n.vdp-datepicker__calendar {\n  position: absolute;\n  z-index: 100;\n  background: #fff;\n  width: 300px;\n  border: 1px solid #ccc;\n}\n.vdp-datepicker__calendar header {\n  display: block;\n  line-height: 40px;\n}\n.vdp-datepicker__calendar header span {\n  display: inline-block;\n  text-align: center;\n  width: 71.42857142857143%;\n  float: left;\n}\n.vdp-datepicker__calendar header .prev,\n.vdp-datepicker__calendar header .next {\n  width: 14.285714285714286%;\n  float: left;\n  text-indent: -10000px;\n  position: relative;\n}\n.vdp-datepicker__calendar header .prev:after,\n.vdp-datepicker__calendar header .next:after {\n  content: '';\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  transform: translateX(-50%) translateY(-50%);\n  border: 6px solid transparent;\n}\n.vdp-datepicker__calendar header .prev:after {\n  border-right: 10px solid #000;\n  margin-left: -5px;\n}\n.vdp-datepicker__calendar header .prev.disabled:after {\n  border-right: 10px solid #ddd;\n}\n.vdp-datepicker__calendar header .next:after {\n  border-left: 10px solid #000;\n  margin-left: 5px;\n}\n.vdp-datepicker__calendar header .next.disabled:after {\n  border-left: 10px solid #ddd;\n}\n.vdp-datepicker__calendar header .prev:not(.disabled),\n.vdp-datepicker__calendar header .next:not(.disabled),\n.vdp-datepicker__calendar header .up:not(.disabled) {\n  cursor: pointer;\n}\n.vdp-datepicker__calendar header .prev:not(.disabled):hover,\n.vdp-datepicker__calendar header .next:not(.disabled):hover,\n.vdp-datepicker__calendar header .up:not(.disabled):hover {\n  background: #eee;\n}\n.vdp-datepicker__calendar .disabled {\n  color: #ddd;\n  cursor: default;\n}\n.vdp-datepicker__calendar .flex-rtl {\n  display: flex;\n  width: inherit;\n  flex-wrap: wrap;\n}\n.vdp-datepicker__calendar .cell {\n  display: inline-block;\n  padding: 0 5px;\n  width: 14.285714285714286%;\n  height: 40px;\n  line-height: 40px;\n  text-align: center;\n  vertical-align: middle;\n  border: 1px solid transparent;\n}\n.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day,\n.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month,\n.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year {\n  cursor: pointer;\n}\n.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover,\n.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover,\n.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover {\n  border: 1px solid #4bd;\n}\n.vdp-datepicker__calendar .cell.selected {\n  background: #4bd;\n}\n.vdp-datepicker__calendar .cell.selected:hover {\n  background: #4bd;\n}\n.vdp-datepicker__calendar .cell.selected.highlighted {\n  background: #4bd;\n}\n.vdp-datepicker__calendar .cell.highlighted {\n  background: #cae5ed;\n}\n.vdp-datepicker__calendar .cell.highlighted.disabled {\n  color: #a3a3a3;\n}\n.vdp-datepicker__calendar .cell.grey {\n  color: #888;\n}\n.vdp-datepicker__calendar .cell.grey:hover {\n  background: inherit;\n}\n.vdp-datepicker__calendar .cell.day-header {\n  font-size: 75%;\n  white-space: nowrap;\n  cursor: inherit;\n}\n.vdp-datepicker__calendar .cell.day-header:hover {\n  background: inherit;\n}\n.vdp-datepicker__calendar .month,\n.vdp-datepicker__calendar .year {\n  width: 33.333%;\n}\n.vdp-datepicker__clear-button,\n.vdp-datepicker__calendar-button {\n  cursor: pointer;\n  font-style: normal;\n}\n.vdp-datepicker__clear-button.disabled,\n.vdp-datepicker__calendar-button.disabled {\n  color: #999;\n  cursor: default;\n}\n"]}, media: undefined });
+
+  };
+  /* scoped */
+  const __vue_scope_id__$4 = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$4 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$4 = false;
+  /* style inject SSR */
+  
+
+  
+  var Datepicker = normalizeComponent_1(
+    { render: __vue_render__$4, staticRenderFns: __vue_staticRenderFns__$4 },
+    __vue_inject_styles__$4,
+    __vue_script__$4,
+    __vue_scope_id__$4,
+    __vue_is_functional_template__$4,
+    __vue_module_identifier__$4,
+    browser,
+    undefined
+  );
+
+/* harmony default export */ __webpack_exports__["default"] = (Datepicker);
+
+
+/***/ }),
+
 /***/ "./node_modules/webpack/buildin/global.js":
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
@@ -52171,26 +51516,19 @@ module.exports = function(module) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var vue_axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-axios */ "./node_modules/vue-axios/dist/vue-axios.min.js");
-/* harmony import */ var vue_axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_axios__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var vuejs_datepicker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuejs-datepicker */ "./node_modules/vuejs-datepicker/dist/vuejs-datepicker.esm.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+ // import ExampleComponent from './components/ExampleComponent.vue';
 
-Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]);
-
-
-Vuew.use(vue_axios__WEBPACK_IMPORTED_MODULE_1___default.a, axios__WEBPACK_IMPORTED_MODULE_2___default.a);
-Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
-var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
-  mode: 'history'
+$('.carousel').carousel();
+var app = new Vue({
+  el: '#app',
+  components: {
+    DatePicker: vuejs_datepicker__WEBPACK_IMPORTED_MODULE_0__["default"]
+  }
 });
-var app = new Vue(Vue.util.extend({
-  router: router
-})).$mount('#app');
 
 /***/ }),
 
@@ -52249,75 +51587,6 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
-
-/***/ }),
-
-/***/ "./resources/js/components/ExampleComponent.vue":
-/*!******************************************************!*\
-  !*** ./resources/js/components/ExampleComponent.vue ***!
-  \******************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ExampleComponent.vue?vue&type=template&id=299e239e& */ "./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e&");
-/* harmony import */ var _ExampleComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ExampleComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ExampleComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/ExampleComponent.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************!*\
-  !*** ./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ExampleComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e&":
-/*!*************************************************************************************!*\
-  !*** ./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e& ***!
-  \*************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ExampleComponent.vue?vue&type=template&id=299e239e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
 
 /***/ }),
 

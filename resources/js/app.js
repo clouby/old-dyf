@@ -2,19 +2,14 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-import VueRouter from 'vue-router';
+import DatePicker from 'vuejs-datepicker';
 
-Vue.use(VueRouter);
+// import ExampleComponent from './components/ExampleComponent.vue';
 
-import VueAxios from 'vue-axios';
-import axios from 'axios';
-
-Vuew.use(VueAxios, axios);
-
-Vue.component('examlucple-component', require('./components/ExampleComponent.vue').default);
-
-const router = new VueRouter({
-	mode: 'history'
+$('.carousel').carousel();
+const app = new Vue({
+	el: '#app',
+	components: {
+		DatePicker
+	}
 });
-
-const app = new Vue(Vue.util.extend({ router })).$mount('#app');

@@ -1,28 +1,26 @@
 /* Dashboard */
-body.is-dashboard{
-	
+body.is-dashboard {
 	font-family: var(--font-family-sans-serif);
-	
+
 	input,
 	button,
-	textarea{
+	textarea {
 		outline: none;
 	}
 
 	$anchosidebar: 270px;
 
-	&.is-admin{
+	&.is-admin {
 		padding-top: 55px;
 	}
 
-	.cancelar-option{
+	.cancelar-option {
 		margin-bottom: 30px;
 		display: inline-block;
 	}
 
-
 	/* Datatables */
-	.dataTables_wrapper .dataTables_filter input{
+	.dataTables_wrapper .dataTables_filter input {
 		border: 1px solid #ddd;
 		border-radius: var(--border-radius);
 	}
@@ -30,21 +28,19 @@ body.is-dashboard{
 		@include box;
 		margin: 20px 0;
 	}
-	table.dataTable.no-footer{
+	table.dataTable.no-footer {
 		border: 0;
 	}
-	
 
-	#hero{
+	#hero {
 		background-image: url(../images/carrito.jpg);
 	}
-	#main-sidebar{
+	#main-sidebar {
 		width: 100%;
 		max-width: $anchosidebar;
 
 		background-color: var(--color-morado);
 		color: #ccc;
-		
 
 		height: 100%;
 		min-height: 600px;
@@ -55,7 +51,7 @@ body.is-dashboard{
 
 		z-index: 10;
 
-		.main-sidebar-options{
+		.main-sidebar-options {
 			margin: 0;
 			padding: 50px 10% 0;
 			position: absolute;
@@ -66,73 +62,67 @@ body.is-dashboard{
 			right: 0;
 			z-index: 10;
 
-
-			li{
+			li {
 				@include box;
 				text-align: left;
 				margin-bottom: 20px;
 
-				a{
+				a {
 					color: #ccc;
 					@include font-size(15px);
 					font-weight: bolder;
 				}
 			}
 		}
-
 	}
-	#main-content{
+	#main-content {
 		width: calc(100% - #{$anchosidebar});
 		margin-left: $anchosidebar;
 	}
-	#footer-page{
+	#footer-page {
 		margin-top: 0;
 	}
 
-
 	/* Comentarios */
-	.comentario{
+	.comentario {
 		margin-bottom: 30px;
-		.comentario-imagen{
+		.comentario-imagen {
 			@include box;
 			height: auto;
 		}
-		.listado-puntuaciones{
+		.listado-puntuaciones {
 			display: flex;
 			justify-content: space-between;
-			color: #C4C4C4;
+			color: #c4c4c4;
 
-			li{
+			li {
 				font-weight: bolder;
 			}
 		}
 	}
 
-
-	&.is-operador{
-		.informacion-valoracion{
-			.list-unstyled{
+	&.is-operador {
+		.informacion-valoracion {
+			.list-unstyled {
 				margin: 0;
 				padding: 0;
-
 			}
-			li{
+			li {
 				@include box;
 				margin-bottom: 15px;
 				display: flex;
 				justify-content: space-between;
-				&:last-child{
+				&:last-child {
 					margin-bottom: 0;
 				}
 			}
 		}
-		.listado-servicios{
-			li{
-				h6{
+		.listado-servicios {
+			li {
+				h6 {
 					margin: 0;
 				}
-				.btn-rojo-oscuro{
-
+				.btn-rojo-oscuro {
 				}
 				border-bottom: 1px solid #ddd;
 				@include box;
@@ -144,9 +134,8 @@ body.is-dashboard{
 			}
 		}
 	}
-	&.is-admin{
-		
-		.btn{
+	&.is-admin {
+		.btn {
 			padding: 8px 30px 6px;
 			border-radius: 3px;
 			box-shadow: none;
@@ -157,118 +146,98 @@ body.is-dashboard{
 			padding: 15px 0;
 		}
 
-		table{
-			
+		table {
 			@include box;
 			background-color: white;
 			padding: 15px;
 			border-radius: var(--border-radius);
 			box-shadow: var(--box-shadow);
 
-
 			thead,
-			tbody{
-
+			tbody {
 			}
 		}
 
-		#header-admin{
+		#header-admin {
 			background-color: var(--color-morado);
 			color: white;
 			padding: 20px 15px;
 		}
-		#main-content{
+		#main-content {
 			background-color: #f8f8fb;
 			padding-top: 60px;
 		}
-		#main-content-content-info{
+		#main-content-content-info {
 			padding: 0 15px 15px;
 		}
-		#main-content-content{
+		#main-content-content {
 			min-height: 600px;
 		}
 
-		&.is-category{
-			.is-editing-category{
-				form{
+		&.is-category {
+			.is-editing-category {
+				form {
 					@include box;
 					background-color: white;
 					padding: 15px;
 					border-radius: var(--border-radius);
 					box-shadow: var(--box-shadow);
-					
-					label{
+
+					label {
 						margin-bottom: 5px;
 						@include box;
 					}
-
 				}
 			}
 		}
-		&.is-services{
-			.titulo-importante-seccion{
+		&.is-services {
+			.titulo-importante-seccion {
 				margin-top: 30px;
 				margin-bottom: 15px;
 			}
-			.titulo-importante-seccion-primero{
-
+			.titulo-importante-seccion-primero {
 			}
-			.service-name{
-				
+			.service-name {
 			}
-			.is-editing-service{
-				form{
+			.is-editing-service {
+				form {
 					@include box;
 					background-color: white;
 					padding: 15px;
 					border-radius: var(--border-radius);
 					box-shadow: var(--box-shadow);
-					
-					label{
+
+					label {
 						margin-bottom: 5px;
 						@include box;
 					}
-
 				}
 			}
 		}
-		&.is-operator-admin{
-			.operator-acciones{
-				.btn{
+		&.is-operator-admin {
+			.operator-acciones {
+				.btn {
 					width: 100%;
 					margin-bottom: 5px;
 				}
 			}
-			.operator-name{
+			.operator-name {
 				margin-bottom: 20px;
 			}
-			.is-editing-operator{
-				form{
+			.is-editing-operator {
+				form {
 					@include box;
 					background-color: white;
 					padding: 15px;
 					border-radius: var(--border-radius);
 					box-shadow: var(--box-shadow);
-					
-					label{
+
+					label {
 						margin-bottom: 5px;
 						@include box;
 					}
-
 				}
 			}
 		}
-
 	}
-
-
-
-
-
-
-
-
-
-
-
 }

@@ -9,7 +9,7 @@ use Auth;
 
 class HomeController extends Controller
 {
-    /**
+    /*dd
      * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
@@ -28,6 +28,11 @@ class HomeController extends Controller
         return view('landing');
     }
 
+    public function platform()
+    {
+        return view('platform');
+    }
+
     public function servicesPerCartegory(Category $category)
     {
         $shop = new Shopping;
@@ -42,7 +47,7 @@ class HomeController extends Controller
         $shop = new Shopping;
         $token = Request()->session()->token();
         $count = $shop->getMyCart($token)->count();
-        $transfers = Transfer::distinct()->get(['traslados']);
+        $transfers = Transfer::distinct()->ge2t(['traslados']);
         $horarios = Dispotition::distinct()->get(['horario']);
 
         $x = $service->category->id;
