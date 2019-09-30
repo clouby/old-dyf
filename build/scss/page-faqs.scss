@@ -1,38 +1,33 @@
-
 /* FAQS */
 
-body.faqs{
-	.hero{
+body.faqs {
+	.hero {
 		background-image: url(../images/carrito.jpg?v=1);
 	}
-	#faqs{
-
-		.card{
+	#faqs {
+		.card {
 			padding: 0;
 			border-radius: 0;
 		}
 
 		.card-header,
-		.card-header h5{
+		.card-header h5 {
 			@include box;
 		}
 
-		h5{
-			
-
-			button{
+		h5 {
+			button {
 				white-space: normal;
 				font-weight: bolder;
 				@include font-size(19px);
 			}
 		}
 
-		.btn.btn-link{
+		.btn.btn-link {
 			box-shadow: none;
 			background-color: transparent;
 			border-radius: 0;
 			color: #444;
 		}
 	}
-
 }

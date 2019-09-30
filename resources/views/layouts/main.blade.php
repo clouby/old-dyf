@@ -46,9 +46,11 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
 </head>
-<body class="reduced-hero">
+    <body class="reduced-hero" >
+            <div id="app">
+                @yield('content')
+            </div>
 
-    @yield('content')
-
-</body>
+        <script src="{{ asset('js/app.js') }}"></script>
+    </body>
 </html>
