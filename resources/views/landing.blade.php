@@ -49,7 +49,7 @@
 <div class="intro-home box hidden-box wrapper-details-card">
 	<div class="container-fluid">
 		<div class="row row-vh text-center">
-			<div class="col-12 col-md-12 ">
+			<div class="col-12 col-md-12" >
                 <h2 class="title-section-second row-title" >Nuestros beneficios</h2>
 				<div class="section-cards-section">
                     <svg  class="svg__wrapper" viewBox="0 0 1500 1500" fill="none" xmlns="http://www.w3.org/2000/svg">

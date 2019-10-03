@@ -182,8 +182,10 @@ Route::group([], function () {
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('/landing', 'HomeController@landing')->name('landing');
     Route::get('/platform', 'HomeController@platform')->name('platform');
+    Route::get('/platform-search', 'HomeController@platformSearch')->name('platformSeach');
     Route::get('/categoria/{category}', 'HomeController@servicesPerCartegory')->name('category.query');
-    Route::get('/servicio/{service}', 'HomeController@serviceReview')->name('service.query');
+    Route::get('/servicio/{service}', 'HomeController@serviceReviewPlatform')->name('service.query');
+    // Route::get('/platform-servicio/{service}', 'HomeController@serviceReviewPlatform')->name('service.platform.query');
     Route::post('/search', 'HomeController@search')->name('search');
     Route::get('/buscador', 'HomeController@buscador')->name('buscador');
 

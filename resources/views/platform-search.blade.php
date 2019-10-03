@@ -25,23 +25,7 @@
                             </button>
                         </li>
                         <li class="nav-item">
-                            <button class="btn my-2 my-sm-0 text-light btn__redirect" data-toggle="modal" data-target="#exampleModalCenter">Log In</button>
-                                <!-- Modal -->
-                                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header" style="border-bottom: none;">
-                                        <h5 class="modal-title" id="exampleModalLongTitle"></h5>
-                                        <button type="button" style="background-color: white;" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true"> <img src="{{ asset('dist/images/platform/mark.png') }}" /></span>
-                                        </button>
-                                        </div>
-                                        <div class="modal-body" style="text-align: center;">
-                                                <img src="{{ asset('dist/images/platform/login.png') }}" style="cursor: pointer;" />
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div>
+                            <button class="btn my-2 my-sm-0 text-light btn__redirect" >Log In</button>
                         </li>
                         <li class="nav-item">
                             <button class="btn my-2 my-sm-0 text-light btn__cursor" type="submit">ES</button>
@@ -112,42 +96,11 @@
             </div>
 
             <div class="intro-home box">
-                <div class="container wrapper__carousel">
-                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                        <ol class="carousel-indicators">
-                          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                        </ol>
-                        <div class="carousel-inner">
-                          <div class="carousel-item active">
-                            <img src="..." class="d-block w-100" alt="...">
-                          </div>
-                          <div class="carousel-item">
-                            <img src="..." class="d-block w-100" alt="...">
-                          </div>
-                          <div class="carousel-item">
-                            <img src="..." class="d-block w-100" alt="...">
-                          </div>
-                        </div>
-                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                          <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                          <span class="sr-only">Next</span>
-                        </a>
-                      </div>
-                </div>
-            </div>
-
-            <div class="intro-home box">
                 <div class="container">
                     <div class="row row-vh row-title text-center">
                         <div class="col-12 col-md-7">
-                            <h2 style="font-size: 36px;">Dale una mirada</h2>
-                            <h4 style="font-size: 18px;">Descubrir más</h4>
+                            <h2 style="font-size: 36px;">Genial, ahora atrévete!</h2>
+                            <h4 style="font-size: 18px;">Encontramos 8 experiencias para ti</h4>
                         </div>
                     </div>
                 </div>
@@ -283,95 +236,43 @@
 
             <div class="intro-home box">
                 <div class="container">
-                    <div class="row row-vh row-top text-center">
-                        <div class="col-12 col-md-8 center-container">
-                            <h2 class="title-section"  style="font-size: 36px;">Experiencias</h2>
-                            {{-- <p class="paragraph-hero">Se uno de los primeros que harán parte de la revolución del turismo en la ciudad de Cartagena. Nos gustaría ponernos en contacto contigo y hablarte más sobre nuestra plataforma.</p> --}}
+                    <div class="row row-vh text-center">
+                        <div class="col-12 col-md-7">
+                            <span style="
+                            width: 30px;
+                            height: 30px;
+                            display: inline-block;
+                            background-color: #EB1846;
+                            line-height: 2;
+                            color: white;
+                            font-weight:600;
+                            border-radius: 50%;
+                        ">1</span>
+                            <span style="
+                            width: 30px;
+                            height: 30px;
+                            display: inline-block;
+                            background-color: #CCCCCC;
+                            line-height: 2;
+                            color: white;
+                            font-weight:600;
+                            border-radius: 50%;
+                        ">2</span>
+                            <span style="
+                            width: 30px;
+                            height: 30px;
+                            display: inline-block;
+                            background-color: #CCCCCC;
+                            line-height: 2;
+                            color: white;
+                            font-weight:600;
+                            border-radius: 50%;
+                        ">3</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-
-            <div class="intro-home box hidden-box wrapper-details-card alt">
-                    <div class="container-fluid">
-                        <div class="row row-vh text-center">
-                            <div class="col-12 col-md-12 ">
-                                <div class="alter__card" >
-                                    <div class="display__section wrapper__categories">
-                                            <div class="card__wrapper categories">
-                                                <img src="{{ asset('dist/images/platform/bar_card.png') }}" alt="" class="img-fluid">
-                                                <div class="paragraph-card category__details">
-                                                        Bar & Restaurantes
-                                                </div>
-                                            </div>
-                                            <div class="card__wrapper categories">
-                                                    <img src="{{ asset('dist/images/platform/nauticas_card.png') }}" alt="" class="img-fluid">
-                                                    <div class="paragraph-card category__details">
-                                                            Experiencias Náuticas
-                                                    </div>
-                                            </div>
-                                            <div class="card__wrapper categories">
-                                                    <img src="{{ asset('dist/images/platform/playas_card.png') }}" alt="" class="img-fluid">
-                                                    <div class="paragraph-card category__details">
-                                                            Islas & Playas
-                                                    </div>
-                                            </div>
-                                            <div class="card__wrapper categories">
-                                                    <img src="{{ asset('dist/images/platform/tours_card.png') }}" alt="" class="img-fluid">
-                                                    <div class="paragraph-card category__details">
-                                                            Tours & Aventuras
-                                                    </div>
-                                            </div>
-                                            <div class="card__wrapper categories">
-                                                    <img src="{{ asset('dist/images/platform/transfer_card.png') }}" alt="" class="img-fluid">
-                                                    <div class="paragraph-card category__details">
-                                                            Transfers
-                                                    </div>
-                                            </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="intro-home box">
-                    <div class="container">
-                        <div class="row row-vh row-title text-center">
-                            <div class="col-12 col-md-7">
-                                <h2 style="font-size: 36px;">Dale una mirada</h2>
-                                <h4 style="font-size: 18px;">Descubrir más</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="intro-home box hidden-box wrapper-details-card alt" style="height: 84vh;">
-                    <div class="container-fluid">
-                        <div class="row row-vh text-center">
-                            <div class="col-12 col-md-12 ">
-                                <div class="alter__card" >
-                                    <div class="display__section wrapper__categories">
-                                        <div class="card__wrapper categories blog__events">
-                                            <img src="{{ asset('dist/images/platform/blog.png') }}" alt="" class="img-fluid">
-                                            <div class="paragraph-card category__details" style="color: #241f59; font-size: 36px; font-weight: 600;">
-                                                    Blog
-                                                    <a class="btn btn-rojo" style="margin-top: 25px;" href="http://blog.dealyourfun.com?src=dyf">Leer más <span class="arrow">&rarr;</span></a>
-                                            </div>
-                                        </div>
-                                        <div class="card__wrapper categories blog__events">
-                                                <img src="{{ asset('dist/images/platform/events.png') }}" alt="" class="img-fluid">
-                                                <div class="paragraph-card category__details" style="font-size: 36px; font-weight: 600;">
-                                                    Eventos
-                                                    <a class="btn btn-rojo" style="margin-top: 25px;" href="http://blog.dealyourfun.com?src=dyf">Leer más <span class="arrow">&rarr;</span></a>
-                                                </div>
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             <div class="footer-home box">
                 <div class="container d-flex align-items-center">
                     <div class="row full-width">

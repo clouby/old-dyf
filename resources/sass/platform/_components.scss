@@ -1,0 +1,26 @@
+.modal-content {
+	box-shadow: 0px 5px 20px rgba(36, 31, 89, 0.2);
+	border-radius: 10px;
+
+	.close {
+		border-radius: 10px;
+	}
+}
+
+.dropdown-menu {
+	&.show {
+		margin-top: 10px;
+	}
+}
+
+.dropdown-toggle {
+	text-transform: uppercase;
+	font-weight: 400;
+	font-size: 14px;
+	&.hero__drop {
+		background-color: transparent !important;
+		outline: none;
+		box-shadow: none;
+		font-weight: 600;
+	}
+}

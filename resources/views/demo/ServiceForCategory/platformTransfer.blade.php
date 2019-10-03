@@ -27,7 +27,7 @@
                         {{ $service->category->category }}
                     </h4>
 
-                    <strong>Desde:</strong>
+                    <strong>DesdSDSDSDSDe:</strong>
                     <h5 class="hero-price"> @money( $service->price_adult , 'COP', true ) @currency('COP') </h5>
 
 
