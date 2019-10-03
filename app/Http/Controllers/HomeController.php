@@ -33,6 +33,10 @@ class HomeController extends Controller
         return view('platform');
     }
 
+    public function platformSearch() {
+        return view('platform-search');
+    }
+
     public function servicesPerCartegory(Category $category)
     {
         $shop = new Shopping;
@@ -47,7 +51,7 @@ class HomeController extends Controller
         $shop = new Shopping;
         $token = Request()->session()->token();
         $count = $shop->getMyCart($token)->count();
-        $transfers = Transfer::distinct()->ge2t(['traslados']);
+        $transfers = Transfer::distinct()->get(['traslados']);
         $horarios = Dispotition::distinct()->get(['horario']);
 
         $x = $service->category->id;
@@ -70,6 +74,38 @@ class HomeController extends Controller
 
             case '5':
                 return view('demo.ServiceForCategory.transferReview', compact(['service', 'count', 'horarios', 'transfers']));
+                break;
+        }
+    }
+
+    public function serviceReviewPlatform(Service $service)
+    {
+        $shop = new Shopping;
+        $token = Request()->session()->token();
+        $count = $shop->getMyCart($token)->count();
+        $transfers = Transfer::distinct()->get(['traslados']);
+        $horarios = Dispotition::distinct()->get(['horario']);
+
+        $x = $service->category->id;
+        switch ($x) {
+            case '1':
+                return view('demo.ServiceForCategory.gastroReview', compact(['service', 'count']));
+                break;
+
+            case '2':
+                return view('demo.ServiceForCategory.nauticaReview', compact(['service', 'count']));
+                break;
+
+            case '3':
+                return view('demo.ServiceForCategory.islaReview', compact(['service', 'count']));
+                break;
+
+            case '4':
+                return view('demo.ServiceForCategory.tourReview', compact(['service', 'count']));
+                break;
+
+            case '5':
+                return view('demo.ServiceForCategory.platformTransfer', compact(['service', 'count', 'horarios', 'transfers']));
                 break;
         }
     }

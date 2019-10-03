@@ -41,14 +41,21 @@
     <meta property="og:site_name" content="Deal your Fun"/>
     <meta property="og:image" content="{{ asset('dist/images/pages/og-dyf.jpg') }}" />
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ asset('dist/libs/bootstrap-datepicker-1.6.1-dist/css/bootstrap-datepicker.standalone.min.css') }}">
+
     <link rel="stylesheet" href="{{ asset('dist/css/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('dist/libs/lightgallery/css/lightgallery.min.css')}}">
     <link rel="stylesheet" href="{{ asset('dist/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
 </head>
-    <body class="reduced-hero" >
-            <div id="app">
-                @yield('content')
+    <body class="reduced-hero @yield('claseBody')" >
+            <div id="app" class="box">
+                <div class="page-content box">
+                    @yield('content')
+                </div>
             </div>
 
         <script src="{{ asset('js/app.js') }}"></script>

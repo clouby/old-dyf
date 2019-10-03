@@ -56,7 +56,7 @@
         <div id="hero" class="hero hero-profile box">
             @yield('herocontent')
         </div>
-        <div class="page-content page-section box">
+        <div class="page-content box">
             @yield('content')
         </div>
     </div>
