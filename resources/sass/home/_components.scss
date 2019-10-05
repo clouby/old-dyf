@@ -1,0 +1,121 @@
+@mixin title($color, $weight: 600) {
+	color: $color;
+	max-width: 750px;
+	line-height: 60px;
+	font: {
+		size: 64px;
+		weight: $weight;
+	}
+}
+
+@mixin paragraph($align: justify) {
+	font-size: 18px;
+	font-weight: 600;
+	text-align: $align;
+	color: #585858;
+	line-height: 30px;
+}
+
+.title-hero {
+	@include title(white);
+}
+
+.title-section {
+	@include title(#241F59);
+	margin-bottom: 34px;
+}
+
+.title-section-second {
+	@include title(#241F59);
+	margin-bottom: 200px;
+	max-width: 100%;
+}
+
+.paragraph-hero {
+	@include paragraph(center);
+	max-width: 687px;
+}
+
+.paragraph-card {
+	@include paragraph(center);
+	max-width: 195px;
+}
+
+.navbar-light {
+	.navbar-toggler {
+		color: white;
+		border-color: transparent;
+	}
+
+	.navbar-toggler-icon {
+		background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='5' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+	}
+}
+
+.center-align {
+	align-self: center;
+	text-align: center;
+}
+
+.center-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.container {
+	&.center {
+		height: 45vw;
+		display: flex;
+		justify-content: center;
+	}
+}
+
+.header__hero {
+	.navbar {
+		background-color: transparent;
+		box-shadow: none;
+		position: absolute;
+		padding: 30px 0;
+	}
+
+	.text-light {
+		color: white;
+		font-weight: 600;
+		font-size: 16px;
+	}
+
+	.navbar-nav {
+		align-items: baseline;
+
+		.nav-item {
+			margin-left: 43px;
+
+			.nav-link {
+				color: white;
+				font-weight: 600;
+				font-size: 16px;
+			}
+
+			button {
+				background-color: $blue;
+				transform: scale(1);
+
+				&:hover {
+					background-color: adjust-hue($blue, 4);
+					//transform: scale(1.02);
+				}
+			}
+		}
+	}
+}
+
+// Style for Native Tags
+
+textarea {
+	resize: none;
+}
+
+label {
+	font-weight: 600;
+}

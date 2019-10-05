@@ -66,7 +66,7 @@
         </div>
         <div class="row">
 
-            {{-- <div class="col-12 col-sm-8">
+            <div class="col-12 col-sm-8">
                 <div class="box">
                     <ul class="list-unstyled info-operador-descripcion-nav box">
                         <li><a href="#"><span class="fa fa-info-circle"></span> Información</a></li>
@@ -101,14 +101,14 @@
                         {!! $service->additional_inf !!}
                     </p>
                 </div>
-            </div> --}}
+            </div>
 
             <div class="col-12">
                 <div class="info-operador-booking card box">
                     <h3>{{ $service->service_name }}</h3>
                     <h6>Reserva tu Experiencia</h6>
                     @if (Session::has('errors'))
-                        <div class="alert alert-danger">{{ Session::get('errors') }}</div>    
+                        <div class="alert alert-danger">{{ Session::get('errors') }}</div>
                     @endif
                     @include('partials.switchFormPerCategory')
                 </div>
@@ -131,7 +131,7 @@
                 </div>
             </div>
         </div> --}}
-        
+
         {{-- <div id="experiencias" class="row">
             <div class="col-12">
                 <div class="info-operador-title-section box">

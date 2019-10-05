@@ -1,10 +1,13 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+// @import url('httmps://fonts.googleapis.com/css?family=Nunito');
 
 // Variables
 @import 'variables';
-// @import 'dashboard/wrapper'
-// @import 'home/wrapper'
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+// Landing Page
+@import 'home/components';
+@import 'home/wrapper';
+
+// Platform
+@import 'platform/wrapper';
+@import 'platform/components';
