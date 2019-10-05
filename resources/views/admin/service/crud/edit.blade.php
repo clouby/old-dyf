@@ -77,10 +77,10 @@
 
     <div class="col-12 col-sm-4">    
       <div class="form-group">
-        <label for="boy_active">Incluir niños</label>
-        <select name="boy_active" id="boy_active" class="form-control">
+        <label for="kids_active">Incluir niños</label>
+        <select name="kids_active" id="kids_active" class="form-control">
           <option value="0">No Permitir niños</option>
-          <option @if($service->boy_active) selected @endif value="1">Permitir niños</option>
+          <option @if($service->kids_active) selected @endif value="1">Permitir niños</option>
         </select>
       </div>
     </div>
@@ -95,8 +95,8 @@
     </div>
     <div class="col-12 col-sm-4">
       <div class="form-group">
-        <label for="price_boy">Precio Niños (4 - 11 años)</label>
-        <input value="{{ $service->price_boy }}" type="text" name="price_boy" id="price_boy" class="form-control">
+        <label for="price_kid">Precio Niños (4 - 11 años)</label>
+        <input value="{{ $service->price_kid }}" type="text" name="price_kid" id="price_kid" class="form-control">
       </div>
     </div>
     <div class="col-12 col-sm-4">

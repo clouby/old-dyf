@@ -66,9 +66,27 @@ class HomeController extends Controller
 
     public function search(Request $request)
     {
+        $validateQuery = $request->validate([
+            'q' => 'required'
+        ]);
+
         $searchResults = (new Search())
-            ->registerModel(Service::class, ['service_name'])
-            ->registerModel(Category::class, ['category'])
+            ->registerModel(Service::class, ['service_name','key_words'])
+            #->registerModel(Category::class, ['category','key_words'])
+            ->perform($request->input('q'));
+
+        return view('demo.searchQuery', compact('searchResults'));
+    }
+
+    public function searchCategory(Request $request)
+    {
+        $validateQuery = $request->validate([
+            'q' => 'required'
+        ]);
+
+        $searchResults = (new Search())
+            ->registerModel(Service::class, ['service_name','key_words','category_id'])
+            #->registerModel(Category::class, ['category','key_words'])
             ->perform($request->input('q'));
 
         return view('demo.searchQuery', compact('searchResults'));

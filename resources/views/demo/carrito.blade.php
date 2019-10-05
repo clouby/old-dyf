@@ -121,7 +121,7 @@
                             @if (Auth::check())
                             <button id="checkout" class="btn btn-end-carrito">Finalizar Compra</button>
                             @else
-                            <button id="activeModal" class="btn btn-end-carrito" data-toggle="modal" data-target="#modal-login-no-cart">Finalizar das Compra</button>
+                            <button id="activeModal" class="btn btn-end-carrito" data-toggle="modal" data-target="#modal-login-no-cart">Finalizar Compra</button>
                             @endif
 
                             <form id="formCheckout" method="POST">
