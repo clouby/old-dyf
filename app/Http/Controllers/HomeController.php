@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 use Spatie\Searchable\Search;
-use App\Models\{Category, Service, Shopping, Transfer, Dispotition};
+use App\Models\{Category, Shopping, Transfer, Dispotition};
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -28,9 +31,16 @@ class HomeController extends Controller
         return view('landing');
     }
 
-    public function platform()
+    public function platform(Request $request)
     {
-        return view('platform');
+        $latestServices = DB::table('services')
+            ->latest()
+            ->take(8)
+            ->get();
+
+        $categories = Category::all();
+
+        return view('platform', compact(['categories', 'latestServices']));
     }
 
     public function platformSearch() {
@@ -116,12 +126,16 @@ class HomeController extends Controller
             'q' => 'required'
         ]);
 
-        $searchResults = (new Search())
-            ->registerModel(Service::class, ['service_name','key_words'])
-            #->registerModel(Category::class, ['category','key_words'])
-            ->perform($request->input('q'));
+        $query = $request->input('q');
 
-        return view('demo.searchQuery', compact('searchResults'));
+        $operatorSearchLike = [ 'like', "%{$query}%" ];
+
+        $results = Service::query()
+            ->where('service_name', ...$operatorSearchLike)
+            ->orWhere('key_words', ...$operatorSearchLike)
+            ->paginate(2);
+
+        return view('platform-search', compact('searchResults', 'query', 'results'));
     }
 
     public function searchCategory(Request $request)

@@ -1,7 +1,6 @@
 @extends('layouts.main')
 
 @section('content')
-
 <div class="platform">
         <div class="header__hero">
                 <div class="container center">
@@ -41,52 +40,56 @@
                     <h1 class="center-align title-hero">¿Estas listo para la aventura?</h1>
                     <div class="card search__details">
                         <div class="card-body">
-                            <form>
+                            <form action="{{ route('search') }}" method="POST">
+                                @csrf
                                 <div class="row wrapper_form__search">
-                                  <div class="col search__details__drop">
-                                    <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <img src="{{ asset('dist/images/platform/stars_icon.png') }}" />
-                                            <span class="text__button">
-                                                Experiencias
-                                            </span>
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                          <a class="dropdown-item" href="#">Action</a>
-                                          <a class="dropdown-item" href="#">Another action</a>
-                                          <a class="dropdown-item" href="#">Something else here</a>
+                                    <div class="col search__details__drop">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" autocomplete="off" placeholder="Playa, Tours, Aventuras..." name="q">
                                         </div>
+                                        {{-- <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <img src="{{ asset('dist/images/platform/stars_icon.png') }}" />
+                                                <span class="text__button">
+                                                    Experiencias
+                                                </span>
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                              <a class="dropdown-item" href="#">Action</a>
+                                              <a class="dropdown-item" href="#">Another action</a>
+                                              <a class="dropdown-item" href="#">Something else here</a>
+                                            </div>
+                                        </div> --}}
+                                        {{-- <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <img src="{{ asset('dist/images/platform/user_icon.png') }}" />
+                                                <span class="text__button">
+                                                    Personas
+                                                </span>
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                              <a class="dropdown-item" href="#">Action</a>
+                                              <a class="dropdown-item" href="#">Another action</a>
+                                              <a class="dropdown-item" href="#">Something else here</a>
+                                            </div>
+                                        </div> --}}
+                                        {{-- <div class="dropdown">
+                                           <button id="datepicker" class="btn btn-secondary dropdown-toggle"  />
+                                              <img src="{{ asset('dist/images/platform/calendar_icon.png') }}" />
+                                                <span class="text__button">
+                                                    Fecha
+                                                </span>
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                              <a class="dropdown-item" href="#">Action</a>
+                                              <a class="dropdown-item" href="#">Another action</a>
+                                              <a class="dropdown-item" href="#">Something else here</a>
+                                            </div>
+                                        </div> --}}
                                     </div>
-                                    <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <img src="{{ asset('dist/images/platform/user_icon.png') }}" />
-                                            <span class="text__button">
-                                                Personas
-                                            </span>
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                          <a class="dropdown-item" href="#">Action</a>
-                                          <a class="dropdown-item" href="#">Another action</a>
-                                          <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
+                                    <div class="col text-right" style="flex-grow: 0;">
+                                        <button class="btn my-2 my-sm-0 text-light search__details_button" ><img src="{{ asset('dist/images/platform/magni_icon.png') }}" /></button>
                                     </div>
-                                    <div class="dropdown">
-                                       <button id="datepicker" class="btn btn-secondary dropdown-toggle"  />
-                                          <img src="{{ asset('dist/images/platform/calendar_icon.png') }}" />
-                                            <span class="text__button">
-                                                Fecha
-                                            </span>
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                          <a class="dropdown-item" href="#">Action</a>
-                                          <a class="dropdown-item" href="#">Another action</a>
-                                          <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                  </div>
-                                  <div class="col text-right">
-                                    <button class="btn my-2 my-sm-0 text-light search__details_button" ><img src="{{ asset('dist/images/platform/magni_icon.png') }}" /></button>
-                                  </div>
                                 </div>
                             </form>
                         </div>
@@ -100,7 +103,7 @@
                     <div class="row row-vh row-title text-center">
                         <div class="col-12 col-md-7">
                             <h2 style="font-size: 36px;">Genial, ahora atrévete!</h2>
-                            <h4 style="font-size: 18px;">Encontramos 8 experiencias para ti</h4>
+                            <h4 style="font-size: 18px;">Encontramos {{ $results->total() }} experiencias para ti</h4>
                         </div>
                     </div>
                 </div>
@@ -111,122 +114,24 @@
                     <div class="row row-vh text-center">
                         <div class="col-12 col-md-12 ">
                             <div class="alter__card" >
-
                                     <div class="display__section">
-                                        <div class="card__wrapper offert">
-                                            <img src="{{ asset('dist/images/platform/card_image.png') }}" alt="" class="img-fluid">
-                                            <div class="paragraph-card offert__details">
-                                               <div class="head__offert">
-                                                    <img src="{{ asset('dist/images/platform/star__offert.png') }}" class="img-fluid">
-                                                    <span>Tour Islas del Rosario</span>
-                                               </div>
-                                               <div class="foot__offert">
-                                                    <span>Desde</span>
-                                                    <span>$ 00.000 COP</span>
-                                               </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="card__wrapper offert">
-                                                <img src="{{ asset('dist/images/platform/card_image.png') }}" alt="" class="img-fluid">
-                                                <div class="paragraph-card offert__details">
-                                                   <div class="head__offert">
-                                                        <img src="{{ asset('dist/images/platform/star__offert.png') }}" class="img-fluid">
-                                                        <span>Tour Islas del Rosario</span>
-                                                   </div>
-                                                   <div class="foot__offert">
-                                                        <span>Desde</span>
-                                                        <span>$ 00.000 COP</span>
-                                                   </div>
-                                                </div>
-
-                                        </div>
-                                        <div class="card__wrapper offert">
-                                                <img src="{{ asset('dist/images/platform/card_image.png') }}" alt="" class="img-fluid">
-                                                <div class="paragraph-card offert__details">
-                                                    <div class="head__offert">
-                                                        <img src="{{ asset('dist/images/platform/star__offert.png') }}" class="img-fluid">
-                                                        <span>Tour Islas del Rosario</span>
+                                            @foreach ($results as $searchResult)
+                                                <a href="{{ "/servicio/{$searchResult->slug}" }}">
+                                                    <div class="card__wrapper offert">
+                                                            <img src="{{ $searchResult->image }}" alt="" class="img-fluid">
+                                                            <div class="paragraph-card offert__details">
+                                                            <div class="head__offert">
+                                                                    <img src="{{ asset('dist/images/platform/star__offert.png') }}" class="img-fluid">
+                                                                    <span>{{ $searchResult->service_name }}</span>
+                                                            </div>
+                                                            <div class="foot__offert">
+                                                                    <span>Desde</span>
+                                                                    <span>@money( $searchResult->price_adult , 'COP', true ) @currency('COP')</span>
+                                                            </div>
+                                                            </div>
                                                     </div>
-                                                    <div class="foot__offert">
-                                                        <span>Desde</span>
-                                                        <span>$ 00.000 COP</span>
-                                                    </div>
-                                                </div>
-
-                                        </div>
-                                        <div class="card__wrapper offert">
-                                                <img src="{{ asset('dist/images/platform/card_image.png') }}" alt="" class="img-fluid">
-                                                <div class="paragraph-card offert__details">
-                                                   <div class="head__offert">
-                                                        <img src="{{ asset('dist/images/platform/star__offert.png') }}" class="img-fluid">
-                                                        <span>Tour Islas del Rosario</span>
-                                                   </div>
-                                                   <div class="foot__offert">
-                                                        <span>Desde</span>
-                                                        <span>$ 00.000 COP</span>
-                                                   </div>
-                                                </div>
-
-                                        </div>
-                                        <div class="card__wrapper offert">
-                                                <img src="{{ asset('dist/images/platform/card_image.png') }}" alt="" class="img-fluid">
-                                                <div class="paragraph-card offert__details">
-                                                   <div class="head__offert">
-                                                        <img src="{{ asset('dist/images/platform/star__offert.png') }}" class="img-fluid">
-                                                        <span>Tour Islas del Rosario</span>
-                                                   </div>
-                                                   <div class="foot__offert">
-                                                        <span>Desde</span>
-                                                        <span>$ 00.000 COP</span>
-                                                   </div>
-                                                </div>
-
-                                        </div>
-                                        <div class="card__wrapper offert">
-                                                <img src="{{ asset('dist/images/platform/card_image.png') }}" alt="" class="img-fluid">
-                                                <div class="paragraph-card offert__details">
-                                                   <div class="head__offert">
-                                                        <img src="{{ asset('dist/images/platform/star__offert.png') }}" class="img-fluid">
-                                                        <span>Tour Islas del Rosario</span>
-                                                   </div>
-                                                   <div class="foot__offert">
-                                                        <span>Desde</span>
-                                                        <span>$ 00.000 COP</span>
-                                                   </div>
-                                                </div>
-
-                                        </div>
-                                        <div class="card__wrapper offert">
-                                                <img src="{{ asset('dist/images/platform/card_image.png') }}" alt="" class="img-fluid">
-                                                <div class="paragraph-card offert__details">
-                                                   <div class="head__offert">
-                                                        <img src="{{ asset('dist/images/platform/star__offert.png') }}" class="img-fluid">
-                                                        <span>Tour Islas del Rosario</span>
-                                                   </div>
-                                                   <div class="foot__offert">
-                                                        <span>Desde</span>
-                                                        <span>$ 00.000 COP</span>
-                                                   </div>
-                                                </div>
-
-                                        </div>
-
-                                        <div class="card__wrapper offert">
-                                                <img src="{{ asset('dist/images/platform/card_image.png') }}" alt="" class="img-fluid">
-                                                <div class="paragraph-card offert__details">
-                                                   <div class="head__offert">
-                                                        <img src="{{ asset('dist/images/platform/star__offert.png') }}" class="img-fluid">
-                                                        <span>Tour Islas del Rosario</span>
-                                                   </div>
-                                                   <div class="foot__offert">
-                                                        <span>Desde</span>
-                                                        <span>$ 00.000 COP</span>
-                                                   </div>
-                                                </div>
-
-                                        </div>
-
+                                                </a>
+                                            @endforeach
                                     </div>
                             </div>
                         </div>
@@ -238,36 +143,7 @@
                 <div class="container">
                     <div class="row row-vh text-center">
                         <div class="col-12 col-md-7">
-                            <span style="
-                            width: 30px;
-                            height: 30px;
-                            display: inline-block;
-                            background-color: #EB1846;
-                            line-height: 2;
-                            color: white;
-                            font-weight:600;
-                            border-radius: 50%;
-                        ">1</span>
-                            <span style="
-                            width: 30px;
-                            height: 30px;
-                            display: inline-block;
-                            background-color: #CCCCCC;
-                            line-height: 2;
-                            color: white;
-                            font-weight:600;
-                            border-radius: 50%;
-                        ">2</span>
-                            <span style="
-                            width: 30px;
-                            height: 30px;
-                            display: inline-block;
-                            background-color: #CCCCCC;
-                            line-height: 2;
-                            color: white;
-                            font-weight:600;
-                            border-radius: 50%;
-                        ">3</span>
+                            {{ $results->appends([ 'q' => $query ])->links() }}
                         </div>
                     </div>
                 </div>
