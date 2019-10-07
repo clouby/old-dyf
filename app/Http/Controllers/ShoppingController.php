@@ -11,11 +11,12 @@ use App\Models\{Combo, Reservation, Service, Shopping, Transfer, Dispotition};
 
 class ShoppingController extends Controller
 {
-    public function carrito()
+    public function carrito(Request $request)
     {
         $shop = new Shopping;
-        $token = Request()->session()->token();
+        $token = $request->session()->token();
         $myCart = $shop->getMyCart( $token );
+
         return view('demo.carrito', compact('myCart'));
     }
 
@@ -33,7 +34,7 @@ class ShoppingController extends Controller
                             $service->where('service_id', $service_id);
                         })
                         ->first();
-        
+
         if ($shop) {
             $message = ['errors' => 'Ya cuenta con este servicio dentro del carrito de compra con la misma fecha'];
             return redirect()->back()->with( $message );
@@ -47,7 +48,7 @@ class ShoppingController extends Controller
                             $service->where('service_id', $service_id);
                         })
                         ->first();
-        
+
         if ($reserv) {
             $message = ['errors' => 'Ya cuenta con una reserva para esta misma fecha, cancele su orden y vuelva a intentarlo'];
             return redirect()->back()->with( $message );
@@ -64,7 +65,7 @@ class ShoppingController extends Controller
         ];
 
         if ( $serv->combo ) {
-            
+
             $combo = Combo::findOrFail( $request->combo );
             $data = array_merge($data, ['quantity' => $combo->name]);
             $data = array_merge($data, ['price' => $combo->value]);
@@ -74,7 +75,7 @@ class ShoppingController extends Controller
             $adults_pay = $adults * $serv->price_adult;
             $price = $adults_pay;
             $quantity = ($adults>1) ? $adults." adultos" : $adults." adulto" ;
-            
+
             if ( $serv->kids_active ) {
                 $kids = (int) $request->kids;
                 if ($kids>0) {
@@ -106,7 +107,7 @@ class ShoppingController extends Controller
                             $service->where('service_id', $service_id);
                         })
                         ->first();
-        
+
         if ($shop) {
             $message = ['errors' => 'Ya cuenta con este servicio dentro del carrito de compra con la misma fecha'];
             return redirect()->back()->with( $message );
@@ -120,7 +121,7 @@ class ShoppingController extends Controller
                             $service->where('service_id', $service_id);
                         })
                         ->first();
-        
+
         if ($reserv) {
             $message = ['errors' => 'Ya cuenta con una reserva para esta misma fecha, cancele su orden y vuelva a intentarlo'];
             return redirect()->back()->with( $message );
@@ -137,7 +138,7 @@ class ShoppingController extends Controller
         ];
 
         if ( $serv->combo ) {
-            
+
             $combo = Combo::findOrFail( $request->combo );
             $data = array_merge($data, ['quantity' => $combo->name]);
             $data = array_merge($data, ['price' => $combo->value]);
@@ -147,7 +148,7 @@ class ShoppingController extends Controller
             $adults_pay = $adults * $serv->price_adult;
             $price = $adults_pay;
             $quantity = ($adults>1) ? $adults." adultos" : $adults." adulto" ;
-            
+
             if ( $serv->kids_active ) {
                 $kids = (int) $request->kids;
                 if ($kids>0) {
@@ -179,7 +180,7 @@ class ShoppingController extends Controller
                             $service->where('service_id', $service_id);
                         })
                         ->first();
-        
+
         if ($shop) {
             $message = ['errors' => 'Ya cuenta con este servicio dentro del carrito de compra con la misma fecha'];
             return redirect()->back()->with( $message );
@@ -193,7 +194,7 @@ class ShoppingController extends Controller
                             $service->where('service_id', $service_id);
                         })
                         ->first();
-        
+
         if ($reserv) {
             $message = ['errors' => 'Ya cuenta con una reserva para esta misma fecha, cancele su orden y vuelva a intentarlo'];
             return redirect()->back()->with( $message );
@@ -210,7 +211,7 @@ class ShoppingController extends Controller
         ];
 
         if ( $serv->combo ) {
-            
+
             $combo = Combo::findOrFail( $request->combo );
             $data = array_merge($data, ['quantity' => $combo->name]);
             $data = array_merge($data, ['price' => $combo->value]);
@@ -220,7 +221,7 @@ class ShoppingController extends Controller
             $adults_pay = $adults * $serv->price_adult;
             $price = $adults_pay;
             $quantity = ($adults>1) ? $adults." adultos" : $adults." adulto" ;
-            
+
             if ( $serv->kids_active ) {
                 $kids = (int) $request->kids;
                 if ($kids>0) {
@@ -252,7 +253,7 @@ class ShoppingController extends Controller
                             $service->where('service_id', $service_id);
                         })
                         ->first();
-        
+
         if ($shop) {
             $message = ['errors' => 'Ya cuenta con este servicio dentro del carrito de compra con la misma fecha'];
             return redirect()->back()->with( $message );
@@ -266,7 +267,7 @@ class ShoppingController extends Controller
                             $service->where('service_id', $service_id);
                         })
                         ->first();
-        
+
         if ($reserv) {
             $message = ['errors' => 'Ya cuenta con una reserva para esta misma fecha, cancele su orden y vuelva a intentarlo'];
             return redirect()->back()->with( $message );
@@ -283,7 +284,7 @@ class ShoppingController extends Controller
         ];
 
         if ( $serv->combo ) {
-            
+
             $combo = Combo::findOrFail( $request->combo );
             $data = array_merge($data, ['quantity' => $combo->name]);
             $data = array_merge($data, ['price' => $combo->value]);
@@ -293,7 +294,7 @@ class ShoppingController extends Controller
             $adults_pay = $adults * $serv->price_adult;
             $price = $adults_pay;
             $quantity = ($adults>1) ? $adults." adultos" : $adults." adulto" ;
-            
+
             if ( $serv->kids_active ) {
                 $kids = (int) $request->kids;
                 if ($kids>0) {
@@ -333,7 +334,7 @@ class ShoppingController extends Controller
                             $service->where('service_id', $service_id);
                         })
                         ->first();
-        
+
         if ($shop) {
             $message = ['errors' => 'Ya cuenta con este servicio dentro del carrito de compra con la misma fecha'];
             return redirect()->back()->with( $message );
@@ -347,7 +348,7 @@ class ShoppingController extends Controller
                             $service->where('service_id', $service_id);
                         })
                         ->first();
-        
+
         if ($reserv) {
             $message = ['errors' => 'Ya cuenta con una reserva para esta misma fecha, cancele su orden y vuelva a intentarlo'];
             return redirect()->back()->with( $message );
@@ -376,7 +377,7 @@ class ShoppingController extends Controller
         $sub_guianza = $guia * ( $iva / 100 );
 
         $total       = $vehiculo + $sub_guianza;
-        
+
         $quantity = ($personas>1) ? $personas." personas" : $personas." persona";
 
         if ($maletas>0) {
@@ -430,7 +431,7 @@ class ShoppingController extends Controller
                         ->where( function($service) use($service_id) {
                             $service->where('service_id', $service_id);
                         })->first();
-        
+
         if ($shop) {
             $message = ['errors' => 'Ya cuenta con este servicio dentro del carrito de compra con la misma fecha'];
             return redirect()->back()->with( $message );
@@ -444,7 +445,7 @@ class ShoppingController extends Controller
                             $service->where('service_id', $service_id);
                         })
                         ->first();
-        
+
         if ($reserv) {
             $message = ['errors' => 'Ya cuenta con una reserva para esta misma fecha, cancele su orden y vuelva a intentarlo'];
             return redirect()->back()->with( $message );
@@ -559,7 +560,7 @@ class ShoppingController extends Controller
     public function token(Request $request, $token)
     {
         $urlapp = "https://secure.epayco.co/validation/v1/reference/".$token;
-        
+
         // Initializing curl
         $ch = curl_init( $urlapp );
 
@@ -673,23 +674,23 @@ class ShoppingController extends Controller
                 break;
 
             case '2':
-                
+
                 return view('static.pages.epaycoRechazada', compact('data'));
-                
+
                 break;
 
             case '3':
-                
+
                 return view('static.pages.epaycoPendiente', compact('data'));
 
                 break;
 
             case '4':
-                
+
                 return view('static.pages.epaycoFallida', compact('data'));
 
                 break;
-            
+
             default:
                 # code...
                 break;

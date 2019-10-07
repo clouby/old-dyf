@@ -24,3 +24,35 @@
 		font-weight: 600;
 	}
 }
+.pagination {
+    justify-content: center;
+    li {
+        width: 33px;
+        margin-left: 5px;
+
+        &:first-child, &:last-child {
+            display: none;
+        }
+
+        &.active {
+            .page-link {
+                background-color: #EB1846;
+                border-color: #EB1846;
+                opacity: 1;
+            }
+        }
+
+        .page-link {
+            border-radius: 100px;
+            padding: 6px;
+            background-color: #CCCCCC;
+            color: white;
+            border-color: #CCCCCC;
+            opacity: 0.7;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+}

@@ -20,15 +20,27 @@ class Shopping extends Model
         'service_id',
     ];
 
-    public function getMyCart($token)
+    public function services()
     {
-        $temp_user = (Auth::check()) ? Auth::user()->id : $token;   
-        $myCart = Shopping::where('temp_user', $temp_user)->get();
-        return $myCart;
+        return $this->hasMany(Service::class, 'id', 'service_id');
     }
 
-    public function pagoCard()
+    public function getMyCart($token)
     {
-        
+        $temp_user = (Auth::check()) ? Auth::user()->id : $token;
+        $myCart = Shopping::where('temp_user', '12')->get();
+
+        $idShoppings = $myCart->map(function ($shopping) {
+            $shopObj = Shopping::find(
+                (int) $shopping->id
+            );
+
+            $shop = $shopObj->first();
+
+            $service = $shopObj->services()->first();
+            return (object) compact('shop', 'service');
+        });
+
+        return $idShoppings;
     }
 }
