@@ -153,13 +153,14 @@
                 </div>
             </div>
 
-            <div class="intro-home box hidden-box wrapper-details-card alt">
-                <div class="container-fluid">
-                    <div class="row row-vh text-center">
-                        <div class="col-12 col-md-12 ">
-                            <div class="alter__card" >
-
-                                    <div class="display__section">
+        <div class="intro-home box hidden-box wrapper-details-card alt">
+            <div class="container-fluid">
+                <div class="row row-vh text-center">
+                    <div class="col-12 col-md-12 ">
+                        <div class="alter__card">
+                            <div class="display__section">
+                                @foreach($latestServices as $service)
+                                    <a href="{{ " /servicio/{$service->slug}" }}">
                                         <div class="card__wrapper offert">
                                             <img src="{{ asset('dist/images/platform/card_image.png') }}" alt="" class="img-fluid">
                                             <div class="paragraph-card offert__details">
@@ -202,79 +203,8 @@
                                                 </div>
 
                                         </div>
-                                        <div class="card__wrapper offert">
-                                                <img src="{{ asset('dist/images/platform/card_image.png') }}" alt="" class="img-fluid">
-                                                <div class="paragraph-card offert__details">
-                                                   <div class="head__offert">
-                                                        <img src="{{ asset('dist/images/platform/star__offert.png') }}" class="img-fluid">
-                                                        <span>Tour Islas del Rosario</span>
-                                                   </div>
-                                                   <div class="foot__offert">
-                                                        <span>Desde</span>
-                                                        <span>$ 00.000 COP</span>
-                                                   </div>
-                                                </div>
-
-                                        </div>
-                                        <div class="card__wrapper offert">
-                                                <img src="{{ asset('dist/images/platform/card_image.png') }}" alt="" class="img-fluid">
-                                                <div class="paragraph-card offert__details">
-                                                   <div class="head__offert">
-                                                        <img src="{{ asset('dist/images/platform/star__offert.png') }}" class="img-fluid">
-                                                        <span>Tour Islas del Rosario</span>
-                                                   </div>
-                                                   <div class="foot__offert">
-                                                        <span>Desde</span>
-                                                        <span>$ 00.000 COP</span>
-                                                   </div>
-                                                </div>
-
-                                        </div>
-                                        <div class="card__wrapper offert">
-                                                <img src="{{ asset('dist/images/platform/card_image.png') }}" alt="" class="img-fluid">
-                                                <div class="paragraph-card offert__details">
-                                                   <div class="head__offert">
-                                                        <img src="{{ asset('dist/images/platform/star__offert.png') }}" class="img-fluid">
-                                                        <span>Tour Islas del Rosario</span>
-                                                   </div>
-                                                   <div class="foot__offert">
-                                                        <span>Desde</span>
-                                                        <span>$ 00.000 COP</span>
-                                                   </div>
-                                                </div>
-
-                                        </div>
-                                        <div class="card__wrapper offert">
-                                                <img src="{{ asset('dist/images/platform/card_image.png') }}" alt="" class="img-fluid">
-                                                <div class="paragraph-card offert__details">
-                                                   <div class="head__offert">
-                                                        <img src="{{ asset('dist/images/platform/star__offert.png') }}" class="img-fluid">
-                                                        <span>Tour Islas del Rosario</span>
-                                                   </div>
-                                                   <div class="foot__offert">
-                                                        <span>Desde</span>
-                                                        <span>$ 00.000 COP</span>
-                                                   </div>
-                                                </div>
-
-                                        </div>
-
-                                        <div class="card__wrapper offert">
-                                                <img src="{{ asset('dist/images/platform/card_image.png') }}" alt="" class="img-fluid">
-                                                <div class="paragraph-card offert__details">
-                                                   <div class="head__offert">
-                                                        <img src="{{ asset('dist/images/platform/star__offert.png') }}" class="img-fluid">
-                                                        <span>Tour Islas del Rosario</span>
-                                                   </div>
-                                                   <div class="foot__offert">
-                                                        <span>Desde</span>
-                                                        <span>$ 00.000 COP</span>
-                                                   </div>
-                                                </div>
-
-                                        </div>
-
-                                    </div>
+                                    </a>
+                                @endforeach
                             </div>
                         </div>
                     </div>

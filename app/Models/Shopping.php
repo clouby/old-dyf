@@ -22,13 +22,29 @@ class Shopping extends Model
 
     public function getMyCart($token)
     {
-        $temp_user = (Auth::check()) ? Auth::user()->id : $token;   
+        $temp_user = (Auth::check()) ? Auth::user()->id : $token;
         $myCart = Shopping::where('temp_user', $temp_user)->get();
         return $myCart;
     }
 
     public function pagoCard()
     {
-        
+        $temp_user = (Auth::check()) ? Auth::user()->id : $token;
+        $myCart = Shopping::where('temp_user', '12')->get();
+
+        $shoppingCarts = $myCart->map(function ($shopping) {
+
+            $shopObj = Shopping::find(
+                (int) $shopping->id
+            );
+
+            $shop = $shopObj->first();
+
+            $service = $shopObj->services()->first();
+            return (object) compact('shop', 'service');
+
+        });
+
+        return $shoppingCarts;
     }
 }

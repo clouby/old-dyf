@@ -19,6 +19,7 @@ class HomeController extends Controller
         $shop = new Shopping;
         $token = Request()->session()->token();
         $count = $shop->getMyCart($token)->count();
+
         $categories = Category::all();
         return view('home', compact(['categories', 'count']));
     }
@@ -116,10 +117,14 @@ class HomeController extends Controller
             'q' => 'required'
         ]);
 
-        $searchResults = (new Search())
-            ->registerModel(Service::class, ['service_name','key_words'])
-            #->registerModel(Category::class, ['category','key_words'])
-            ->perform($request->input('q'));
+        $query = $request->input('q');
+
+        $operatorSearchLike = [ 'like', "%{$query}%" ];
+
+        $results = Service::query()
+            ->where('service_name', ...$operatorSearchLike)
+            ->orWhere('key_words', ...$operatorSearchLike)
+            ->paginate(8);
 
         return view('demo.searchQuery', compact('searchResults'));
     }
