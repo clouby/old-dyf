@@ -22,6 +22,7 @@ class HomeController extends Controller
         $shop = new Shopping;
         $token = Request()->session()->token();
         $count = $shop->getMyCart($token)->count();
+
         $categories = Category::all();
         return view('home', compact(['categories', 'count']));
     }
@@ -133,7 +134,7 @@ class HomeController extends Controller
         $results = Service::query()
             ->where('service_name', ...$operatorSearchLike)
             ->orWhere('key_words', ...$operatorSearchLike)
-            ->paginate(2);
+            ->paginate(8);
 
         return view('platform-search', compact('searchResults', 'query', 'results'));
     }

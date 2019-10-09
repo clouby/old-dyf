@@ -163,7 +163,6 @@
                     <div class="col-12 col-md-12 ">
                         <div class="alter__card">
                             <div class="display__section">
-
                                 @foreach($latestServices as $service)
                                     <a href="{{ " /servicio/{$service->slug}" }}">
                                         <div class="card__wrapper offert">
@@ -179,7 +178,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </a> @endforeach
+                                    </a>
+                                @endforeach
                             </div>
                         </div>
                     </div>

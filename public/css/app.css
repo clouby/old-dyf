@@ -1,4 +1,6 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);.title-hero {
+@import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
+
+.title-hero {
   color: white;
   max-width: 750px;
   line-height: 60px;
@@ -358,6 +360,11 @@ a:active {
   color: transparent;
 }
 
+p,
+strong {
+  font-size: 1em;
+}
+
 .wrapper-details-card.alt {
   height: auto;
 }
@@ -660,6 +667,59 @@ a:active {
   margin-left: 15px;
 }
 
+.platform.login .container.center.login {
+  height: 70vw;
+  z-index: 1;
+}
+
+.platform.login .search__details.__form {
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.platform.login .search__details.__form .facebook {
+  background-color: #1877f2;
+  padding-left: 50px;
+  position: relative;
+  width: 100%;
+}
+
+.platform.login .search__details.__form .facebook::before {
+  width: 30px;
+  content: "";
+  background-image: url(/images/fb.png?ed1f233…);
+  height: 30px;
+  position: absolute;
+  top: 15px;
+  background-repeat: no-repeat;
+  left: 15px;
+}
+
+.platform.login .search__details.__form .google {
+  background-color: white;
+  border: 1px solid #c4c4c4;
+  color: #585858 !important;
+  padding-left: 50px;
+  position: relative;
+  width: 100%;
+}
+
+.platform.login .search__details.__form .google::before {
+  width: 30px;
+  content: "";
+  background-image: url(/images/go.png?fc7965db21f06a71bc62bf5e234b56cf);
+  height: 30px;
+  position: absolute;
+  top: 15px;
+  background-repeat: no-repeat;
+  left: 15px;
+}
+
+.platform.login .search__details.__form .btn__cursor {
+  padding: 0.625rem 1.875rem 0.5rem;
+  width: 100%;
+}
+
 .btn__sec {
   background-color: #241f59 !important;
 }
@@ -737,6 +797,10 @@ ul li img {
 
 .text-description.alt {
   color: #00b26b;
+}
+
+.comments {
+  width: 100%;
 }
 
 .comments .wrapper__comment {
