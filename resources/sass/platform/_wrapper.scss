@@ -239,6 +239,15 @@ strong {
 				border: 1px solid #c4c4c4;
 				outline: none;
 
+				&.is-invalid {
+					border-color: red;
+				}
+
+				&.icon {
+					padding-left: 50px;
+					position: relative;
+				}
+
 				&::placeholder {
 					color: #c4c4c4;
 					text-transform: capitalize;
@@ -296,7 +305,7 @@ strong {
 
 	&.login {
 		.container.center.login {
-			height: 70vw;
+			height: 95vh;
 			z-index: 1;
 		}
 
@@ -310,6 +319,9 @@ strong {
 					padding-left: 50px;
 					position: relative;
 					width: 100%;
+					box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+					height: 60px;
+					line-height: 2.5;
 
 					&::before {
 						width: 30px;
@@ -330,6 +342,9 @@ strong {
 					padding-left: 50px;
 					position: relative;
 					width: 100%;
+					box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+					height: 60px;
+					line-height: 2.5;
 
 					&::before {
 						width: 30px;
@@ -346,6 +361,7 @@ strong {
 				.btn__cursor {
 					padding: 0.625rem 1.875rem 0.5rem;
 					width: 100%;
+					letter-spacing: 3px;
 				}
 			}
 		}

@@ -303,9 +303,25 @@
             <div class="row row-vh text-center">
                 <div class="col-12 col-md-12 ">
                     <div class="alter__card" >
-
                             <div class="display__section">
-                                <div class="card__wrapper offert">
+                                @foreach($anotherServices as $service)
+                                    <a href="{{ " /servicio/{$service->slug}" }}">
+                                        <div class="card__wrapper offert" style="overflow: hidden; height: 313px;">
+                                            <img src="{{ $service->image }}" alt="" class="img-fluid">
+                                            <div class="paragraph-card offert__details">
+                                                <div class="head__offert">
+                                                    <img src="{{ asset('dist/images/platform/star__offert.png') }}" class="img-fluid">
+                                                    <span>{{ $service->service_name }}</span>
+                                                </div>
+                                                <div class="foot__offert">
+                                                    <span>Desde</span>
+                                                    <span>@money( $service->price_adult , 'COP', true ) @currency('COP')</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                @endforeach
+                                {{-- <div class="card__wrapper offert">
                                     <img src="{{ asset('dist/images/platform/card_image.png') }}" alt="" class="img-fluid">
                                     <div class="paragraph-card offert__details">
                                        <div class="head__offert">
@@ -360,7 +376,7 @@
                                            </div>
                                         </div>
 
-                                </div>
+                                </div> --}}
                             </div>
                     </div>
                 </div>

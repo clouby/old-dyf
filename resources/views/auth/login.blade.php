@@ -101,7 +101,7 @@
 
 @section('content')
 <div class="platform login">
-    <div class="header__hero">
+    <div class="header__hero" style="background-image: url('{{ asset('dist/images/platform/login_background.png') }}');">
         <div class="container center login">
             <nav class="navbar navbar-expand-lg navbar-light sticky-top">
                 <a class="navbar-brand" href="#">
@@ -156,26 +156,26 @@
                 <h2 class="center-align title-hero" style="font-size: 48px; font-weight:500;">¿Estas listo para la aventura?</h2>
                 <div class="card search__details __form">
                     <div class="card-body">
-                        <form action="{{ route('search') }}" method="POST">
+                        <form action="{{ route('login') }}" method="POST">
                             @csrf
                             <div class="row wrapper_form__search">
                                 <div class="col-12 search__details__drop">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" autocomplete="off" placeholder="Email" name="email" />
+                                    <div class="input-group email-context">
+                                        <input type="text" class="form-control icon @error('email')is-invalid @enderror" autocomplete="email" value="{{ old('email') }}" placeholder="Email" name="email" required/>
                                     </div>
 
                                 </div>
                                 <div class="col-12 seatch__details__drop">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" autocomplete="off" placeholder="Password" name="password" />
+                                    <div class="input-group lock-context">
+                                        <input type="password" class="form-control icon @error('password')is-invalid @enderror" autocomplete="current-password" placeholder="Password" name="password" />
                                     </div>
                                 </div>
                             </div>
                             <div class="row" style="margin-top: 15px;">
-                                <div class="col">
+                                <div class="col-lg-6 col-sm-12">
                                     <button class="btn my-2 my-sm-0 text-light btn__cursor" type="submit">INICIAR SESIÓN</button>
                                 </div>
-                                <div class="col" style="display: flex; align-items:center; justify-content:center; font-size: 18px; color: #585858;">
+                                <div class="col-lg-6 col-sm-12" style="display: flex; align-items:center; justify-content:center; font-size: 18px; color: #585858; margin-top: 20px;">
                                     <span class="align-middle">
                                         ¿Olvidaste tu contraseña?
                                     </span>
@@ -184,10 +184,14 @@
                             <hr>
                             <div class="row" style="margin-top: 15px;">
                                 <div class="col">
-                                    <button class="btn my-2 my-sm-0 text-light facebook" >Continuar con Faceboook</button>
+                                    <a class="btn my-2 my-sm-0 text-light facebook" href="{{ route('login.socialite', 'facebook') }}">
+                                            Continuar con Facebook
+                                    </a>
                                 </div>
                                 <div class="col" >
-                                    <button class="btn my-2 my-sm-0 text-light google" >Continuar con Google</button>
+                                    <a class="btn my-2 my-sm-0 text-light google"  href="{{ route('login.socialite', 'google') }}">
+                                            Continuar con Google
+                                    </a>
                                 </div>
                             </div>
                             <hr>
