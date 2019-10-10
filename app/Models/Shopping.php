@@ -30,7 +30,8 @@ class Shopping extends Model
         $temp_user = (Auth::check()) ? Auth::user()->id : $token;
         $myCart = Shopping::where('temp_user', '12')->get();
 
-        $idShoppings = $myCart->map(function ($shopping) {
+        $shoppingCarts = $myCart->map(function ($shopping) {
+
             $shopObj = Shopping::find(
                 (int) $shopping->id
             );
@@ -39,8 +40,9 @@ class Shopping extends Model
 
             $service = $shopObj->services()->first();
             return (object) compact('shop', 'service');
+
         });
 
-        return $idShoppings;
+        return $shoppingCarts;
     }
 }

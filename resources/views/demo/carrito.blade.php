@@ -104,19 +104,7 @@
                                     @endphp
                                     <tr>
                                         <td>
-                                            <img src="{{ $item->service->image }}" width="60" height="60" style="border-radius: 50px;" />
-                                            <a onclick="event.preventDefault();
-                                                document.getElementById('shopping-{{ $item->shop->id }}').submit();
-                                                " href="{{ route('shopping.destroy', $item->shop) }}">
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </a>
-                                            <form id="shopping-{{ $item->shop->id }}" action="{{ route('shopping.destroy', $item->shop) }}" method="POST" style="display:none;">
-                                                @method('DELETE')
-                                                @csrf
-                                                <input type="hidden" name="id" value="{{ $item->shop}}">
-                                            </form>
+                                            <img src="{{ $item->service->image }}" width="60" height="60" style="border-radius: 10px;" />
                                         </td>
                                         <td><img class="" src="" alt=""></td>
                                         <td class="service-name">{{ $item->shop->service_name }}</td>
@@ -124,6 +112,20 @@
                                         <td>{{ $item->shop->reserv_end }}</td>
                                         <td>{{ $item->shop->quantity }}</td>
                                         <td>{{ money($item->shop->price, 'COP', true) }}</td>
+                                        <td>
+                                                <a onclick="event.preventDefault();
+                                                    document.getElementById('shopping-{{ $item->shop->id }}').submit();
+                                                    " href="{{ route('shopping.destroy', $item->shop) }}">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </a>
+                                                <form id="shopping-{{ $item->shop->id }}" action="{{ route('shopping.destroy', $item->shop) }}" method="POST" style="display:none;">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{ $item->shop}}">
+                                                </form>
+                                        </td>
                                     </tr>
                                     @php
                                         array_push($services, $item->shop->service_name);

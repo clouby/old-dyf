@@ -45,7 +45,7 @@
                                 <div class="row wrapper_form__search">
                                     <div class="col search__details__drop">
                                         <div class="input-group">
-                                            <input type="text" class="form-control" autocomplete="off" placeholder="Playa, Tours, Aventuras..." name="q">
+                                        <input type="text" class="form-control" autocomplete="off" placeholder="Playa, Tours, Aventuras..." name="q" value="{{ $query }}">
                                         </div>
                                         {{-- <div class="dropdown">
                                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
