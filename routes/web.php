@@ -179,7 +179,7 @@ Route::group(['prefix' => 'dashboard', 'namespace' => 'Admin'], function () {
 // Routes of App platform.
 Route::group([], function () {
 
-    Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/', 'HomeController@platform')->name('home');
     Route::get('/landing', 'HomeController@landing')->name('landing');
     Route::get('/platform', 'HomeController@platform')->name('platform');
     Route::get('/platform-search', 'HomeController@platformSearch')->name('platformSeach');
@@ -223,9 +223,8 @@ Route::get('/epayco/{token}', 'ShoppingController@token')->name('epayco.token');
 
 
 // Authentication route with social networks
-/*
+
 Route::group([], function () {
-    Route::get('login/{provider}', 'Auth\LoginController@redirectToProvider')->name('login.socialite');
+    Route::get('login/{provider}', 'Auth\LoginController@redirectToProvider')->name('login.socialite')->where('driver', implode('|', config('auth.socialite.drivers')));
     Route::get('login/{provider}/callback', 'Auth\LoginController@handleProviderCallback')->name('login.callback');
 });
-*/

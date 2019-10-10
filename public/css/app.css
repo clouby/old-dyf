@@ -238,11 +238,11 @@ html {
 }
 
 .footer-home {
-	background-image: url(/images/footer_background.svg?20b71511e880d2e591b620d1a53d804c);
+	background-image: url(/images/footer_background.svg?effc7482d6565e72b3c6ad0d674b096e);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: top;
-	height: 450px;
+	height: 511px;
 	display: flex;
 	align-items: end;
 }
@@ -252,7 +252,7 @@ html {
 }
 
 .footer-home .container .row {
-	margin-top: 100px;
+	margin-top: 200px;
 }
 
 .footer-home .container .row .info {
@@ -303,6 +303,7 @@ html {
 	}
 
 	.header__hero .title-hero {
+		text-shadow: 0 0 23px rgba(0, 0, 0, 0.4);
 		font-size: 30px;
 		line-height: 60px;
 		position: absolute;
@@ -335,6 +336,18 @@ html {
 		height: 100vh;
 	}
 
+	.header__hero .title-hero {
+		position: initial;
+	}
+
+	.platform.login .container.center.login {
+		height: 85vh !important;
+	}
+
+	.platform.login .container.center.login > .center-align {
+		align-self: flex-end;
+	}
+
 	.footer-home {
 		height: 815px;
 	}
@@ -350,6 +363,24 @@ html {
 	.eventos-blog-home-content {
 		text-align: center;
 		margin-bottom: 10px;
+	}
+}
+
+@media (max-width: 500px) {
+	.footer-home .container .row {
+		margin-top: 355px;
+	}
+
+	.header__hero .title-hero {
+		position: initial;
+	}
+
+	.platform.login .container.center.login {
+		height: 100vh;
+	}
+
+	.platform.login .container.center.login > .center-align {
+		align-self: flex-end;
 	}
 }
 
@@ -573,6 +604,54 @@ strong {
 	padding-right: 60px;
 }
 
+.platform .header__hero .search__details button.search__details_button:hover {
+	background-color: #00a5bc;
+}
+
+.platform .header__hero .search__details input {
+	border-radius: 60px;
+	height: 60px;
+	font-size: 16px;
+	background-color: white !important;
+	margin: 5px;
+	border: 1px solid #c4c4c4;
+	outline: none;
+}
+
+.platform .header__hero .search__details input.is-invalid {
+	border-color: red;
+}
+
+.platform .header__hero .search__details input.icon {
+	padding-left: 50px;
+	position: relative;
+}
+
+.platform .header__hero .search__details input::-webkit-input-placeholder {
+	color: #c4c4c4;
+	text-transform: capitalize;
+}
+
+.platform .header__hero .search__details input::-moz-placeholder {
+	color: #c4c4c4;
+	text-transform: capitalize;
+}
+
+.platform .header__hero .search__details input:-ms-input-placeholder {
+	color: #c4c4c4;
+	text-transform: capitalize;
+}
+
+.platform .header__hero .search__details input::-ms-input-placeholder {
+	color: #c4c4c4;
+	text-transform: capitalize;
+}
+
+.platform .header__hero .search__details input::placeholder {
+	color: #c4c4c4;
+	text-transform: capitalize;
+}
+
 .platform .header__hero .search__details .card-body {
 	padding: 0px;
 }
@@ -616,7 +695,7 @@ strong {
 }
 
 .platform.login .container.center.login {
-	height: 70vw;
+	height: 95vh;
 	z-index: 1;
 }
 
@@ -630,6 +709,9 @@ strong {
 	padding-left: 50px;
 	position: relative;
 	width: 100%;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+	height: 60px;
+	line-height: 2.5;
 }
 
 .platform.login .search__details.__form .facebook::before {
@@ -650,6 +732,9 @@ strong {
 	padding-left: 50px;
 	position: relative;
 	width: 100%;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+	height: 60px;
+	line-height: 2.5;
 }
 
 .platform.login .search__details.__form .google::before {
@@ -666,6 +751,7 @@ strong {
 .platform.login .search__details.__form .btn__cursor {
 	padding: 0.625rem 1.875rem 0.5rem;
 	width: 100%;
+	letter-spacing: 3px;
 }
 
 .btn__sec {
@@ -941,4 +1027,65 @@ ul li img {
 	outline: none;
 	box-shadow: none;
 	font-weight: 600;
+}
+
+.pagination {
+	justify-content: center;
+}
+
+.pagination li {
+	width: 33px;
+	margin-left: 5px;
+}
+
+.pagination li:first-child,
+.pagination li:last-child {
+	display: none;
+}
+
+.pagination li.active .page-link {
+	background-color: #eb1846;
+	border-color: #eb1846;
+	opacity: 1;
+}
+
+.pagination li .page-link {
+	border-radius: 100px;
+	padding: 6px;
+	background-color: #cccccc;
+	color: white;
+	border-color: #cccccc;
+	opacity: 0.7;
+}
+
+.pagination li .page-link:hover {
+	opacity: 1;
+}
+
+.input-group.email-context:before {
+	content: "";
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	left: 20px;
+	top: 23px;
+	background-image: url(/images/email_icon.png?f980b5c1a16e513a1f663081a1755ac7);
+	background-repeat: no-repeat;
+	z-index: 100;
+}
+
+.input-group.lock-context:before {
+	content: "";
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	left: 24px;
+	top: 18px;
+	background-image: url(/images/lock_icon.png?6d4a653c92683b6b0694093d14a342fa);
+	background-repeat: no-repeat;
+	z-index: 100;
+}
+
+.shopping .header__hero {
+	padding-bottom: 40%;
 }

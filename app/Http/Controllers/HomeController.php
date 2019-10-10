@@ -31,7 +31,18 @@ class HomeController extends Controller
 
     public function platform()
     {
-        return view('platform');
+        $latestServices = DB::table('services')
+            ->latest()
+            ->take(8)
+            ->get();
+
+        $shop = new Shopping;
+        $token = Request()->session()->token();
+        $count = $shop->getMyCart($token)->count();
+
+        $categories = Category::all();
+
+        return view('platform', compact(['categories', 'latestServices', 'count']));
     }
 
     public function platformSearch() {
@@ -86,27 +97,30 @@ class HomeController extends Controller
         $count = $shop->getMyCart($token)->count();
         $transfers = Transfer::distinct()->get(['traslados']);
         $horarios = Dispotition::distinct()->get(['horario']);
+        $anotherServices = Service::where('id', '!=', $service->id)->take(4)->get();
 
         $x = $service->category->id;
+
+        $response = ['service', 'count', 'anotherServices'];
         switch ($x) {
             case '1':
-                return view('demo.ServiceForCategory.gastroReview', compact(['service', 'count']));
+                return view('demo.ServiceForCategory.gastroReview', compact( $response));
                 break;
 
             case '2':
-                return view('demo.ServiceForCategory.nauticaReview', compact(['service', 'count']));
+                return view('demo.ServiceForCategory.nauticaReview', compact( $response));
                 break;
 
             case '3':
-                return view('demo.ServiceForCategory.islaReview', compact(['service', 'count']));
+                return view('demo.ServiceForCategory.islaReview', compact( $response));
                 break;
 
             case '4':
-                return view('demo.ServiceForCategory.tourReview', compact(['service', 'count']));
+                return view('demo.ServiceForCategory.tourReview', compact( $response));
                 break;
 
             case '5':
-                return view('demo.ServiceForCategory.platformTransfer', compact(['service', 'count', 'horarios', 'transfers']));
+                return view('demo.ServiceForCategory.platformTransfer', compact(['service', 'count', 'horarios', 'transfers', 'anotherServices']));
                 break;
         }
     }

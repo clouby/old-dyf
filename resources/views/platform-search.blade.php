@@ -55,6 +55,9 @@
                                           <a class="dropdown-item" href="#">Action</a>
                                           <a class="dropdown-item" href="#">Another action</a>
                                           <a class="dropdown-item" href="#">Something else here</a>
+                                    <div class="col search__details__drop">
+                                        <div class="input-group">
+                                        <input type="text" class="form-control" autocomplete="off" placeholder="Playa, Tours, Aventuras..." name="q" value="{{ $query }}">
                                         </div>
                                     </div>
                                     <div class="dropdown">

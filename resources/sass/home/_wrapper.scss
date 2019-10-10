@@ -131,7 +131,7 @@ html {
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: top;
-	height: 450px;
+	height: 511px;
 	display: flex;
 	align-items: end;
 
@@ -139,7 +139,7 @@ html {
 		height: inherit;
 
 		.row {
-			margin-top: 100px;
+			margin-top: 200px;
 
 			.info {
 				display: flex;
@@ -193,6 +193,7 @@ html {
 			display: initial;
 		}
 		.title-hero {
+			text-shadow: 0 0 23px rgba(0, 0, 0, 0.4);
 			font-size: 30px;
 			line-height: 60px;
 			position: absolute;
@@ -222,6 +223,18 @@ html {
 		height: 100vh;
 	}
 
+	.header__hero .title-hero {
+		position: initial;
+	}
+
+	.platform.login .container.center.login {
+		height: 85vh !important;
+
+		& > .center-align {
+			align-self: flex-end;
+		}
+	}
+
 	.footer-home {
 		height: 815px;
 
@@ -237,5 +250,27 @@ html {
 	.eventos-blog-home-content {
 		text-align: center;
 		margin-bottom: 10px;
+	}
+}
+
+@media (max-width: 500px) {
+	.footer-home {
+		.container {
+			.row {
+				margin-top: 355px;
+			}
+		}
+	}
+
+	.header__hero .title-hero {
+		position: initial;
+	}
+
+	.platform.login .container.center.login {
+		height: 100vh;
+
+		& > .center-align {
+			align-self: flex-end;
+		}
 	}
 }
