@@ -185,13 +185,13 @@
                         </ol>
                         <div class="carousel-inner">
                           <div class="carousel-item active">
-                            <img src="..." class="d-block w-100" alt="...">
+                            <img src="{{ asset('dist/images/platform/carousel.png') }}" class="d-block w-100" alt="...">
                           </div>
                           <div class="carousel-item">
-                            <img src="..." class="d-block w-100" alt="...">
+                            <img src="{{ asset('dist/images/platform/carousel.png') }}" class="d-block w-100" alt="...">
                           </div>
                           <div class="carousel-item">
-                            <img src="..." class="d-block w-100" alt="...">
+                            <img src="{{ asset('dist/images/platform/carousel.png') }}" class="d-block w-100" alt="...">
                           </div>
                         </div>
                         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -396,6 +396,9 @@
                         </div>
                     </div>
                 </div>
+
+
+            </div>
             <div class="footer-home box">
                 <div class="container d-flex align-items-center">
                     <div class="row full-width">
@@ -442,6 +445,5 @@
                     </div>
                 </div>
             </div>
-</div>
 
 @endsection

@@ -117,7 +117,7 @@
                         {!! $service->what_to_expect !!}
                     </p>
                 </div> --}}
-                <!-- -->
+                <!--
                 <div class="info-operador-descripcion info-operador-descripcion-importante box">
                     <strong>Qué incluye</strong>
                     <p>
@@ -157,7 +157,7 @@
                         </ul>
                     </p>
                 </div>
-                <!-- -->
+                -->
                 <div class="info-operador-descripcion info-operador-descripcion-importante box">
                     <strong>Información Adicional</strong>
                     <p>
@@ -181,24 +181,47 @@
                     </div>
 
             </div>
+            <div class="col-12 col-sm-8">
+                <div class="info-operador-descripcion-content box">
+                    <strong>Descripción</strong>
+                    <p>
+                        {!! $service->description !!}
+                    </p>
+                </div>
+                <!-- -->
+                <div class="info-operador-descripcion info-operador-descripcion-esperar box">
+                    <strong>¿Qué esperar?</strong>
+                    <p>
+                        {!! $service->what_to_expect !!}
+                    </p>
+                </div>
+                <!-- -->
+                <div class="info-operador-descripcion info-operador-descripcion-importante box">
+                    <strong>Información Importante</strong>
+                    <p>
+                        {!! $service->important_inf !!}
+                    </p>
+                </div>
+                <!-- -->
+                <div class="info-operador-descripcion info-operador-descripcion-importante box">
+                    <strong>Información Adicional</strong>
+                    <p>
+                        {!! $service->additional_inf !!}
+                    </p>
+                </div>
+
+            </div>
             <div class="col-12 col-sm-4">
                 <div class="info-operador-booking card box">
                     <h3>{{ $service->service_name }}</h3>
                     <h6>Reserva tu Experiencia</h6>
                     @if (Session::has('errors'))
-                        <div class="alert alert-danger">{{ Session::get('errors') }}</div>
+                        <div class="alert alert-danger">{{ Session::get('errors') }}</div>    
                     @endif
                     @include('partials.switchFormPerCategory')
                 </div>
-                <div class="card box alt" style="margin-top: 20px;">
-                        <img src="{{ asset('dist/images/platform/map.png') }}" class="img-fluid">
-                        <div style="padding: 30px;">
-                                <h3>Punto de embarque</h3>
-                                <h6 style="color: #333333; margin-bottom: 30px;">Muelle de los Pegasos / La Bodequita</h6>
-                                <button  class="btn btn-info-operador-booking mx-auto">ABRIR GOOGLE MAPS</button>
-                        </div>
+            </div>
 
-                </div>
             </div>
         </div>
 
@@ -250,7 +273,7 @@
                                     Puntualidad 5 | Atención 5 | Satisfacción 5
                                 </strong>
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                    Excelente servicio y muy buena atención, recibimos lo que solicitamos, definitivmente regresaremos!.
                                 </p>
                         </div>
                     </div>
@@ -270,7 +293,7 @@
                                         Puntualidad 5 | Atención 5 | Satisfacción 5
                                     </strong>
                                     <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                    Buena atención, mi familia y yo planeamos regresar a disfrutar del resto de experiencias, recomendadisimos!
                                     </p>
                             </div>
                         </div>

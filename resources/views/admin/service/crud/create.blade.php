@@ -100,7 +100,7 @@
                       </div>
 
                       <div class="form-group">
-                        <label for="what_to_expect">¿Que esperar?</label>
+                        <label for="what_to_expect">¿Qué esperar?</label>
                         <textarea name="what_to_expect" id="what_to_expect" class="summernote form-control" cols="30" rows="10"></textarea>
                       </div>
 
