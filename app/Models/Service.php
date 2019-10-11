@@ -34,7 +34,7 @@ class Service extends Model implements Searchable
     public function getSearchResult(): SearchResult
     {
         $url = route('service.query', $this->slug);
-
+     
          return new \Spatie\Searchable\SearchResult(
             $this,
             $this->service_name,
@@ -77,11 +77,6 @@ class Service extends Model implements Searchable
     public function combos()
     {
         return $this->hasMany( Combo::class );
-    }
-
-    public function shopping()
-    {
-        return $this->belongsTo(Shopping::class);
     }
 
     public function transfers()

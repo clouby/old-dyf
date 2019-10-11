@@ -25,34 +25,65 @@
 	}
 }
 .pagination {
-    justify-content: center;
-    li {
-        width: 33px;
-        margin-left: 5px;
+	justify-content: center;
+	li {
+		width: 33px;
+		margin-left: 5px;
 
-        &:first-child, &:last-child {
-            display: none;
-        }
+		&:first-child,
+		&:last-child {
+			display: none;
+		}
 
-        &.active {
-            .page-link {
-                background-color: #EB1846;
-                border-color: #EB1846;
-                opacity: 1;
-            }
-        }
+		&.active {
+			.page-link {
+				background-color: #eb1846;
+				border-color: #eb1846;
+				opacity: 1;
+			}
+		}
 
-        .page-link {
-            border-radius: 100px;
-            padding: 6px;
-            background-color: #CCCCCC;
-            color: white;
-            border-color: #CCCCCC;
-            opacity: 0.7;
+		.page-link {
+			border-radius: 100px;
+			padding: 6px;
+			background-color: #cccccc;
+			color: white;
+			border-color: #cccccc;
+			opacity: 0.7;
 
-            &:hover {
-                opacity: 1;
-            }
-        }
-    }
+			&:hover {
+				opacity: 1;
+			}
+		}
+	}
+}
+
+.input-group {
+	&.email-context {
+		&:before {
+			content: '';
+			position: absolute;
+			width: 30px;
+			height: 30px;
+			left: 20px;
+			top: 23px;
+			background-image: url(./images/email_icon.png);
+			background-repeat: no-repeat;
+			z-index: 100;
+		}
+	}
+
+	&.lock-context {
+		&:before {
+			content: '';
+			position: absolute;
+			width: 30px;
+			height: 30px;
+			left: 24px;
+			top: 18px;
+			background-image: url(./images/lock_icon.png);
+			background-repeat: no-repeat;
+			z-index: 100;
+		}
+	}
 }

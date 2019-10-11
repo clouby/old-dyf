@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\DB;
 use Spatie\Searchable\Search;
-use App\Models\{Category, Shopping, Transfer, Dispotition};
-use App\Models\Service;
+use App\Models\{Category, Service, Shopping, Transfer, Dispotition};
 use Illuminate\Http\Request;
 use Auth;
+use DB;
+use App\Quotation;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class HomeController extends Controller
 {
@@ -22,6 +23,7 @@ class HomeController extends Controller
         $shop = new Shopping;
         $token = Request()->session()->token();
         $count = $shop->getMyCart($token)->count();
+
         $categories = Category::all();
         return view('home', compact(['categories', 'count']));
     }
@@ -31,16 +33,20 @@ class HomeController extends Controller
         return view('landing');
     }
 
-    public function platform(Request $request)
+    public function platform()
     {
         $latestServices = DB::table('services')
             ->latest()
             ->take(8)
             ->get();
 
+        $shop = new Shopping;
+        $token = Request()->session()->token();
+        $count = $shop->getMyCart($token)->count();
+
         $categories = Category::all();
 
-        return view('platform', compact(['categories', 'latestServices']));
+        return view('platform', compact(['categories', 'latestServices', 'count']));
     }
 
     public function platformSearch() {
@@ -95,27 +101,30 @@ class HomeController extends Controller
         $count = $shop->getMyCart($token)->count();
         $transfers = Transfer::distinct()->get(['traslados']);
         $horarios = Dispotition::distinct()->get(['horario']);
+        $anotherServices = Service::where('id', '!=', $service->id)->take(4)->get();
 
         $x = $service->category->id;
+
+        $response = ['service', 'count', 'anotherServices'];
         switch ($x) {
             case '1':
-                return view('demo.ServiceForCategory.gastroReview', compact(['service', 'count']));
+                return view('demo.ServiceForCategory.gastroReview', compact( $response));
                 break;
 
             case '2':
-                return view('demo.ServiceForCategory.nauticaReview', compact(['service', 'count']));
+                return view('demo.ServiceForCategory.nauticaReview', compact( $response));
                 break;
 
             case '3':
-                return view('demo.ServiceForCategory.islaReview', compact(['service', 'count']));
+                return view('demo.ServiceForCategory.islaReview', compact( $response));
                 break;
 
             case '4':
-                return view('demo.ServiceForCategory.tourReview', compact(['service', 'count']));
+                return view('demo.ServiceForCategory.tourReview', compact( $response));
                 break;
 
             case '5':
-                return view('demo.ServiceForCategory.platformTransfer', compact(['service', 'count', 'horarios', 'transfers']));
+                return view('demo.ServiceForCategory.platformTransfer', compact(['service', 'count', 'horarios', 'transfers', 'anotherServices']));
                 break;
         }
     }
@@ -131,12 +140,14 @@ class HomeController extends Controller
         $operatorSearchLike = [ 'like', "%{$query}%" ];
 
         $results = Service::query()
-            ->where('service_name', ...$operatorSearchLike)
-            ->orWhere('key_words', ...$operatorSearchLike)
-            ->paginate(2);
+            ->where('key_words', ...$operatorSearchLike)
+            ->orWhere('service_name', ...$operatorSearchLike)
+            ->paginate(20);
+            $resultpage = new Paginator($results,2,1,[]);
 
-        return view('platform-search', compact('searchResults', 'query', 'results'));
+        return view('platform-search', compact('query', 'results'));
     }
+
 
     public function searchCategory(Request $request)
     {
