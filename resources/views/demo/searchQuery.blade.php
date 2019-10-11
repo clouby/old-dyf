@@ -33,6 +33,8 @@
         <div class="row">
             <div class="col-12">
                 <div class="search-container box">
+
+
                     @foreach($searchResults->groupByType() as $type => $modelSearchResults)
                     <div class="box search-container-content">
                         <hr>

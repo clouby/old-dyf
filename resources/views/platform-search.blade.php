@@ -5,7 +5,7 @@
         <div class="header__hero">
                 <div class="container center">
                 <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-                    <a class="navbar-brand" href="#">
+                    <a class="navbar-brand" href="{{ url('/') }}">
                         <img class="classic__logo" src="{{ asset('dist/images/DYF_Logo.png') }}" alt="" class="img-fluid"/>
                         <img class="resp__logo" src="{{ asset('dist/images/DYF_Logo_min.png') }}" alt="" class="img-fluid"/>
                     </a>
@@ -41,6 +41,7 @@
                     <div class="card search__details">
                         <div class="card-body">
                             <form action="{{ route('search') }}" method="POST">
+                            {{ method_field('POST') }}
                                 @csrf
                                 <div class="row wrapper_form__search">
                                     <div class="col search__details__drop">
