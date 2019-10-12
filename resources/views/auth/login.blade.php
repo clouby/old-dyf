@@ -208,55 +208,5 @@
             </div>
         </div>
     </div>
-
-
-    <div class="intro-home box hidden-box wrapper-details-card alt">
-        <div class="footer-home box">
-            <div class="container d-flex align-items-center">
-                <div class="row full-width">
-                    <div class="col-12 col-sm-3 d-flex align-items-center">
-                        <div class="eventos-blog-home-content box">
-                            <img src="{{ asset('dist/images/DYF_Logo_alt.png') }}" alt="" class="img-fluid">
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-3 d-flex align-items-center">
-                        <div class="eventos-blog-home-content box">
-                            <div class="info">
-                                <span class="title">Contacto</span>
-                                <span class="details">gerencia@dealyourfun.com</span>
-                                <span class="details">Cel. 300 861 9081</span>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-3 d-flex align-items-center">
-                        <div class="eventos-blog-home-content box">
-                            <div class="info">
-                                <span class="title">Ubicación</span>
-                                <span class="details">Bocagrande, Cra. 3 # 9-161</span>
-                                <span class="details">Cartagena, Colombia</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-3 d-flex align-items-start">
-                        <div class="eventos-blog-home-content box">
-                            <div class="info-social">
-                                <span class="title">Siguenos en</span>
-                                <div>
-                                    <a href="#">
-                                        <img src="{{ asset('dist/images/fb_home.png') }}" alt="" class="img-fluid">
-                                    </a>
-                                    <a href="#">
-                                        <img src="{{ asset('dist/images/ig_home.png') }}" alt="" class="img-fluid">
-                                    </a>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 @endsection
